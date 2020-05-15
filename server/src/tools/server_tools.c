@@ -7,6 +7,14 @@
 
 #include "server.h"
 
+/**
+ * \fn server_t *init_server(char *port)
+ * \brief Fonction qui va allouer et initialiser une structure server_t
+ *
+ * \param port le port sur lequel ouvrir le server
+ * \return la structure server_t initialisée
+ */
+
 server_t *init_server(char *port)
 {
     server_t *new = calloc(1, sizeof(server_t));
@@ -31,6 +39,15 @@ server_t *init_server(char *port)
     return (new);
 }
 
+
+/**
+ * \fn void end_server(server_t *server)
+ * \brief Fonction qui va free et fermer la connection
+ *
+ * \param server la variable principale du projet
+ * \return rien
+ */
+
 void end_server(server_t *server)
 {
     close(server->sck.fd);
@@ -39,6 +56,15 @@ void end_server(server_t *server)
     free(server->clients.c);
     free(server);
 }
+
+
+/**
+ * \fn void update_fds(server_t *server)
+ * \brief Fonction qui reset les listes de fd
+ *
+ * \param server la variable principale du projet
+ * \return rien
+ */
 
 void update_fds(server_t *server)
 {
@@ -54,6 +80,15 @@ void update_fds(server_t *server)
     FD_SET(server->sck.fd, &server->fds.read);
     FD_SET(server->sck.fd, &server->fds.error);
 }
+
+
+/**
+ * \fn bool handle_fds(server_t *server)
+ * \brief Fonction qui parcours le clients et gère les fds
+ *
+ * \param server la variable principale du projet
+ * \return true en cas de succès et false en cas d'erreur
+ */
 
 bool handle_fds(server_t *server)
 {
@@ -76,6 +111,15 @@ bool handle_fds(server_t *server)
         return (ERROR);
     return (is_ok);
 }
+
+
+/**
+ * \fn bool handle_fds(server_t *server)
+ * \brief Partie réseau du serveur, utilise select et gère les fds disponibles
+ *
+ * \param server la variable principale du projet
+ * \return true en cas de succès et false en cas d'erreur
+ */
 
 bool server_iteration(server_t *server)
 {

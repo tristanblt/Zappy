@@ -125,10 +125,17 @@ struct server_s {
 
 /* COMMAND MANAGEMENT */
 typedef struct command_s command_t;
+typedef struct recipe_s recipe_t;
 
 struct command_s {
     char *token;
+    int token_len;
     bool (*fct)(server_t *server, int client_idx, char *command);
+};
+
+struct recipe_s {
+    int nb_player;
+    ressources_t needed;
 };
 
 #endif /* !STRUCTURES_H_ */

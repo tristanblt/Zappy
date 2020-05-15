@@ -7,6 +7,13 @@
 
 #include "server.h"
 
+/**
+ * \fn void handle_sigint()
+ * \brief Pour gérer le ctrl c
+ *
+ * \return rien
+ */
+
 void handle_sigint()
 {
     sigint_catch = true;
