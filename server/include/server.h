@@ -14,12 +14,12 @@ bool sigint_catch;
 
 /* CLIENT TOOLS */
 bool add_client(server_t *server);
-bool rm_client(server_t *server, int index);
-bool init_client(server_t *s, int idx);
+bool rm_client(server_t *server, client_t *client);
+bool init_client(server_t *s, client_t *client);
 
 /* FLUX TOOLS */
-bool read_flux(server_t *server, int idx);
-bool write_flux(server_t *server, int idx);
+bool read_flux(server_t *server, client_t *client);
+bool write_flux(server_t *server, client_t *client);
 void add_data(flux_t *flux, int n, ...);
 void remove_data(flux_t *flux, int size);
 void add_raw_data(flux_t *flux, char *str);

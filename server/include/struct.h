@@ -100,26 +100,21 @@ typedef struct client_s client_t;
 typedef struct clients_s clients_t;
 typedef struct server_s server_t;
 
-struct client_s {
-    client_data_t data;
-    socket_t sck;
-    flux_t in;
-    flux_t out;
-    SLIST_ENTRY(client_t) next;
-};
+    struct client_s {
+        client_data_t data;
+        socket_t sck;
+        flux_t in;
+        flux_t out;
+        SLIST_ENTRY(client_s) next;
+    };
 
-struct clients_s {
-    client_t *c;
-    int nb;
-};
-
-struct server_s {
-    server_data_t data;
-    socket_t sck;
-    fd_lists_t fds;
-    clients_t clients;
-    bool running;
-};
+    struct server_s {
+        server_data_t data;
+        socket_t sck;
+        fd_lists_t fds;
+        SLIST_HEAD(, client_s) clients;
+        bool running;
+    };
 
 
 
@@ -130,7 +125,7 @@ typedef struct recipe_s recipe_t;
 struct command_s {
     char *token;
     int token_len;
-    bool (*fct)(server_t *server, int client_idx, char *command);
+    bool (*fct)(server_t *server, client_t *client, char *command);
 };
 
 struct recipe_s {

@@ -9,53 +9,38 @@
 
 bool add_client(server_t *server)
 {
-    server->clients.nb++;
-    server->clients.c = realloc(server->clients.c,
-    server->clients.nb * sizeof(client_t));
-    if (server->clients.c == NULL ||
-    init_client(server, server->clients.nb - 1) == ERROR) {
+    client_t *new = malloc(sizeof(client_t));
+
+    if (new == NULL)
+        return (ERROR);
+    if (init_client(server, new) == ERROR) {
+        free(new);
         end_server(server);
         return (ERROR);
     }
+    SLIST_INSERT_HEAD(&server->clients, new, next);
     return (SUCCESS);
 }
 
-bool rm_client(server_t *server, int index)
+bool rm_client(server_t *server, client_t *client)
 {
-    client_t *new_c = NULL;
-    int pos = 0;
-
-    if (server->clients.nb > 1 &&
-    (new_c = malloc(sizeof(client_t) * (server->clients.nb - 1))) == NULL) {
-        end_server(server);
-        return (ERROR);
-    }
-    for (int i = 0; i < server->clients.nb; i++) {
-        if (i != index) {
-            new_c[pos] = server->clients.c[i];
-            pos++;
-        }
-    }
-    close(server->clients.c[index].sck.fd);
-    if (server->clients.nb > 1) {
-        free(server->clients.c);
-        server->clients.c = new_c;
-    }
-    server->clients.nb--;
+    SLIST_REMOVE(&server->clients, client, client_s, next);
+    close(client->sck.fd);
+    free(client);
     return (SUCCESS);
 }
 
-bool init_client(server_t *s, int idx)
+bool init_client(server_t *s, client_t *client)
 {
-    socklen_t sz = sizeof(s->clients.c[idx].sck.add);
+    socklen_t sz = sizeof(client->sck.add);
 
-    s->clients.c[idx].sck.fd =
-    accept(s->sck.fd, (struct sockaddr *)&s->clients.c[idx].sck.add, &sz);
-    if (s->clients.c[idx].sck.fd == -1)
+    client->sck.fd =
+    accept(s->sck.fd, (struct sockaddr *)&client->sck.add, &sz);
+    if (client->sck.fd == -1)
         return (ERROR);
-    s->clients.c[idx].in.nb = 0;
-    memset(s->clients.c[idx].in.buff, 0, BUFF_SIZE);
-    s->clients.c[idx].out.nb = 0;
-    memset(s->clients.c[idx].out.buff, 0, BUFF_SIZE);
+    client->in.nb = 0;
+    memset(client->in.buff, 0, BUFF_SIZE);
+    client->out.nb = 0;
+    memset(client->out.buff, 0, BUFF_SIZE);
     return (SUCCESS);
 }
