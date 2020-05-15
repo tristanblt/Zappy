@@ -9,44 +9,43 @@
 
 
 /**
- * \fn bool read_flux(server_t *server, int idx)
+ * \fn bool read_flux(server_t *server, client_t *client)
  * \brief Fonction qui va lire la socket client
  *
  * \param server la variable principale du projet
- * \param idx index du client
+ * \param client client actuel
  * \return true en succès et false en cas d'erreur
  */
 
-bool read_flux(server_t *server, int idx)
+bool read_flux(server_t *server, client_t *client)
 {
     char tmp[BUFF_SIZE] = {0};
-    int rd = read(server->clients.c[idx].sck.fd, tmp,
-    BUFF_SIZE - server->clients.c[idx].in.nb);
+    int rd = read(client->sck.fd, tmp,
+    BUFF_SIZE - client->in.nb);
 
     if (rd == 0) {
-        rm_client(server, idx);
+        rm_client(server, client);
         return (SUCCESS);
     }
-    add_raw_data(&server->clients.c[idx].in, tmp);
+    add_raw_data(&client->in, tmp);
     return (SUCCESS);
 }
 
 
 /**
- * \fn bool write_flux(server_t *server, int idx)
+ * \fn bool write_flux(server_t *server, client_t *client)
  * \brief Fonction qui va écrire sur la socket client
  *
  * \param server la variable principale du projet
- * \param idx index du client
+ * \param client client actuel
  * \return true en succès et false en cas d'erreur
  */
 
-bool write_flux(server_t *server, int idx)
+bool write_flux(server_t *server, client_t *client)
 {
-    int wr = write(server->clients.c[idx].sck.fd,
-    server->clients.c[idx].out.buff, server->clients.c[idx].out.nb);
+    int wr = write(client->sck.fd, client->out.buff, client->out.nb);
 
-    remove_data(&server->clients.c[idx].out, wr);
+    remove_data(&client->out, wr);
     return (SUCCESS);
 }
 

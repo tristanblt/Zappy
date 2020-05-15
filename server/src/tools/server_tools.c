@@ -21,7 +21,7 @@ server_t *init_server(char *port)
 
     if (new == NULL)
         return (NULL);
-    new->clients.nb = 0;
+    SLIST_INIT(&new->clients);
     new->sck.fd = socket(AF_INET, SOCK_STREAM, 0);
     if (new->sck.fd < 0) {
         free(new);
@@ -50,10 +50,16 @@ server_t *init_server(char *port)
 
 void end_server(server_t *server)
 {
+    client_t *tmp;
+
     close(server->sck.fd);
-    for (int i = 0; i < server->clients.nb; i++)
-        close(server->clients.c[i].sck.fd);
-    free(server->clients.c);
+    while (!SLIST_EMPTY(&server->clients))
+    {
+        tmp = SLIST_FIRST(&server->clients);
+        SLIST_REMOVE_HEAD(&server->clients, next);
+        close(tmp->sck.fd);
+        free(tmp);
+    }
     free(server);
 }
 
@@ -68,14 +74,16 @@ void end_server(server_t *server)
 
 void update_fds(server_t *server)
 {
+    client_t *tmp;
+
     FD_ZERO(&server->fds.read);
     FD_ZERO(&server->fds.write);
     FD_ZERO(&server->fds.error);
-    for (int i = 0; i < server->clients.nb; i++) {
-        FD_SET(server->clients.c[i].sck.fd, &server->fds.read);
-        if (server->clients.c[i].out.nb > 0)
-            FD_SET(server->clients.c[i].sck.fd, &server->fds.write);
-        FD_SET(server->clients.c[i].sck.fd, &server->fds.error);
+    SLIST_FOREACH(tmp, &server->clients, next) {
+        FD_SET(tmp->sck.fd, &server->fds.read);
+        if (tmp->out.nb > 0)
+            FD_SET(tmp->sck.fd, &server->fds.write);
+        FD_SET(tmp->sck.fd, &server->fds.error);
     }
     FD_SET(server->sck.fd, &server->fds.read);
     FD_SET(server->sck.fd, &server->fds.error);
@@ -93,15 +101,17 @@ void update_fds(server_t *server)
 bool handle_fds(server_t *server)
 {
     bool is_ok = SUCCESS;
+    client_t *tmp;
 
-    for (int i = 0; i < server->clients.nb && is_ok != ERROR; i++) {
-        if (FD_ISSET(server->clients.c[i].sck.fd, &server->fds.read) && is_ok)
-            is_ok = read_flux(server, i);
-        if (FD_ISSET(server->clients.c[i].sck.fd, &server->fds.write) && is_ok)
-            is_ok = write_flux(server, i);
-        if (FD_ISSET(server->clients.c[i].sck.fd, &server->fds.error) && is_ok) {
-            is_ok = rm_client(server, i);
-        }
+    SLIST_FOREACH(tmp, &server->clients, next) {
+        if (is_ok == ERROR)
+            break;
+        if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)
+            is_ok = read_flux(server, tmp);
+        if (FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
+            is_ok = write_flux(server, tmp);
+        if (FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok)
+            is_ok = rm_client(server, tmp);
     }
     if (is_ok == ERROR || !server)
         return (ERROR);
@@ -123,6 +133,7 @@ bool handle_fds(server_t *server)
 
 bool server_iteration(server_t *server)
 {
+    handle_time(server);
     update_fds(server);
     if (select(FD_SETSIZE, &server->fds.read, &server->fds.write,
         &server->fds.error, NULL) == -1)

@@ -12,6 +12,7 @@ SRCPATH			=	src/
 SRCS_FILES		=	main.c \
 					server.c \
 					tools/client_tools.c \
+					tools/time_tools.c \
 					tools/signal_tools.c \
 					tools/command_tools.c \
 					tools/flux_tools.c \

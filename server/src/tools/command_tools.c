@@ -13,16 +13,16 @@ const command_t cmds[NB_CMDS] = {};
 
 
 /**
- * \fn bool switch_command(server_t *server, int client, char *command)
+ * \fn bool switch_command(server_t *server, client_t *client, char *command)
  * \brief Fonction qui va appeller la fct corespondant à la commande trouvée
  *
  * \param server la variable principale du projet
- * \param client index du client
+ * \param client client actuel
  * \param command corps de la commande
  * \return true en succès et false en cas d'erreur
  */
 
-bool switch_command(server_t *server, int client, char *command)
+bool switch_command(server_t *server, client_t *client, char *command)
 {
     char code[4] = {0};
 
@@ -35,28 +35,28 @@ bool switch_command(server_t *server, int client, char *command)
 
 
 /**
- * \fn bool search_command_in_client(server_t *server, int client)
+ * \fn bool search_command_in_client(server_t *server, client_t *client)
  * \brief Fonction qui va appeller switch_commands pour chaque commandes dans le flux in
  *
  * \param server la variable principale du projet
- * \param client index du client
+ * \param client client actuel
  * \return true en succès et false en cas d'erreur
  */
 
-bool search_command_in_client(server_t *server, int client)
+bool search_command_in_client(server_t *server, client_t *client)
 {
     char *find_cmd;
     int size_cmd;
 
     while (true) {
-        find_cmd = strstr(server->clients.c[client].in.buff, "\r\n");
+        find_cmd = strstr(client->in.buff, "\r\n");
         if (!find_cmd)
             break;
-        size_cmd = find_cmd - server->clients.c[client].in.buff + 2;
+        size_cmd = find_cmd - client->in.buff + 2;
         *find_cmd = 0;
-        if (!switch_command(server, client, server->clients.c[client].in.buff))
+        if (!switch_command(server, client, client->in.buff))
             return (ERROR);
-        remove_data(&server->clients.c[client].in, size_cmd);
+        remove_data(&client->in, size_cmd);
     }
     return (SUCCESS);
 }
@@ -72,8 +72,11 @@ bool search_command_in_client(server_t *server, int client)
 
 bool handle_commands(server_t *server)
 {
-    for (int i = 0; i < server->clients.nb; i++)
-        if (!search_command_in_client(server, i))
+    client_t *tmp;
+
+    SLIST_FOREACH(tmp, &server->clients, next) {
+        if (!search_command_in_client(server, tmp))
             return (ERROR);
+    }
     return (SUCCESS);
 }
