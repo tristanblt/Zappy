@@ -16,7 +16,7 @@ typedef struct socket_s socket_t;
 typedef struct fd_lists_s fd_lists_t;
 
 struct flux_s {
-    char *buff;
+    char buff[BUFF_SIZE];
     int nb;
 };
 
