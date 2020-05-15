@@ -15,6 +15,7 @@
 #include <signal.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include <sys/types.h>
 #include <sys/time.h>

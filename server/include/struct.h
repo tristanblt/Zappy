@@ -44,10 +44,17 @@ struct team_s {
 
 
 /* DATA AND CONTEXT STRUCTURES */
+typedef struct time_manager_s time_manager_t;
 typedef struct position_s position_t;
 typedef struct ressources_s ressources_t;
 typedef struct server_data_s server_data_t;
 typedef struct client_data_s client_data_t;
+
+
+struct time_manager_s {
+    double last_time;
+    float delta_time;
+};
 
 struct position_s {
     int x;
@@ -114,6 +121,7 @@ struct clients_s {
 };
 
 struct server_s {
+    time_manager_t t;
     server_data_t data;
     socket_t sck;
     fd_lists_t fds;
