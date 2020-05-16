@@ -18,11 +18,13 @@
 
 int zappy_server(int ac, char **av)
 {
+    param_t param;
     server_t *server = check(ac, av) == OK ? init_server(av[1]) : NULL;
     bool is_ok = true;
 
     sigint_catch = false;
     signal(SIGINT, handle_sigint);
+    init_param(ac, av, &param);
     while (server->running) {
         is_ok = server_iteration(server);
         if (is_ok)

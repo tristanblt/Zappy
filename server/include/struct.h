@@ -10,6 +10,21 @@
 
 #include "includes_and_defines.h"
 
+/*PARAM MANAGEMENT*/
+
+typedef struct param_s param_t;
+
+struct param_s
+{
+    int port;
+    int width;
+    int height;
+    char **name;
+    int clientNB;
+    int freq;
+};
+
+
 /* SOCKET MANAGEMENT */
 typedef struct flux_s flux_t;
 typedef struct socket_s socket_t;

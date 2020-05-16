@@ -48,4 +48,11 @@ bool check(int ac, char **av);
 /* MAIN FCT */
 int zappy_server(int ac, char **av);
 
+/* PARAM TOOLS */
+void init_param(int ac, char **av, param_t *param);
+
+/* USAGES FCT */
+void display_usage_s();
+//void display_usage_c();
+
 #endif /* !SERVER_H_ */

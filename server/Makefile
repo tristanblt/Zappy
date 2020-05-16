@@ -19,6 +19,8 @@ SRCS_FILES		=	main.c \
 					tools/map_tools.c \
 					tools/server_tools.c \
 					tools/args_tools.c \
+					tools/display_usage.c \
+					tools/param_tools.c \
 
 SRCS			=	$(addprefix $(SRCPATH), $(SRCS_FILES))
 OBJS			= 	$(SRCS:%.c=%.o)
@@ -30,7 +32,7 @@ else
 	LDFLAGS	= 	-ldl
 endif
 
-CFLAGS			=	-W -Wall -Wextra -Wshadow			\
+CFLAGS			=	-W -Wall -Wextra -Wshadow	\
 					-Iinclude/ -g						\
 
 CC				=	gcc
