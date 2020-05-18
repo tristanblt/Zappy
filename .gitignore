@@ -1,1 +1,4 @@
 ai/src/__pycache__/main.cpython-37.pyc
+zappy_server
+.vscode/*
+*.o

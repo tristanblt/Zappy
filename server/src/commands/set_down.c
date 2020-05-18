@@ -1,0 +1,8 @@
+/*
+** EPITECH PROJECT, 2020
+** PSU_zappy_2019
+** File description:
+** set_down
+*/
+
+#include "server.h"
