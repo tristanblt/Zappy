@@ -9,7 +9,7 @@ import json
 import getopt
 import sys
 
-from src.error import *
+from ai.src.error import *
 
 def parseArgs():
     params = {

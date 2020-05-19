@@ -8,8 +8,8 @@
 import socket
 import sys
 
-from src.requests import sendRequest
-from src.error import *
+from ai.src.requests import sendRequest
+from ai.src.error import *
 
 def initSocket(params):
     try:

@@ -9,9 +9,9 @@ import sys
 import socket
 import json
 
-from src.arguments import parseArgs
-from src.socket import initSocket
-from src.game import startGame
+from ai.src.arguments import parseArgs
+from ai.src.socket import initSocket
+from ai.src.game import startGame
 
 
 def main():
