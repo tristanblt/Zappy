@@ -5,5 +5,19 @@
 ## glob
 ##
 
+import queue
+
 global AIRunning
 AIRunning = True
+
+global readQueue
+readQueue = queue.Queue()
+
+global writeQueue
+writeQueue = queue.Queue()
+
+global currentCommand
+currentCommand = None
+
+global gameState
+gameState = {}
