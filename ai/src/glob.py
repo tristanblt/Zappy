@@ -21,3 +21,6 @@ currentCommand = None
 
 global gameState
 gameState = {}
+
+global reward
+reward = 0

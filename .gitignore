@@ -2,3 +2,5 @@ ai/src/__pycache__/*
 zappy_server
 .vscode/*
 *.o
+model.h5
+model.json

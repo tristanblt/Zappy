@@ -7,48 +7,27 @@
 
 import sys
 import socket
-import json
-import tensorflow
-import keras
-import tf_agents
 import time
-from tf_agents.agents.dqn import dqn_agent
-from keras.models import Sequential
-from keras.layers.core import Dense, Activation, Dropout
-from keras.optimizers import SGD
-from keras.callbacks import Callback
-import numpy as np
+
 
 from ai.src.arguments import parseArgs
 from ai.src.socket import initSocket
 from ai.src.game import startGame
+from ai.src.learning import createModel, saveModel
 
-def neural_net(hiddenLayerDims, LoadWeights=''):
-    neuralNet = Sequential()
-    neuralNet.add(Dense(hiddenLayerDims[0], input_shape=(4,)))
-    neuralNet.add(Activation('sigmoid'))
-    neuralNet.add(Dense(hiddenLayerDims[1]))
-    neuralNet.add(Activation('sigmoid'))
-    neuralNet.add(Dense(4))
-    neuralNet.add(Activation('softmax'))
-    if LoadWeights:
-        neuralNet.load_weights(LoadWeights)
-    sgd = SGD(lr=0.01, decay=0.0, momentum=0.0, nesterov=False)
-    neuralNet.compile(loss='mse', optimizer=sgd)
-    return neuralNet
 
 def main():
     params = parseArgs()
+    model = createModel()
 
-    model = neural_net([15, 16])
-
-    while True:
+    # play N games
+    for i in range(10):
         mainsock = initSocket(params)
-        startGame(params, mainsock)
+        startGame(params, mainsock, model)
         mainsock.close()
-        time.sleep(1)
+        time.sleep(0.5)
 
-    mainsock.close()
+    saveModel(model)
 
 def usage():
     print("USAGE: ./zappy_ai -p port -n name -h machine")
