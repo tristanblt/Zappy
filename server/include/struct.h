@@ -109,8 +109,10 @@ struct client_data_s {
 typedef struct map_node_s map_node_t;
 
 struct map_node_s {
-    SLIST_ENTRY(map_node_t) v_nodes;
-    SLIST_ENTRY(map_node_t) h_nodes;
+    struct tile_s *top;
+    struct tile_s *bottom;
+    struct tile_s *right;
+    struct tile_s *left;
     position_t coordinates;
     ressources_t ressources;
 };
