@@ -109,10 +109,10 @@ struct client_data_s {
 typedef struct map_node_s map_node_t;
 
 struct map_node_s {
-    struct tile_s *top;
-    struct tile_s *bottom;
-    struct tile_s *right;
-    struct tile_s *left;
+    struct map_node_s *top;
+    struct map_node_s *bottom;
+    struct map_node_s *right;
+    struct map_node_s *left;
     position_t coordinates;
     ressources_t ressources;
 };
