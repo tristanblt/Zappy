@@ -13,19 +13,18 @@
  *
  * \param ac nombre d'arguments
  * \param av arguments entrés en execution du programme
- * \param param_t structure qui contien les arguments passé en paramètres
+ * \param param_t structure qui contient les arguments passés en paramètres
  * \return void
  */
 
-void check_param(int ac, char **av, param_t *param) 
+void check_param(int ac, char **av, param_t *param)
 {
     char optstring[]="p:x:y:n:c:f:";  // manque -n
     int c;
     char *name;
-   
+
     while((c=getopt (ac, av, optstring)) != EOF)
     {
-        // printf("-%c\n",(char) c);  
         switch (c) {
             case 'p':
             param->port = atoi(optarg);
@@ -47,12 +46,6 @@ void check_param(int ac, char **av, param_t *param)
             break;
         }
     }
-    // printf("%d\n", param->port);
-    // printf("%d\n", param->width);
-    // printf("%d\n", param->height);
-    // printf("%s\n", name);
-    // printf("%d\n", param->clientNB);
-    // printf("%d\n", param->freq);
 }
 
 /**

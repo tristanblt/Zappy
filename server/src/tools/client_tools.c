@@ -18,6 +18,7 @@ bool add_client(server_t *server)
         end_server(server);
         return (ERROR);
     }
+    init_requests(&new->requests);
     SLIST_INSERT_HEAD(&server->clients, new, next);
     return (SUCCESS);
 }

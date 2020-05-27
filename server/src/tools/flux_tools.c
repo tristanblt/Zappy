@@ -31,7 +31,6 @@ bool read_flux(server_t *server, client_t *client)
     return (SUCCESS);
 }
 
-
 /**
  * \fn bool write_flux(server_t *server, client_t *client)
  * \brief Fonction qui va écrire sur la socket client
@@ -48,7 +47,6 @@ bool write_flux(server_t *server, client_t *client)
     remove_data(&client->out, wr);
     return (SUCCESS);
 }
-
 
 /**
  * \fn void add_data(flux_t *flux, int n, ...)
@@ -83,7 +81,6 @@ void add_data(flux_t *flux, int n, ...)
     va_end(args);
 }
 
-
 /**
  * \fn void add_data(flux_t *flux, int n, ...)
  * \brief Fonction qui va remplir le flux avec un char *
@@ -100,7 +97,6 @@ void add_raw_data(flux_t *flux, char *str)
     strncpy(flux->buff + flux->nb, str, strlen(str));
     flux->nb += strlen(str);
 }
-
 
 /**
  * \fn void remove_data(flux_t *flux, int size)

@@ -25,6 +25,8 @@ int zappy_server(int ac, char **av)
     sigint_catch = false;
     signal(SIGINT, handle_sigint);
     init_param(ac, av, &param);
+    // if (init_data_server(&server->data, param) == ERROR)
+    //     return (EPI_EXIT_ERROR);
     while (server->running) {
         is_ok = server_iteration(server);
         if (is_ok)

@@ -12,6 +12,16 @@
 
 bool sigint_catch;
 
+/* DATA TOOLS */
+void init_client_data(client_data_t *data, char *team, position_t pos);
+bool init_server_data(server_data_t *data, param_t params);
+void free_server_data(server_data_t *data);
+
+/* REQUEST TOOLS */
+void add_to_requests(char *buff, client_t *client, int size);
+void rm_from_request(client_t *client);
+void init_requests(request_manager_t *r);
+
 /* CLIENT TOOLS */
 bool add_client(server_t *server);
 bool rm_client(server_t *server, client_t *client);
@@ -26,6 +36,11 @@ void add_raw_data(flux_t *flux, char *str);
 
 /* TIME TOOLS */
 void handle_time(server_t *server);
+void init_time(time_manager_t *t);
+
+/* REQUEST TOOLS */
+void add_to_requests(char *buff, client_t *client, int size);
+void rm_from_request(client_t *client);
 
 /* SERVER TOOLS */
 server_t *init_server(char *port);
@@ -38,7 +53,7 @@ bool server_iteration(server_t *server);
 bool handle_commands(server_t *server);
 
 /* SIGNAL TOOLS */
-void handle_sigint();
+void handle_sigint(void);
 
 /* ERROR HANDLING */
 bool check(int ac, char **av);
@@ -53,7 +68,7 @@ void init_param(int ac, char **av, param_t *param);
 void check_param(int ac, char **av, param_t *param);
 
 /* USAGES FCT */
-void display_usage_s();
-//void display_usage_c();
+void display_usage_s(void);
+//void display_usage_c(void);
 
 #endif /* !SERVER_H_ */

@@ -22,8 +22,7 @@ server_t *init_server(char *port)
     if (new == NULL)
         return (NULL);
     SLIST_INIT(&new->clients);
-    new->sck.fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (new->sck.fd < 0) {
+    if ((new->sck.fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         free(new);
         return (NULL);
     }
@@ -36,9 +35,9 @@ server_t *init_server(char *port)
         close(new->sck.fd);
         return (NULL);
     }
+    init_time(&new->t);
     return (new);
 }
-
 
 /**
  * \fn void end_server(server_t *server)
@@ -53,16 +52,15 @@ void end_server(server_t *server)
     client_t *tmp;
 
     close(server->sck.fd);
-    while (!SLIST_EMPTY(&server->clients))
-    {
+    while (!SLIST_EMPTY(&server->clients)) {
         tmp = SLIST_FIRST(&server->clients);
         SLIST_REMOVE_HEAD(&server->clients, next);
         close(tmp->sck.fd);
         free(tmp);
     }
+    free_server_data(&server->data);
     free(server);
 }
-
 
 /**
  * \fn void update_fds(server_t *server)
@@ -88,7 +86,6 @@ void update_fds(server_t *server)
     FD_SET(server->sck.fd, &server->fds.read);
     FD_SET(server->sck.fd, &server->fds.error);
 }
-
 
 /**
  * \fn bool handle_fds(server_t *server)
@@ -122,7 +119,6 @@ bool handle_fds(server_t *server)
     return (is_ok);
 }
 
-
 /**
  * \fn bool handle_fds(server_t *server)
  * \brief Partie réseau du serveur, utilise select et gère les fds disponibles
@@ -136,7 +132,8 @@ bool server_iteration(server_t *server)
     handle_time(server);
     update_fds(server);
     if (select(FD_SETSIZE, &server->fds.read, &server->fds.write,
-        &server->fds.error, NULL) == -1)
+        &server->fds.error,
+        (server->t.is_needed ? &server->t.timeout : NULL)) == -1)
         return (ERROR);
     return (handle_fds(server));
 }

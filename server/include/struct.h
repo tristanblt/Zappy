@@ -67,6 +67,8 @@ typedef struct client_data_s client_data_t;
 
 
 struct time_manager_s {
+    bool is_needed;
+    struct timeval timeout;
     double last_time;
     float delta_time;
 };
@@ -89,6 +91,7 @@ struct ressources_s {
 struct server_data_s {
     int f;
     int nb_mates;
+    int nb_teams;
     int map_width;
     int map_height;
     team_t *teams;
@@ -97,7 +100,7 @@ struct server_data_s {
 struct client_data_s {
     char *team;
     int level;
-    int cool_down;
+    float cool_down;
     int dir;
     position_t pos;
     ressources_t inventory;
@@ -118,10 +121,18 @@ struct map_node_s {
 
 
 /* SERVER MANAGEMENT */
+typedef struct request_manager_s request_manager_t;
 typedef struct client_s client_t;
 typedef struct server_s server_t;
 
+struct request_manager_s {
+    char bodies[10][BUFF_SIZE];
+    int pos;
+    int nb;
+};
+
 struct client_s {
+    request_manager_t requests;
     client_data_t data;
     socket_t sck;
     flux_t in;
