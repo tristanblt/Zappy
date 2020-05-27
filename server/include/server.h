@@ -50,6 +50,8 @@ int zappy_server(int ac, char **av);
 
 /* PARAM TOOLS */
 void init_param(int ac, char **av, param_t *param);
+void check_param_n(int ac, char **av, param_t *param);
+void init_param_n(int ac, char **av, param_t *param, int i);
 void check_param(int ac, char **av, param_t *param);
 
 /* USAGES FCT */
