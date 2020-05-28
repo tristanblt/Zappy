@@ -18,6 +18,8 @@ writeQueue = queue.Queue()
 
 global currentCommand
 currentCommand = None
+global currentCommandIdx
+currentCommandIdx = 0
 
 global gameState
 gameState = {}

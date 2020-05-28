@@ -21,49 +21,54 @@ def initGameResponse(response):
         return False
 
 def forwardResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def rightResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def leftResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def lookResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def inventoryResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def broadcastResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def connectNbrResponse(response):
-    print(response)
+    #print(response)
+    ai.src.glob.gameState["clientNum"] = int(response)
     return True
 
 def forkResponse(response):
-    print(response)
+    #print(response)
+    if ai.src.glob.gameState["canFork"]:
+        ai.src.glob.reward += 10
+    else:
+        ai.src.glob.reward -= 20
     return True
 
 def ejectResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def takeObjectResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def setObjectResponse(response):
-    print(response)
+    #print(response)
     return True
 
 def incantationResponse(response):
-    print(response)
+    #print(response)
     return True

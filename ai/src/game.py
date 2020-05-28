@@ -91,15 +91,36 @@ def startGame(params, mainsock, model):
                     if not ai.src.glob.currentCommand(response):
                         mainsock.close()
                         exit(84)
+                    recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandIdx])
                     ai.src.glob.currentCommand = None
             except queue.Empty:
                 break
         if ai.src.glob.currentCommand is None:
             requestSelection(mainsock, model)
     if ai.src.glob.reward > 0:
-        # fit all record of the game
-        print("dscs")
-
+        Xtrain = []
+        Ytrain = []
+        for gs in recordStates:
+            Xtrain.append([
+                gs[0]["directionFood"],
+                gs[0]["directionLinemate"],
+                gs[0]["directionDeraumere"],
+                gs[0]["directionSibur"],
+                gs[0]["directionMendiane"],
+                gs[0]["directionPhiras"],
+                gs[0]["directionThystame"],
+                gs[0]["nbFood"],
+                gs[0]["nbLinemate"],
+                gs[0]["nbDeraumere"],
+                gs[0]["nbSibur"],
+                gs[0]["nbMendiane"],
+                gs[0]["nbPhiras"],
+                gs[0]["nbThystame"],
+                gs[0]["canFork"],
+                gs[0]["canIncant"]
+            ])
+            Ytrain.append(gs[1])
+        model.fit(np.array(Xtrain), np.array(Ytrain))
     return False
 
 def requestSelection(ms, model):
@@ -130,3 +151,4 @@ def requestSelection(ms, model):
 def requestRandom(ms):
     randCmd = random.randrange(0, len(functions))
     functions[randCmd](ms)
+    ai.src.glob.currentCommandIdx = randCmd
