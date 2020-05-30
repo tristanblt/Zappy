@@ -15,7 +15,8 @@ void init_client_data(client_data_t *data, char *team, position_t pos)
     data->level = 1;
     data->pos.x = pos.x;
     data->pos.y = pos.y;
-    init_ressources(data->inventory);
+    init_ressources(&data->inventory);
+    data->inventory.food = 10;
 }
 
 bool init_server_data(server_data_t *data, param_t params)

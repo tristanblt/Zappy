@@ -101,6 +101,7 @@ struct client_data_s {
     char *team;
     int level;
     float cool_down;
+    float hunger_cd;
     int dir;
     position_t pos;
     ressources_t inventory;
@@ -112,8 +113,10 @@ struct client_data_s {
 typedef struct map_node_s map_node_t;
 
 struct map_node_s {
-    SLIST_ENTRY(map_node_t) v_nodes;
-    SLIST_ENTRY(map_node_t) h_nodes;
+    struct map_node_s *top;
+    struct map_node_s *bottom;
+    struct map_node_s *right;
+    struct map_node_s *left;
     position_t coordinates;
     ressources_t ressources;
 };

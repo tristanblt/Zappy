@@ -53,7 +53,7 @@ bool server_iteration(server_t *server);
 bool handle_commands(server_t *server);
 
 /* SIGNAL TOOLS */
-void handle_sigint(void);
+void handle_sigint(int i);
 
 /* ERROR HANDLING */
 bool check(int ac, char **av);
@@ -65,6 +65,8 @@ int zappy_server(int ac, char **av);
 
 /* PARAM TOOLS */
 void init_param(int ac, char **av, param_t *param);
+void check_param_n(int ac, char **av, param_t *param);
+void init_param_n(int ac, char **av, param_t *param, int i);
 void check_param(int ac, char **av, param_t *param);
 
 /* USAGES FCT */

@@ -40,6 +40,12 @@ void update_cool_downs(server_t *server)
             rm_from_request(tmp);
             tmp->data.cool_down = 0;
         }
+        if (tmp->data.hunger_cd - server->t.delta_time > 0)
+            tmp->data.hunger_cd -= server->t.delta_time;
+        else {
+            tmp->data.inventory.food--;
+            tmp->data.hunger_cd = 126;
+        }
     }
 }
 
