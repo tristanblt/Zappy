@@ -122,7 +122,7 @@ struct map_node_s {
     position_t coordinates;
     ressources_t ressources;
 };
-struct extracted_content_t {
+struct extracted_content_s {
     ressources_t *ressources;
     int nb_player;
 };

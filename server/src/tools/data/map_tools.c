@@ -43,7 +43,7 @@ extracted_content_t get_tile_content(server_t *server, int x, int y)
     int true_x = graph_value(server->data.map_width, x);
     int true_y = graph_value(server->data.map_height, y);
 
-    content.ressources = on_tile(server->data.map, true_x, true_y)->ressources;
+    content.ressources = &on_tile(server->data.map, true_x, true_y)->ressources;
     content.nb_player = count_players(server, x, y);
     return (content);
 }
