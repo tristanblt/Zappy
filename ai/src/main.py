@@ -9,19 +9,17 @@ import sys
 import socket
 import time
 
-
 from ai.src.arguments import parseArgs
 from ai.src.socket import initSocket
 from ai.src.game import startGame
 from ai.src.learning import createModel, saveModel
-
 
 def main():
     params = parseArgs()
     model = createModel()
 
     # play N games
-    for i in range(10):
+    for i in range(1):
         mainsock = initSocket(params)
         startGame(params, mainsock, model)
         mainsock.close()

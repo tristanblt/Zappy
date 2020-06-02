@@ -26,3 +26,9 @@ gameState = {}
 
 global reward
 reward = 0
+
+global gameMap
+gameMap = []
+
+global lookAt
+lookAt = 0

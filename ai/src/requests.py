@@ -44,8 +44,9 @@ def connectNbrRequest(mainsock):
     ai.src.glob.currentCommand = connectNbrResponse
 
 def forkRequest(mainsock):
-    sendRequest(mainsock, "Fork")
-    ai.src.glob.currentCommand = forkResponse
+    print("fork")
+    #sendRequest(mainsock, "Fork")
+    #ai.src.glob.currentCommand = forkResponse
 
 def ejectRequest(mainsock):
     sendRequest(mainsock, "Eject")

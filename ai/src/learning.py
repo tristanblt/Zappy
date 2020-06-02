@@ -27,14 +27,14 @@ def createModel():
 
     # init model
     #model = Sequential()
-    #model.add(Dense(16, input_shape=(16,), activation="relu"))
-    #model.add(Dense(512, activation="relu"))
-    #model.add(Dense(512, activation="relu"))
-    #model.add(Dense(256, activation="relu"))
-    #model.add(Dense(1, activation="linear"))
+    #model.add(Dense(16, input_shape=(16,), activation="sigmoid"))
+    #model.add(Dense(512, activation="sigmoid"))
+    #model.add(Dense(512, activation="sigmoid"))
+    #model.add(Dense(256, activation="sigmoid"))
+    #model.add(Dense(5, activation="softmax"))
     #model.summary()
-    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["accuracy"])
 
+    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["accuracy"])
     return model
 
 def saveModel(model):

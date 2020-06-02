@@ -23,10 +23,11 @@ functions = [
     ai.src.requests.rightRequest,
     ai.src.requests.leftRequest,
     ai.src.requests.lookRequest,
-    ai.src.requests.inventoryRequest,
-    ai.src.requests.forkRequest,
-    ai.src.requests.ejectRequest,
-    ai.src.requests.incantationRequest
+    ai.src.requests.connectNbrRequest,
+    #ai.src.requests.inventoryRequest,
+    #ai.src.requests.forkRequest,
+    #ai.src.requests.ejectRequest,
+    #ai.src.requests.incantationRequest
     #ai.src.requests.broadcastRequest,
     #ai.src.requests.takeObjectRequest,
     #ai.src.requests.setObjectRequest,
@@ -125,9 +126,9 @@ def startGame(params, mainsock, model):
 
 def requestSelection(ms, model):
     if random.randrange(0, 2) == 0:
-        requestRandom(ms)
+        requestWithIdx(ms, random.randrange(0, len(functions)))
     else:
-        print(model.predict(np.array([[
+        prediction = model.predict(np.array([[
             ai.src.glob.gameState["directionFood"],
             ai.src.glob.gameState["directionLinemate"],
             ai.src.glob.gameState["directionDeraumere"],
@@ -144,11 +145,11 @@ def requestSelection(ms, model):
             ai.src.glob.gameState["nbThystame"],
             ai.src.glob.gameState["canFork"],
             ai.src.glob.gameState["canIncant"]
-        ]])))
-        requestRandom(ms)
+        ]])).flatten().tolist()
+        requestWithIdx(ms, prediction.index(max(prediction)))
 
 
-def requestRandom(ms):
-    randCmd = random.randrange(0, len(functions))
-    functions[randCmd](ms)
-    ai.src.glob.currentCommandIdx = randCmd
+def requestWithIdx(ms, idx):
+    functions[idx](ms)
+    print (idx)
+    ai.src.glob.currentCommandIdx = idx
