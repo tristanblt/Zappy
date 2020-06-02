@@ -17,6 +17,9 @@ void init_client_data(client_data_t *data, char *team, position_t pos);
 bool init_server_data(server_data_t *data, param_t params);
 void free_server_data(server_data_t *data);
 
+/* RESSOURCES TOOLS */
+void init_ressources(ressources_t *res);
+
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
 void rm_from_request(client_t *client);

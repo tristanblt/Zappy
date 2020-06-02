@@ -27,6 +27,7 @@ map_node_t *init_tile(int x, int y)
     tile->top = NULL;
     tile->coordinates.x = x;
     tile->coordinates.y = y;
+    init_ressources(&tile->ressources);
     return (tile);
 }
 

@@ -94,6 +94,7 @@ struct server_data_s {
     int nb_teams;
     int map_width;
     int map_height;
+    map_node_t *map;
     team_t *teams;
 };
 
@@ -111,6 +112,7 @@ struct client_data_s {
 
 /* MAP MANAGEMENT */
 typedef struct map_node_s map_node_t;
+typedef struct extracted_content_s extracted_content_t;
 
 struct map_node_s {
     struct map_node_s *top;
@@ -119,6 +121,10 @@ struct map_node_s {
     struct map_node_s *left;
     position_t coordinates;
     ressources_t ressources;
+};
+struct extracted_content_t {
+    ressources_t *ressources;
+    int nb_player;
 };
 
 
