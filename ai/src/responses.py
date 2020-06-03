@@ -6,6 +6,7 @@
 ##
 
 import ai.src.glob
+from ai.src.distances import computePlayerDistances
 
 def initGameResponse(response):
     if (response == "ko\n"):
@@ -36,19 +37,21 @@ def forwardResponse(response):
     for item in ai.src.glob.gameMap:
         item["pos"]["x"] += x
         item["pos"]["y"] += y
-
+    computePlayerDistances()
     return True
 
 def rightResponse(response):
     ai.src.glob.lookAt -= 1
     if (ai.src.glob.lookAt < 0):
         ai.src.glob.lookAt = 3
+    computePlayerDistances()
     return True
 
 def leftResponse(response):
     ai.src.glob.lookAt += 1
     if (ai.src.glob.lookAt > 3):
         ai.src.glob.lookAt = 0
+    computePlayerDistances()
     return True
 
 def lookResponse(response):
@@ -75,7 +78,7 @@ def lookResponse(response):
             y += 1
             pal += 2
             i = 0
-    #calculer les distance avec les objets pour le gameState - fonction : computePlayerDistances()
+    computePlayerDistances()
     return True
 
 def inventoryResponse(response):
