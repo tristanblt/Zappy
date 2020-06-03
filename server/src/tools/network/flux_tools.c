@@ -22,7 +22,7 @@ bool read_flux(server_t *server, client_t *client)
     char tmp[BUFF_SIZE] = {0};
     int rd = read(client->sck.fd, tmp,
     BUFF_SIZE - client->in.nb);
-
+    /// A FAIRE: rd ==-1
     if (rd == 0) {
         rm_client(server, client);
         return (SUCCESS);

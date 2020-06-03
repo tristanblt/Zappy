@@ -24,6 +24,7 @@
 #include <arpa/inet.h>
 #include <sys/queue.h>
 #include <stdarg.h>
+#include <maths.h>
 
 #define BUFF_SIZE 4096
 
