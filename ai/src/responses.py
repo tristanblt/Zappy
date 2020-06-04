@@ -91,6 +91,10 @@ def broadcastResponse(response):
 
 def connectNbrResponse(response):
     ai.src.glob.gameState["clientNum"] = int(response)
+    if ai.src.glob.gameState["clientNum"] > 0:
+        ai.src.glob.gameState["canFork"] = True
+    else:
+        ai.src.glob.gameState["canFork"] = False
     return True
 
 def forkResponse(response):
