@@ -11,6 +11,13 @@ import sys
 
 from ai.src.error import *
 
+
+def usage():
+    print("USAGE: ./zappy_ai -p port -n name -h machine")
+    print("\tport\tis the port number")
+    print("\tname\tis the name of the team")
+    print("\tmachine\tis the name of the machine; localhost by default")
+
 def parseArgs():
     params = {
         'port' : 4242,

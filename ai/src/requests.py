@@ -6,6 +6,7 @@
 ##
 
 import ai.src.glob
+# from ai.src.glob import writeQueue, ai.src.glob.currentCommand, gameState, reward
 from ai.src.responses import *
 
 def sendRequest(mainsock, request):
@@ -44,9 +45,13 @@ def connectNbrRequest(mainsock):
     ai.src.glob.currentCommand = connectNbrResponse
 
 def forkRequest(mainsock):
+    if (ai.src.glob.gameState["canFork"]):
+        ai.src.glob.reward += 10
+        #sendRequest(mainsock, "Fork")
+        #ai.src.glob.currentCommand = forkResponse
+    else:
+        ai.src.glob.reward -= 20
     print("fork")
-    #sendRequest(mainsock, "Fork")
-    #ai.src.glob.currentCommand = forkResponse
 
 def ejectRequest(mainsock):
     sendRequest(mainsock, "Eject")
@@ -61,5 +66,10 @@ def setObjectRequest(mainsock, object):
     ai.src.glob.currentCommand = setObjectResponse
 
 def incantationRequest(mainsock):
-    sendRequest(mainsock, "Incantation")
-    ai.src.glob.currentCommand = incantationResponse
+    if (ai.src.glob.gameState["canIncant"]):
+        ai.src.glob.reward += 200
+        sendRequest(mainsock, "Incantation")
+        ai.src.glob.currentCommand = incantationResponse
+    else:
+        ai.src.glob.reward -= 400
+        ai.src.glob.currentCommand = None

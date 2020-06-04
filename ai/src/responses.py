@@ -5,8 +5,11 @@
 ## responses
 ##
 
+import json
 import ai.src.glob
 from ai.src.distances import computePlayerDistances
+from ai.src.incant import checkIncant
+
 
 def initGameResponse(response):
     if (response == "ko\n"):
@@ -59,14 +62,13 @@ def lookResponse(response):
     y = 0
     i = 0
     pal = 1
-    response = response.replace('[', '') 
-    response = response.replace(']', '') 
-    cases = response.split(",")
-    for case in cases:
+    response = response.replace('[', '').replace(']', '').replace('\n', '')
+    tiles = response.split(",")
+    for tile in tiles:
         for item in ai.src.glob.gameMap:
             if item["pos"]["x"] == x and item["pos"]["y"] == y:
                 ai.src.glob.gameMap.remove(item)
-        items = case.split(" ")
+        items = tile.split(" ")
         for item in items:
             if (len(item) <= 0):
                 continue
@@ -79,10 +81,23 @@ def lookResponse(response):
             pal += 2
             i = 0
     computePlayerDistances()
+    ai.src.glob.gameState["canIncant"] = checkIncant()
+    print(ai.src.glob.gameState["canIncant"])
     return True
 
 def inventoryResponse(response):
-    #print(response)
+    inventory = {}
+    response = response.replace('[ ', '').replace(' ]', '').replace('\n', '')
+    for it in response.split(', '):
+        it = it.split()
+        inventory[it[0]] = int(it[1])
+    ai.src.glob.gameState["nbFood"] = inventory["food"]
+    ai.src.glob.gameState["nbLinemate"] = inventory["linemate"]
+    ai.src.glob.gameState["nbDeraumere"] = inventory["deraumere"]
+    ai.src.glob.gameState["nbSibur"] = inventory["sibur"]
+    ai.src.glob.gameState["nbMendiane"] = inventory["mendiane"]
+    ai.src.glob.gameState["nbPhiras"] = inventory["phiras"]
+    ai.src.glob.gameState["nbThystame"] = inventory["thystame"]
     return True
 
 def broadcastResponse(response):
@@ -98,10 +113,6 @@ def connectNbrResponse(response):
     return True
 
 def forkResponse(response):
-    if ai.src.glob.gameState["canFork"]:
-        ai.src.glob.reward += 10
-    else:
-        ai.src.glob.reward -= 20
     return True
 
 def ejectResponse(response):

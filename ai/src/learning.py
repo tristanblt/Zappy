@@ -26,13 +26,13 @@ def createModel():
     model.load_weights('model.h5')
 
     # init model
-    #model = Sequential()
-    #model.add(Dense(16, input_shape=(16,), activation="sigmoid"))
-    #model.add(Dense(512, activation="sigmoid"))
-    #model.add(Dense(512, activation="sigmoid"))
-    #model.add(Dense(256, activation="sigmoid"))
-    #model.add(Dense(5, activation="softmax"))
-    #model.summary()
+    # model = Sequential()
+    # model.add(Dense(17, input_shape=(17,), activation="sigmoid"))
+    # model.add(Dense(512, activation="sigmoid"))
+    # model.add(Dense(512, activation="sigmoid"))
+    # model.add(Dense(256, activation="sigmoid"))
+    # model.add(Dense(6, activation="softmax"))
+    # model.summary()
 
     model.compile(loss="mean_squared_error", optimizer="adam", metrics=["accuracy"])
     return model
