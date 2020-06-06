@@ -31,19 +31,20 @@ int count_players(server_t *server, int x, int y)
     int cnt = 0;
 
     SLIST_FOREACH(tmp, &server->clients, next) {
-        if (tmp->data.pos.x == x && tmp->data.pos.y == y)
+        if (((c_data_t *)tmp->data)->pos.x == x &&
+            ((c_data_t *)tmp->data)->pos.y == y)
             cnt++;
     }
     return (cnt);
 }
 
-extracted_content_t get_tile_content(server_t *server, int x, int y)
+extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y)
 {
     extracted_content_t content;
-    int true_x = graph_value(server->data.map_width, x);
-    int true_y = graph_value(server->data.map_height, y);
+    int true_x = graph_value(data->map_width, x);
+    int true_y = graph_value(data->map_height, y);
 
-    content.ressources = &on_tile(server->data.map, true_x, true_y)->ressources;
-    content.nb_player = count_players(server, x, y);
+    content.ressources = &on_tile(data->map, true_x, true_y)->ressources;
+    content.nb_player = count_players(s, x, y);
     return (content);
 }

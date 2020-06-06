@@ -22,11 +22,11 @@ const command_t cmds[NB_CMDS] = {};
  * \return true en succès et false en cas d'erreur
  */
 
-bool switch_command(server_t *server, client_t *client, char *command)
+bool switch_command(zappy_data_t *z, client_t *client, char *command)
 {
     for (int i = 0; i < NB_CMDS; i++)
         if (!strncmp(cmds[i].token, command, cmds[i].token_len))
-            return (cmds[i].fct(server, client, command + cmds[i].token_len));
+            return (cmds[i].fct(z, client, command + cmds[i].token_len));
     return (SUCCESS);
 }
 
@@ -63,13 +63,13 @@ void search_command_in_client(client_t *client)
  * \return true en succès et false en cas d'erreur
  */
 
-bool handle_commands(server_t *server)
+bool handle_commands(zappy_data_t *z)
 {
     client_t *tmp;
 
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &z->server->clients, next) {
         search_command_in_client(tmp);
-        if (!switch_command(server, tmp,
+        if (!switch_command(z, tmp,
             tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
     }

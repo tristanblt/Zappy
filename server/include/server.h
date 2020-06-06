@@ -13,9 +13,9 @@
 bool sigint_catch;
 
 /* DATA TOOLS */
-void init_client_data(client_data_t *data, char *team, position_t pos);
-bool init_server_data(server_data_t *data, param_t params);
-void free_server_data(server_data_t *data);
+void init_client_data(c_data_t *data, char *team, position_t pos);
+bool init_server_data(s_data_t *data, param_t params);
+void free_server_data(s_data_t *data);
 
 /* RESSOURCES TOOLS */
 void init_ressources(ressources_t *res);
@@ -32,28 +32,40 @@ bool init_client(server_t *s, client_t *client);
 
 /* FLUX TOOLS */
 bool read_flux(server_t *server, client_t *client);
-bool write_flux(server_t *server, client_t *client);
+bool write_flux(client_t *client);
 void add_data(flux_t *flux, int n, ...);
 void remove_data(flux_t *flux, int size);
 void add_raw_data(flux_t *flux, char *str);
 
 /* TIME TOOLS */
 void handle_time(server_t *server);
-void init_time(time_manager_t *t);
+void init_time(time_manager_t *t, int time_ratio);
+
+/* MAP TOOLS */
+map_node_t *create_map(position_t size);
+void free_map(map_node_t *map, position_t size);
+map_node_t *on_tile(map_node_t *start, int x, int y);
+int graph_value(int size, int value);
+int count_players(server_t *server, int x, int y);
+extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y);
 
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
 void rm_from_request(client_t *client);
 
 /* SERVER TOOLS */
-server_t *init_server(char *port);
+server_t *init_server(char *port, int time_ratio);
 void end_server(server_t *server);
 void update_fds(server_t *server);
 bool handle_fds(server_t *server);
 bool server_iteration(server_t *server);
 
+/* ZAPPY TOOLS */
+zappy_data_t *init_zappy(param_t param);
+void end_zappy(zappy_data_t *z);
+
 /* COMMANDS TOOLS */
-bool handle_commands(server_t *server);
+bool handle_commands(zappy_data_t *z);
 
 /* SIGNAL TOOLS */
 void handle_sigint(int i);

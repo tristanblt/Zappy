@@ -13,6 +13,7 @@ SRCS_FILES		=	main.c \
 					server.c \
 					tools/data/data_tools.c \
 					tools/data/map_tools.c \
+					tools/data/map_setup_tools.c \
 					tools/data/ressources_tools.c \
 					tools/input/signal_tools.c \
 					tools/input/args_tools.c \
@@ -23,6 +24,7 @@ SRCS_FILES		=	main.c \
 					tools/network/command_tools.c \
 					tools/network/flux_tools.c \
 					tools/network/server_tools.c \
+					tools/zappy_tools.c \
 					tools/display_usage.c \
 
 SRCS			=	$(addprefix $(SRCPATH), $(SRCS_FILES))
@@ -30,7 +32,7 @@ OBJS			= 	$(SRCS:%.c=%.o)
 
 UNAME_S	= $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LDFLAGS	= 	-ldl -luuid
+	LDFLAGS	= 	-ldl -luuid -lm
 else
 	LDFLAGS	= 	-ldl
 endif

@@ -15,7 +15,7 @@
  * \return la structure server_t initialisée
  */
 
-server_t *init_server(char *port)
+server_t *init_server(char *port, int time_ratio)
 {
     server_t *new = calloc(1, sizeof(server_t));
 
@@ -35,7 +35,7 @@ server_t *init_server(char *port)
         close(new->sck.fd);
         return (NULL);
     }
-    init_time(&new->t);
+    init_time(&new->t, time_ratio);
     return (new);
 }
 
@@ -58,7 +58,6 @@ void end_server(server_t *server)
         close(tmp->sck.fd);
         free(tmp);
     }
-    free_server_data(&server->data);
     free(server);
 }
 
@@ -106,7 +105,7 @@ bool handle_fds(server_t *server)
         if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)
             is_ok = read_flux(server, tmp);
         if (FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
-            is_ok = write_flux(server, tmp);
+            is_ok = write_flux(tmp);
         if (FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok)
             is_ok = rm_client(server, tmp);
     }

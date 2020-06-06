@@ -131,8 +131,9 @@ void free_map(map_node_t *map, position_t size)
         next_bottom = tmp->bottom;
         for (int y = 0; y < size.y; y++) {
             next_right = tmp->right;
-            if (tmp)
+            if (tmp) {
                 free(tmp);
+            }
             tmp = next_right;
         }
         tmp = next_bottom;

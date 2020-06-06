@@ -22,7 +22,9 @@ bool read_flux(server_t *server, client_t *client)
     char tmp[BUFF_SIZE] = {0};
     int rd = read(client->sck.fd, tmp,
     BUFF_SIZE - client->in.nb);
-    /// A FAIRE: rd ==-1
+
+    if (rd == -1)
+        return (ERROR);
     if (rd == 0) {
         rm_client(server, client);
         return (SUCCESS);
@@ -40,7 +42,7 @@ bool read_flux(server_t *server, client_t *client)
  * \return true en succès et false en cas d'erreur
  */
 
-bool write_flux(server_t *server, client_t *client)
+bool write_flux(client_t *client)
 {
     int wr = write(client->sck.fd, client->out.buff, client->out.nb);
 

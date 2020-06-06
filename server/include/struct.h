@@ -59,11 +59,13 @@ struct team_s {
 
 
 /* DATA AND CONTEXT STRUCTURES */
+typedef struct map_node_s map_node_t;
+
 typedef struct time_manager_s time_manager_t;
 typedef struct position_s position_t;
 typedef struct ressources_s ressources_t;
-typedef struct server_data_s server_data_t;
-typedef struct client_data_s client_data_t;
+typedef struct s_data_s s_data_t;
+typedef struct c_data_s c_data_t;
 
 
 struct time_manager_s {
@@ -71,6 +73,7 @@ struct time_manager_s {
     struct timeval timeout;
     double last_time;
     float delta_time;
+    int ratio;
 };
 
 struct position_s {
@@ -88,7 +91,7 @@ struct ressources_s {
     int thystame;
 };
 
-struct server_data_s {
+struct s_data_s {
     int f;
     int nb_mates;
     int nb_teams;
@@ -98,7 +101,7 @@ struct server_data_s {
     team_t *teams;
 };
 
-struct client_data_s {
+struct c_data_s {
     char *team;
     int level;
     float cool_down;
@@ -111,7 +114,6 @@ struct client_data_s {
 
 
 /* MAP MANAGEMENT */
-typedef struct map_node_s map_node_t;
 typedef struct extracted_content_s extracted_content_t;
 
 struct map_node_s {
@@ -133,6 +135,7 @@ struct extracted_content_s {
 typedef struct request_manager_s request_manager_t;
 typedef struct client_s client_t;
 typedef struct server_s server_t;
+typedef struct zappy_data_s zappy_data_t;
 
 struct request_manager_s {
     char bodies[10][BUFF_SIZE];
@@ -142,7 +145,7 @@ struct request_manager_s {
 
 struct client_s {
     request_manager_t requests;
-    client_data_t data;
+    void *data;
     socket_t sck;
     flux_t in;
     flux_t out;
@@ -151,11 +154,15 @@ struct client_s {
 
 struct server_s {
     time_manager_t t;
-    server_data_t data;
     socket_t sck;
     fd_lists_t fds;
     SLIST_HEAD(, client_s) clients;
     bool running;
+};
+
+struct zappy_data_s {
+    server_t *server;
+    s_data_t data;
 };
 
 
@@ -167,7 +174,7 @@ typedef struct recipe_s recipe_t;
 struct command_s {
     char *token;
     int token_len;
-    bool (*fct)(server_t *server, client_t *client, char *command);
+    bool (*fct)(zappy_data_t *z, client_t *client, char *command);
 };
 
 struct recipe_s {

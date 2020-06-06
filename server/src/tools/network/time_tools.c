@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-void init_time(time_manager_t *t)
+void init_time(time_manager_t *t, int ratio)
 {
     struct timespec ts;
 
@@ -17,16 +17,17 @@ void init_time(time_manager_t *t)
     t->is_needed = false;
     t->timeout.tv_sec = 0;
     t->timeout.tv_usec = 0;
+    t->ratio = ratio;
 }
 
-void update_delta_time(server_t *server)
+void update_delta_time(time_manager_t *t)
 {
     struct timespec ts;
-    double tmp = server->t.last_time;
+    double tmp = t->last_time;
 
     timespec_get(&ts, TIME_UTC);
-    server->t.last_time = (double)clock() / CLOCKS_PER_SEC;
-    server->t.delta_time = (server->t.last_time - tmp);
+    t->last_time = (double)clock() / CLOCKS_PER_SEC;
+    t->delta_time = (t->last_time - tmp);
 }
 
 void update_cool_downs(server_t *server)
@@ -34,17 +35,17 @@ void update_cool_downs(server_t *server)
     client_t *tmp;
 
     SLIST_FOREACH(tmp, &server->clients, next) {
-        if (tmp->data.cool_down - server->t.delta_time > 0)
-            tmp->data.cool_down -= server->t.delta_time;
-        else if (tmp->data.cool_down != 0) {
+        if (((c_data_t *)tmp->data)->cool_down - server->t.delta_time > 0)
+            ((c_data_t *)tmp->data)->cool_down -= server->t.delta_time;
+        else if (((c_data_t *)tmp->data)->cool_down != 0) {
             rm_from_request(tmp);
-            tmp->data.cool_down = 0;
+            ((c_data_t *)tmp->data)->cool_down = 0;
         }
-        if (tmp->data.hunger_cd - server->t.delta_time > 0)
-            tmp->data.hunger_cd -= server->t.delta_time;
+        if (((c_data_t *)tmp->data)->hunger_cd - server->t.delta_time > 0)
+            ((c_data_t *)tmp->data)->hunger_cd -= server->t.delta_time;
         else {
-            tmp->data.inventory.food--;
-            tmp->data.hunger_cd = 126;
+            ((c_data_t *)tmp->data)->inventory.food--;
+            ((c_data_t *)tmp->data)->hunger_cd = 126 / server->t.ratio;
         }
     }
 }
@@ -55,8 +56,8 @@ void update_timeout(server_t *server)
     float cd = -1;
 
     SLIST_FOREACH(tmp, &server->clients, next) {
-        if (cd == -1 || cd > tmp->data.cool_down)
-            cd = tmp->data.cool_down;
+        if (cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down)
+            cd = ((c_data_t *)tmp->data)->cool_down;
     }
     server->t.is_needed = (cd == 0) ? false : true;
     server->t.timeout.tv_sec = (long)cd;
@@ -65,7 +66,7 @@ void update_timeout(server_t *server)
 
 void handle_time(server_t *server)
 {
-    update_delta_time(server);
+    update_delta_time(&server->t);
     update_cool_downs(server);
     update_timeout(server);
 }

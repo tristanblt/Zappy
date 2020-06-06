@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-void init_client_data(client_data_t *data, char *team, position_t pos)
+void init_client_data(c_data_t *data, char *team, position_t pos)
 {
     data->team = team;
     data->dir = rand() % 4;
@@ -19,7 +19,7 @@ void init_client_data(client_data_t *data, char *team, position_t pos)
     data->inventory.food = 10;
 }
 
-bool init_server_data(server_data_t *data, param_t params)
+bool init_server_data(s_data_t *data, param_t params)
 {
     int nb = 0;
 
@@ -36,13 +36,17 @@ bool init_server_data(server_data_t *data, param_t params)
         data->teams[i].nb = 0;
     }
     data->nb_teams = nb;
-    //// INIT MAP HERE
+    if (!(data->map = create_map((position_t){params.width, params.height}))) {
+        free(data->teams);
+        return (ERROR);
+    }
     return (SUCCESS);
 }
 
-void free_server_data(server_data_t *data)
+void free_data(s_data_t *data)
 {
     for (int i = 0; i < data->nb_teams; i++)
         free(data->teams[i].name);
+    free_map(data->map, (position_t){data->map_width, data->map_height});
     free(data->teams);
 }
