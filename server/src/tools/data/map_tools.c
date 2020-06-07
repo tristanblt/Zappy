@@ -19,10 +19,8 @@ map_node_t *on_tile(map_node_t *start, int x, int y)
 }
 
 int graph_value(int size, int value)
-{
-    if (value > 0)
-        return (value % size);
-    return (size - (value % size));
+
+    return (value % size²);
 }
 
 int count_players(server_t *server, int x, int y)

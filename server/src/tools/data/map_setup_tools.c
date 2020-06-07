@@ -113,7 +113,6 @@ map_node_t *create_map(position_t size)
     return (head);
 }
 
-
 /**
  * \fn void free_map(map_node_t *map, position_t size)
  * \brief Permet de free une map circulaire
