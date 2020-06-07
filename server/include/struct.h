@@ -16,7 +16,7 @@ typedef struct param_s param_t;
 
 struct param_s
 {
-    int port;
+    char *port;
     int width;
     int height;
     char **name;

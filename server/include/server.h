@@ -79,10 +79,12 @@ bool check(int ac, char **av);
 int zappy_server(int ac, char **av);
 
 /* PARAM TOOLS */
-void init_param(int ac, char **av, param_t *param);
-void check_param_n(int ac, char **av, param_t *param);
-void init_param_n(int ac, char **av, param_t *param, int i);
-void check_param(int ac, char **av, param_t *param);
+int game_param(int ac, char **av, param_t *param);
+int check_param_n(int ac, char **av, param_t *param);
+int check_param(int ac, char **av, param_t *param);
+void init_param(param_t *param);
+void reinit_param(int c, param_t *param);
+int init_param_n(int ac, char **av, param_t *param, int i);
 
 /* USAGES FCT */
 void display_usage_s(void);

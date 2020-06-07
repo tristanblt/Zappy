@@ -17,6 +17,7 @@ SRCS_FILES		=	main.c \
 					tools/data/ressources_tools.c \
 					tools/input/signal_tools.c \
 					tools/input/args_tools.c \
+					tools/input/init_param_tools.c \
 					tools/input/param_tools.c \
 					tools/network/client_tools.c \
 					tools/network/request_tools.c \

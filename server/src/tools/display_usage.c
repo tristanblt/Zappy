@@ -15,7 +15,7 @@
  * \return void
  */
 
-void display_usage_s()
+void display_usage_s(void)
 {
     printf("USAGE: ./zappy_server -p port -x width -y height");
     printf(" -n name1 name2 ... -c clientsNb -f freq\n");
@@ -24,6 +24,6 @@ void display_usage_s()
     printf("\theight\t\tis the height of the world\n");
     printf("\tnameX\t\tis the name of the team X\n");
     printf("\tclientsNb\tis the number of authorized clients per team\n");
-    printf("\tfreq\t\tis the reciprocal of time unit for execution of acti\
-    ons\n");
+    printf("\tfreq\t\tis the reciprocal of time unit for execution of ");
+    printf("actions\n");
 }

@@ -24,8 +24,8 @@ int zappy_server(int ac, char **av)
 
     sigint_catch = false;
     signal(SIGINT, handle_sigint);
-    init_param(ac, av, &param);
-    // GESTION D'ERREUR param
+    if (game_param(ac, av, &param) == -1)
+        return (EPI_EXIT_ERROR);
     if ((z = init_zappy(param)) == NULL)
         return (EPI_EXIT_ERROR);
     while (z->server->running) {

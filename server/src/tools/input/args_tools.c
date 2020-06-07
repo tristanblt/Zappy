@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-bool check (int ac, char **av)
-{
-    return (SUCCESS);
-}
+// bool check (int ac, char **av)
+// {
+//     return (SUCCESS);
+// }
