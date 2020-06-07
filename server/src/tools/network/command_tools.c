@@ -32,7 +32,8 @@ bool switch_command(zappy_data_t *z, client_t *client, char *command)
 
 /**
  * \fn bool search_command_in_client(server_t *server, client_t *client)
- * \brief Fonction qui va ajouter les commandes présentes dans le buffer in dans requests du server
+ * \brief Fonction qui va ajouter les commandes présentes dans le buffer
+ * in dans requests du server
  *
  * \param server la variable principale du projet
  * \param client client actuel
@@ -67,7 +68,8 @@ bool handle_commands(zappy_data_t *z)
 {
     client_t *tmp;
 
-    SLIST_FOREACH(tmp, &z->server->clients, next) {
+    SLIST_FOREACH(tmp, &z->server->clients, next)
+    {
         search_command_in_client(tmp);
         if (!switch_command(z, tmp,
             tmp->requests.bodies[tmp->requests.pos]))

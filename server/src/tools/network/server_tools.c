@@ -76,7 +76,8 @@ void update_fds(server_t *server)
     FD_ZERO(&server->fds.read);
     FD_ZERO(&server->fds.write);
     FD_ZERO(&server->fds.error);
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
         FD_SET(tmp->sck.fd, &server->fds.read);
         if (tmp->out.nb > 0)
             FD_SET(tmp->sck.fd, &server->fds.write);
@@ -98,8 +99,8 @@ bool handle_fds(server_t *server)
 {
     bool is_ok = SUCCESS;
     client_t *tmp;
-
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
         if (is_ok == ERROR)
             break;
         if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)

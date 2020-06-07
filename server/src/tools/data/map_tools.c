@@ -30,7 +30,8 @@ int count_players(server_t *server, int x, int y)
     client_t *tmp;
     int cnt = 0;
 
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
         if (((c_data_t *)tmp->data)->pos.x == x &&
             ((c_data_t *)tmp->data)->pos.y == y)
             cnt++;

@@ -49,7 +49,7 @@ int check_param(int ac, char **av, param_t *param)
 {
     char optstring[]="p:x:y:n:c:f:";
     int c;
-    
+
     while ((c = getopt(ac, av, optstring)) != EOF) {
         reinit_param(c, param);
     }

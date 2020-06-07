@@ -34,7 +34,8 @@ void update_cool_downs(server_t *server)
 {
     client_t *tmp;
 
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
         if (((c_data_t *)tmp->data)->cool_down - server->t.delta_time > 0)
             ((c_data_t *)tmp->data)->cool_down -= server->t.delta_time;
         else if (((c_data_t *)tmp->data)->cool_down != 0) {
@@ -55,7 +56,8 @@ void update_timeout(server_t *server)
     client_t *tmp;
     float cd = -1;
 
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
         if (cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down)
             cd = ((c_data_t *)tmp->data)->cool_down;
     }

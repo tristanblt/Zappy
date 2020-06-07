@@ -52,7 +52,8 @@ bool write_flux(client_t *client)
 
 /**
  * \fn void add_data(flux_t *flux, int n, ...)
- * \brief Fonction qui va remplir le flux avec un nombre de char * non défini, met un "\r\n" à la fin
+ * \brief Fonction qui va remplir le flux avec un nombre de char * non défini,
+ * met un "\r\n" à la fin
  *
  * \param flux la fluxque l'on veut remplir
  * \param n le nombre de char * pour la va_list
