@@ -62,7 +62,7 @@ bool server_iteration(server_t *server);
 
 /* ZAPPY TOOLS */
 zappy_data_t *init_zappy(param_t param);
-void end_zappy(zappy_data_t *z);
+void end_zappy(zappy_data_t *z, param_t param);
 
 /* COMMANDS TOOLS */
 bool handle_commands(zappy_data_t *z);
@@ -85,6 +85,7 @@ int check_param(int ac, char **av, param_t *param);
 void init_param(param_t *param);
 void reinit_param(int c, param_t *param);
 int init_param_n(int ac, char **av, param_t *param, int i);
+void free_param(param_t param);
 
 /* USAGES FCT */
 void display_usage_s(void);

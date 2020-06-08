@@ -8,7 +8,7 @@
 #include "server.h"
 
 /**
- * \fn void game_param(int ac, char **av, param_t *param)
+ * \fn int game_param(int ac, char **av, param_t *param)
  * \brief Envoie vers la fonctions adaptée a/aux arguments
  *
  * \param ac nombre d'arguments
@@ -21,6 +21,7 @@ int game_param(int ac, char **av, param_t *param)
 {
     if ((ac == 2) && (strcmp(av[1], "-help") == 0)) {
         display_usage_s();
+        return (-1);
     } else {
         init_param(param);
         if (check_param_n(ac, av, param) == -1) {
@@ -36,8 +37,9 @@ int game_param(int ac, char **av, param_t *param)
 }
 
 /**
- * \fn void check_param(int ac, char **av, param_t *param);
- * \brief Initialise la structure param_t
+ * \fn int check_param(int ac, char **av, param_t *param);
+ * \brief Check si chaque paramettre est bien passé en ligne
+ *        de commande et le reinitialise si besoin
  *
  * \param ac nombre d'arguments
  * \param av arguments entrés en execution du programme
@@ -61,12 +63,12 @@ int check_param(int ac, char **av, param_t *param)
 }
 
 /**
- * \fn void check_param_n(int ac, char **av, param_t *param);
- * \brief Trouve element name de la structure param_t
+ * \fn int check_param_n(int ac, char **av, param_t *param);
+ * \brief Trouve element -n (name) de la structure param_t
  *
- * \param ac nombre d'arguments
- * \param av arguments entrés en execution du programme
- * \param param_t structure qui contien les arguments passé en paramètres
+ * \param ac : nombre d'arguments
+ * \param av : arguments entrés en execution du programme
+ * \param param_t : structure qui contien les arguments passé en paramètres
  * \return int
  */
 
@@ -81,4 +83,28 @@ int check_param_n(int ac, char **av, param_t *param)
         }
     }
     return (found_n);
+}
+
+/**
+ * \fn void free_param(param_t *param);
+ * \brief Free structure param_t
+ *
+ * \param param_t structure qui contient les arguments passé en paramètres
+ * \return void
+ */
+
+void free_param(param_t param)
+{
+    // int i = 0;
+
+    if (param.port != NULL)
+        free(param.port);
+    // if (param.name != NULL) {
+    //     while (param.name[i] != NULL) {
+    //         // free(param.name[i]);
+    //         printf("param.name[i] = %s\n",param.name[i]);
+    //         i++;
+    //     }
+    //     free(param.name);
+    // }
 }
