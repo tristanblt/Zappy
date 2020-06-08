@@ -43,7 +43,7 @@ bool init_server_data(s_data_t *data, param_t params)
     return (SUCCESS);
 }
 
-void free_data(s_data_t *data)
+void free_server_data(s_data_t *data)
 {
     for (int i = 0; i < data->nb_teams; i++)
         free(data->teams[i].name);
