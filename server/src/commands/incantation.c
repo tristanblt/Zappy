@@ -102,15 +102,15 @@ void destruction_ressources(ressources_t inventory, ressources_t incantation)
  * \fn int incantation(server_t *server, client_t *client, char *arg)
  * \brief réaliser l'incatation pour le passage de niveau
  *
- * \param server la variable principale du projet
+ * \param z la variable principale du projet
  * \param client le client appelant cette fonction
  * \param arg les arguments
  * \return 0 en cas de succès, 1 quand l'incantation n'est pas possible
  */
-int incantation(server_t *server, client_t *client, char *arg)
+int incantation(zappy_data_t *z, client_t *client, char *arg)
 {
     c_data_t *data = ((c_data_t *)client->data);
-    int nb_player = player_same_level(server, data->pos.x, data->pos.y,
+    int nb_player = player_same_level(z->server, data->pos.x, data->pos.y,
     data->level);
     char buff[2] = {0};
 
