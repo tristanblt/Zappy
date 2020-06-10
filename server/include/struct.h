@@ -174,7 +174,8 @@ typedef struct recipe_s recipe_t;
 struct command_s {
     char *token;
     int token_len;
-    bool (*fct)(zappy_data_t *z, client_t *client, char *command);
+    bool (*start)(zappy_data_t *z, client_t *client, char *command);
+    bool (*end)(zappy_data_t *z, client_t *client, char *command);
 };
 
 struct recipe_s {

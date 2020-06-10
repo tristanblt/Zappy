@@ -7,6 +7,18 @@
 
 #include "server.h"
 
+int split_nb_argument(char **array)
+{
+    int i = 0;
+
+    if (array == NULL)
+        return (0);
+    while (array[i] != NULL) {
+        i++;
+    }
+    return (i);
+}
+
 bool split_out_quote(char *quoteset, char ***ret, int *cursor)
 {
     char *tok = strtok(quoteset, " ");

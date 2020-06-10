@@ -116,17 +116,13 @@ int incantation(zappy_data_t *z, client_t *client, char *arg)
 
     if (is_incantation_possible(data->inventory, recipes[data->level - 1],
     nb_player) == false) {
-        add_raw_data(&client->out, "ko\n");
+        add_data(&client->out, "ko");
         return (1);
     }
     destruction_ressources(data->inventory, recipes[data->level - 1].needed);
-
-    add_raw_data(&client->out, "Elevation underway\n");
-    add_raw_data(&client->out, "Current level:");
+    add_data(&client->out, "Elevation underway");
     sprintf(buff, "%d", data->level);
-    add_raw_data(&client->out, buff);
-    add_raw_data(&client->out, "\n");
-
+    add_data(&client->out, "Current level:", buff);
     data->level += 1;
     return (0);
 }
