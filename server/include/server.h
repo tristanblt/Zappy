@@ -13,6 +13,7 @@
 bool sigint_catch;
 
 /* DATA TOOLS */
+char *int_to_char(int nb);
 c_data_t *init_client_data();
 bool init_server_data(s_data_t *data, param_t params);
 void free_server_data(s_data_t *data);

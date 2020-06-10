@@ -7,3 +7,36 @@
 
 #include "server.h"
 
+void inventory_cmd_next(client_t *client)
+{
+    add_raw_data(&client->out, ", sibur ");
+    add_raw_data(&client->out,
+    int_to_char(((c_data_t *)client->data)->inventory.sibur));
+    add_raw_data(&client->out, ", mendiane ");
+    add_raw_data(&client->out,
+    int_to_char(((c_data_t *)client->data)->inventory.mendiane));
+    add_raw_data(&client->out, ", phiras ");
+    add_raw_data(&client->out,
+    int_to_char(((c_data_t *)client->data)->inventory.phiras));
+    add_raw_data(&client->out, ", thystame ");
+    add_raw_data(&client->out,
+    int_to_char(((c_data_t *)client->data)->inventory.linemate));
+    add_raw_data(&client->out, "]\r\n");
+}
+
+bool inventory_cmd(zappy_data_t *z, client_t *client, char *command)
+{
+    int health = (int)(126 * ((c_data_t *)client->data)->inventory.food /
+    z->data.f + ((c_data_t *)client->data)->hunger_cd);
+
+    add_raw_data(&client->out, "[food ");
+    add_raw_data(&client->out, int_to_char(health));
+    add_raw_data(&client->out, ", linemate ");
+    add_raw_data(&client->out,
+    int_to_char(((c_data_t *)client->data)->inventory.linemate));
+    add_raw_data(&client->out, ", deraumere ");
+    add_raw_data(&client->out,
+    int_to_char(((c_data_t *)client->data)->inventory.deraumere));
+    inventory_cmd_next(client);
+    return (SUCCESS);
+}

@@ -24,10 +24,17 @@ const command_t cmds[NB_CMDS] = {};
 
 bool switch_command(zappy_data_t *z, client_t *client, char *command)
 {
+    bool ret = SUCCESS;
+
     for (int i = 0; i < NB_CMDS; i++)
-        if (!strncmp(cmds[i].token, command, cmds[i].token_len))
-            return (cmds[i].fct(z, client, command + cmds[i].token_len));
-    return (SUCCESS);
+        if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
+        !((c_data_t *)client->data)->cool_down) {
+            ret = cmds[i].fct(z, client, command + cmds[i].token_len);
+            rm_from_request(client);
+        } else if (!strncmp(cmds[i].token, command, cmds[i].token_len)) {
+            ret = cmds[i].fct(z, client, command + cmds[i].token_len);
+        }
+    return (ret);
 }
 
 /**
@@ -71,8 +78,7 @@ bool handle_commands(zappy_data_t *z)
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         search_command_in_client(tmp);
-        if (!switch_command(z, tmp,
-            tmp->requests.bodies[tmp->requests.pos]))
+        if (!switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
     }
     return (SUCCESS);

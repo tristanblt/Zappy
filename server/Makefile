@@ -13,6 +13,8 @@ SRCS_FILES		=	main.c \
 					server.c \
 					commands/move.c \
 					commands/rotate.c \
+					commands/inventory.c \
+					tools/split.c \
 					tools/data/data_tools.c \
 					tools/data/map_tools.c \
 					tools/data/map_setup_tools.c \

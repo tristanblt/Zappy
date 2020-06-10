@@ -66,3 +66,11 @@ char **split_command(char *command)
             return (NULL);
     return (ret);
 }
+
+char *int_to_char(int nb)
+{
+    char new_nb[12] = {0};
+
+    sprintf(new_nb, "%i", nb);
+    return (strdup(new_nb));
+}
