@@ -35,4 +35,9 @@
 #define EPI_EXIT_SUCCESS 0
 #define EPI_EXIT_ERROR 84
 
+#define N 1
+#define E 2
+#define S 3
+#define W 4
+
 #endif /* !INCLUDES_AND_DEFINES_H_ */
