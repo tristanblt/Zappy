@@ -56,7 +56,7 @@ int level)
  * \param nb_player le nombre de player actuel du même niveau
  * \return true si l'incatation est possible, false si elle n'est pas possible
  */
-bool  is_incantation_possible(ressources_t inventory, recipe_t incantation,
+bool is_incantation_possible(ressources_t inventory, recipe_t incantation,
 int nb_player)
 {
     if (nb_player < incantation.nb_player)

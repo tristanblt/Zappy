@@ -75,13 +75,17 @@ int check_param(int ac, char **av, param_t *param)
 int check_param_n(int ac, char **av, param_t *param)
 {
     int found_n = -1;
+    int is_init = -1;
+    
     for (int i = 0; i < ac; i++) {
         if (strcmp(av[i], "-n") == 0) {
-            init_param_n(ac, av, param, i);
+            is_init = init_param_n(ac, av, param, i);
             i = ac;
             found_n = 1;
         }
     }
+    if (is_init == -1)
+        found_n = -1;
     return (found_n);
 }
 
@@ -95,16 +99,6 @@ int check_param_n(int ac, char **av, param_t *param)
 
 void free_param(param_t param)
 {
-    // int i = 0;
-
     if (param.port != NULL)
         free(param.port);
-    // if (param.name != NULL) {
-    //     while (param.name[i] != NULL) {
-    //         // free(param.name[i]);
-    //         printf("param.name[i] = %s\n",param.name[i]);
-    //         i++;
-    //     }
-    //     free(param.name);
-    // }
 }

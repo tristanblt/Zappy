@@ -57,8 +57,55 @@ void reinit_param(int c, param_t *param)
 }
 
 /**
- * \fn int init_param_n(int ac, char **av, param_t *param, int i);
+ * \fn int is_not_empty(char **av, int i);
+ * \brief Check si le argument n'est pas vide
+ *
+ * \param av arguments entrés en execution du programme
+ * \param i position du "-n"
+ * \return int
+ */
+
+int is_not_empty(char **av, int i)
+{
+    if (strncmp(av[i], " ", 1) == 0) {
+        return (0);
+    }
+    if (strncmp(av[i], "", 1) == 0) {
+        return (0);
+    }
+    return (-1);
+}
+
+/**
+ * \fn int add_n(char **av, param_t *param, int i, int nbName);
  * \brief Initialise le/les element(s) name de la structure param_t
+ *
+ * \param ac nombre d'arguments
+ * \param av arguments entrés en execution du programme
+ * \param param_t structure qui contien les arguments passé en paramètres
+ * \param i position du "-n"
+ * \param nbName indice du nombre de name
+ * \return int
+ */
+
+int add_n(char **av, param_t *param, int i, int nbName)
+{
+    if (is_not_empty(av, i) != 0) {
+        param->name = realloc(param->name, sizeof(char *) * (nbName + 2));
+        if (param->name == NULL)
+            return (-1);
+        param->name[nbName] = malloc(sizeof(char) * strlen(av[i]) + 1);
+        strcpy(param->name[nbName], av[i]);
+        param->name[nbName + 1] = NULL;
+    } else {
+        return (-1);
+    }
+    return (0);
+}
+
+/**
+ * \fn int init_param_n(int ac, char **av, param_t *param, int i);
+ * \brief Trouve les param name pour les initailiser
  *
  * \param ac nombre d'arguments
  * \param av arguments entrés en execution du programme
@@ -69,21 +116,17 @@ void reinit_param(int c, param_t *param)
 
 int init_param_n(int ac, char **av, param_t *param, int i)
 {
-    int nbName = 0;
     i++;
+    int nbName = 0;
 
     while (i < ac && strncmp(av[i], "-", 1) != 0) {
-        param->name = realloc(param->name, sizeof(char *) * (nbName + 2));
-        if (param->name == NULL)
-            return (ERROR);
-        param->name[nbName] = malloc(sizeof(char) * strlen(av[i]) + 1);
-        strcpy(param->name[nbName], av[i]);
-        nbName++;
-        param->name[nbName] = NULL;
+        if (add_n(av, param, i, nbName) == -1)
+            return (-1);
         i++;
+        nbName++;
     }
     if (param->name == NULL) {
         display_usage_s();
     }
-    return (SUCCESS);
+    return (0);
 }
