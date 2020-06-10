@@ -38,7 +38,7 @@ void reinit_param(int c, param_t *param)
 {
     switch (c) {
     case 'p':
-        param->port = malloc(sizeof(char) * strlen(optarg));
+        param->port = malloc(sizeof(char) * strlen(optarg) + 1);
         strcpy(param->port, optarg);
         break;
     case 'x':
@@ -76,7 +76,7 @@ int init_param_n(int ac, char **av, param_t *param, int i)
         param->name = realloc(param->name, sizeof(char *) * (nbName + 2));
         if (param->name == NULL)
             return (ERROR);
-        param->name[nbName] = malloc(sizeof(char) * strlen(av[i]));
+        param->name[nbName] = malloc(sizeof(char) * strlen(av[i]) + 1);
         strcpy(param->name[nbName], av[i]);
         nbName++;
         param->name[nbName] = NULL;

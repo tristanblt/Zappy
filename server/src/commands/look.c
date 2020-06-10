@@ -133,26 +133,26 @@ void look_bottom_top(client_t *cli, server_t *server, int signe_y)
  * \fn int look(server_t *server, client_t *client, char *arg)
  * \brief Fonction qui permet de retourner la vision
  *
- * \param server la variable principale du projet
+ * \param z la variable principale du projet
  * \param client le client appelant cette fonction
  * \param arg les arguments
  * \return 0 en cas de succès
  */
-int look(server_t *server, client_t *client, char *arg)
+int look(zappy_data_t *z, client_t *client, char *arg)
 {
     (void *)arg;
     switch (((c_data_t *)client->data)->dir) {
     case 0:
-        look_bottom_top(client, server, -1);
+        look_bottom_top(client, z->server, -1);
         break;
     case 1:
-        look_right_left(client, server, 1);
+        look_right_left(client, z->server, 1);
         break;
     case 2:
-        look_bottom_top(client, server, 1);
+        look_bottom_top(client, z->server, 1);
         break;
     case 3:
-        look_right_left(client, server, -1);
+        look_right_left(client, z->server, -1);
         break;
     }
     return (0);
