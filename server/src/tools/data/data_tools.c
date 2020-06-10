@@ -7,16 +7,21 @@
 
 #include "server.h"
 
-void init_client_data(c_data_t *data, char *team, position_t pos)
+c_data_t *init_client_data(void)
 {
-    data->team = team;
-    data->dir = rand() % 4;
-    data->cool_down = 0;
-    data->level = 1;
-    data->pos.x = pos.x;
-    data->pos.y = pos.y;
-    init_ressources(&data->inventory);
-    data->inventory.food = 10;
+    c_data_t *new = malloc(sizeof(c_data_t));
+
+    if (!new)
+        return (NULL);
+    new->team = NULL;
+    new->dir = rand() % 4;
+    new->cool_down = 0;
+    new->level = 1;
+    new->pos.x = 0;
+    new->pos.y = 0;
+    init_ressources(&new->inventory);
+    new->inventory.food = 10;
+    return (new);
 }
 
 bool init_server_data(s_data_t *data, param_t params)

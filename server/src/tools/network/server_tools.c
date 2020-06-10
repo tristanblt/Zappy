@@ -113,7 +113,7 @@ bool handle_fds(server_t *server)
     if (is_ok == ERROR || !server)
         return (ERROR);
     if (FD_ISSET(server->sck.fd, &server->fds.read) > 0)
-        is_ok = add_client(server);
+        is_ok = add_client(server, init_client_data());
     if (!server || !is_ok || FD_ISSET(server->sck.fd, &server->fds.error) > 0)
         return (ERROR);
     return (is_ok);
