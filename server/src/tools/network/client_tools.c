@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-bool add_client(server_t *server)
+bool add_client(server_t *server, void *data)
 {
     client_t *new = malloc(sizeof(client_t));
 
@@ -19,6 +19,11 @@ bool add_client(server_t *server)
         return (ERROR);
     }
     init_requests(&new->requests);
+    if (data == NULL) {
+        free(new);
+        return (NULL);
+    }
+    new->data = data;
     SLIST_INSERT_HEAD(&server->clients, new, next);
     return (SUCCESS);
 }

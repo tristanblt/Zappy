@@ -13,7 +13,7 @@
 bool sigint_catch;
 
 /* DATA TOOLS */
-void init_client_data(c_data_t *data, char *team, position_t pos);
+c_data_t *init_client_data();
 bool init_server_data(s_data_t *data, param_t params);
 void free_server_data(s_data_t *data);
 
@@ -26,7 +26,7 @@ void rm_from_request(client_t *client);
 void init_requests(request_manager_t *r);
 
 /* CLIENT TOOLS */
-bool add_client(server_t *server);
+bool add_client(server_t *server, void *data);
 bool rm_client(server_t *server, client_t *client);
 bool init_client(server_t *s, client_t *client);
 
