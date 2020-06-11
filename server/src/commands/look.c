@@ -96,7 +96,7 @@ void look_right_left(client_t *cli, server_t *server, int signe_x)
         for (int g = 0; g <= 1 + cpt_x * 2; g++)
             y--;
     }
-    add_raw_data(&cli->out, "]\n");
+    add_raw_data(&cli->out, "]\r\n");
 }
 
 /**
@@ -126,7 +126,7 @@ void look_bottom_top(client_t *cli, server_t *server, int signe_y)
         for (int g = 0; g <= 1 + cpt_y * 2; g++)
             x--;
     }
-    add_raw_data(&cli->out, "]\n");
+    add_raw_data(&cli->out, "]\r\n");
 }
 
 /**

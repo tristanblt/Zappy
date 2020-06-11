@@ -132,8 +132,7 @@ bool server_iteration(server_t *server)
     handle_time(server);
     update_fds(server);
     if (select(FD_SETSIZE, &server->fds.read, &server->fds.write,
-        &server->fds.error,
-        (server->t.is_needed ? &server->t.timeout : NULL)) == -1)
+        &server->fds.error, NULL) == -1)
         return (ERROR);
     return (handle_fds(server));
 }
