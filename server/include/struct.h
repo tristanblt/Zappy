@@ -60,13 +60,12 @@ struct team_s {
 
 /* DATA AND CONTEXT STRUCTURES */
 typedef struct map_node_s map_node_t;
-
 typedef struct time_manager_s time_manager_t;
 typedef struct position_s position_t;
 typedef struct ressources_s ressources_t;
+typedef struct egg_s egg_t;
 typedef struct s_data_s s_data_t;
 typedef struct c_data_s c_data_t;
-
 
 struct time_manager_s {
     bool is_needed;
@@ -91,12 +90,20 @@ struct ressources_s {
     int thystame;
 };
 
+struct egg_s {
+    float status;
+    position_t pos;
+    char *team;
+    SLIST_ENTRY(egg_s) next;
+};
+
 struct s_data_s {
     int f;
     int nb_mates;
     int nb_teams;
     int map_width;
     int map_height;
+    SLIST_HEAD(, egg_s) eggs;
     map_node_t *map;
     team_t *teams;
 };

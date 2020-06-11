@@ -40,4 +40,6 @@
 #define S 3
 #define W 4
 
+#define HATCHED 0
+
 #endif /* !INCLUDES_AND_DEFINES_H_ */

@@ -32,6 +32,7 @@ bool init_server_data(s_data_t *data, param_t params)
     data->map_height = params.height;
     data->map_width = params.width;
     data->nb_mates = params.clientNB;
+    SLIST_INIT(&data->eggs);
     while (params.name[nb])
         nb++;
     if ((data->teams = malloc(sizeof(team_t) * nb)) == NULL)
@@ -50,6 +51,13 @@ bool init_server_data(s_data_t *data, param_t params)
 
 void free_server_data(s_data_t *data)
 {
+    egg_t *tmp;
+
+    while (!SLIST_EMPTY(&data->eggs)) {
+        tmp = SLIST_FIRST(&data->eggs);
+        SLIST_REMOVE_HEAD(&data->eggs, next);
+        free(tmp);
+    }
     for (int i = 0; i < data->nb_teams; i++)
         free(data->teams[i].name);
     free_map(data->map, (position_t){data->map_width, data->map_height});

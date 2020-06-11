@@ -21,6 +21,9 @@ void free_server_data(s_data_t *data);
 /* RESSOURCES TOOLS */
 void init_ressources(ressources_t *res);
 
+/* TEAM TOOLS */
+team_t *get_team_by_name(team_t *teams, int nb, char *name);
+
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
 void rm_from_request(client_t *client);
