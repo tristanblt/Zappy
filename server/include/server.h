@@ -71,6 +71,13 @@ void end_zappy(zappy_data_t *z, param_t param);
 /* COMMANDS TOOLS */
 bool handle_commands(zappy_data_t *z);
 
+/* EGG TOOLS */
+void update_egg_status(zappy_data_t *z);
+bool init_client_context(zappy_data_t *z, client_t *client, char *name);
+void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg);
+egg_t *get_egg_by_team(zappy_data_t *z, char *team);
+bool add_egg(zappy_data_t *z, char *team, position_t pos);
+
 /* SIGNAL TOOLS */
 void handle_sigint(int i);
 

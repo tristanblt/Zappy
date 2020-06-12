@@ -37,14 +37,14 @@ void add_to_requests(char *buff, client_t *client, int size)
         return;
     for (int i = client->requests.pos + 1; i < 10; i++) {
         if (client->requests.bodies[i][0] == '\0') {
-            strncpy(client->requests.bodies[i], buff, size);
+            strncpy(buff, client->requests.bodies[i], size);
             client->requests.nb++;
             return;
         }
     }
     for (int i = 0; i < client->requests.pos; i++) {
         if (client->requests.bodies[i][0] == '\0') {
-            strncpy(client->requests.bodies[i], buff, size);
+            strncpy(buff, client->requests.bodies[i], size);
             client->requests.nb++;
             return;
         }

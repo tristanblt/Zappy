@@ -98,3 +98,24 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name)
     }
     return (SUCCESS);
 }
+
+/**
+ * \fn void update_egg_status(zappy_data_t *z)
+ * \brief Fonction qui update le status des oeufs
+ *
+ * \param z structure principale du programme
+ * \return rien
+ */
+void update_egg_status(zappy_data_t *z)
+{
+    egg_t *tmp;
+
+    SLIST_FOREACH(tmp, &z->data.eggs, next)
+    {
+        if (tmp->status - z->server->t.delta_time > 0)
+            tmp->status -= z->server->t.delta_time;
+        else if (tmp->status != HATCHED) {
+            tmp->status = HATCHED;
+        }
+    }
+}

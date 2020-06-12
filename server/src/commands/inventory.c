@@ -7,6 +7,12 @@
 
 #include "server.h"
 
+bool start_inventory_cmd(zappy_data_t *z, client_t *client, char *command)
+{
+    ((c_data_t *)client->data)->cool_down = 1.0 / z->data.f;
+    return (SUCCESS);
+}
+
 void inventory_cmd_next(client_t *client)
 {
     add_raw_data(&client->out, ", sibur ");
@@ -24,7 +30,7 @@ void inventory_cmd_next(client_t *client)
     add_raw_data(&client->out, "]\r\n");
 }
 
-bool inventory_cmd(zappy_data_t *z, client_t *client, char *command)
+bool end_inventory_cmd(zappy_data_t *z, client_t *client, char *command)
 {
     int health = (int)(126 * ((c_data_t *)client->data)->inventory.food /
     z->data.f + ((c_data_t *)client->data)->hunger_cd);

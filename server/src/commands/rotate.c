@@ -7,6 +7,12 @@
 
 #include "server.h"
 
+bool start_rotate_cmd(zappy_data_t *z, client_t *client, char *command)
+{
+    ((c_data_t *)client->data)->cool_down = 7.0 / z->data.f;
+    return (SUCCESS);
+}
+
 bool rotate_right_cmd(zappy_data_t *z, client_t *client, char *command)
 {
     ((c_data_t *)client->data)->cool_down = 7 / z->data.f;

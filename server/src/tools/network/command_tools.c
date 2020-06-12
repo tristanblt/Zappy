@@ -81,5 +81,6 @@ bool handle_commands(zappy_data_t *z)
         if (!switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
     }
+    update_egg_status(z);
     return (SUCCESS);
 }

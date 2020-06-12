@@ -7,7 +7,13 @@
 
 #include "server.h"
 
-bool move_cmd(zappy_data_t *z, client_t *client, char *command)
+bool start_move_cmd(zappy_data_t *z, client_t *client, char *command)
+{
+    ((c_data_t *)client->data)->cool_down = 7.0 / z->data.f;
+    return (SUCCESS);
+}
+
+bool end_move_cmd(zappy_data_t *z, client_t *client, char *command)
 {
     switch (((c_data_t *)client->data)->dir) {
     case N:
