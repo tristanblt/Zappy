@@ -11,13 +11,16 @@ const float angles[8][2] = {{19.47, 340.53}, {340.53, 289.47},
     {289.47, 250.53}, {250.53, 199.47}, {199.47, 160.53},
     {160.53, 109.47}, {109.47, 70.53}, {70.43, 19.47}};
 
-int graph_value(int size, int value)
-{
-    if (value >= 0)
-        return (value % size);
-    return (size - (value % size));
-}
-
+/**
+ * \fn position_t get_smallest_distance(position_t p1, position_t p2, int w, int h)
+ * \brief Fonction qui retourne la distance la plus courte entre deux tiles
+ *
+ * \param p1 la tile emetrice
+ * \param p2 la tile receptrice
+ * \param w width de la map
+ * \param h height de la map
+ * \return la distance la plus courte
+ */
 position_t get_smallest_distance(position_t p1, position_t p2, int w, int h)
 {
     position_t ret = {0, 0};
@@ -33,6 +36,16 @@ position_t get_smallest_distance(position_t p1, position_t p2, int w, int h)
     return (ret);
 }
 
+/**
+ * \fn int compute_direction(position_t sender, position_t reciever, int w, int h)
+ * \brief Fonction qui récupère la direction de 1 à 8
+ *
+ * \param sender la ou l'emmeteur est positionné
+ * \param reciever la ou le recever est positionné
+ * \param w width de la map
+ * \param h height de la map
+ * \return la direction de 1 à 8, 0 en cas d'erreur
+ */
 int compute_direction(position_t sender, position_t reciever, int w, int h)
 {
     position_t dist = get_smallest_distance(sender, reciever, w, h);

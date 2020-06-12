@@ -7,6 +7,13 @@
 
 #include "server.h"
 
+/**
+ * \fn void init_ressources(ressources_t *res)
+ * \brief Fonction qui set toutes les valeurs de res à 0
+ *
+ * \param res la structure à set
+ * \return rien
+ */
 void init_ressources(ressources_t *res)
 {
     res->food = 0;

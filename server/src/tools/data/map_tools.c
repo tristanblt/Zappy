@@ -7,6 +7,15 @@
 
 #include "server.h"
 
+/**
+ * \fn map_node_t *on_tile(map_node_t *start, int x, int y)
+ * \brief Fonction qui récupère la map aux coordonnées données
+ *
+ * \param start corrspond à la tile 0 0
+ * \param x la position en largeur
+ * \param y la position en hauteur de la tile
+ * \return la tile demandée (attention peu bouclinf si les coordonées ne sont pas bonnes)
+ */
 map_node_t *on_tile(map_node_t *start, int x, int y)
 {
     map_node_t *pos = start;
@@ -18,6 +27,14 @@ map_node_t *on_tile(map_node_t *start, int x, int y)
     return (pos);
 }
 
+/**
+ * \fn int graph_value(int size, int value)
+ * \brief Fonction qui set un axe de coordonée dan l'intervalle [0:size]
+ *
+ * \param size la taille de l'axe
+ * \param value la valeur de la coordonée
+ * \return la nouvelle valeur de la coordonée
+ */
 int graph_value(int size, int value)
 {
     if (value >= 0)
@@ -25,6 +42,15 @@ int graph_value(int size, int value)
     return (size + (value % size));
 }
 
+/**
+ * \fn int count_players(server_t *server, int x, int y)
+ * \brief Fonction qui compte les joueurs sur une case
+ *
+ * \param server le server contenant tous les clients
+ * \param x la position en largeur de la tile
+ * \param y la position en hauteur de la tile
+ * \return le nombre de clients sur la case
+ */
 int count_players(server_t *server, int x, int y)
 {
     client_t *tmp;
@@ -39,6 +65,16 @@ int count_players(server_t *server, int x, int y)
     return (cnt);
 }
 
+/**
+ * \fn extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y)
+ * \brief Fonction qui retourne les ressources et le nombre de joueurs sur une tile
+ *
+ * \param data data du programme dont la map et ses informations
+ * \param s le server
+ * \param x la position en largeur de la tile
+ * \param y la position en hauteur de la tile
+ * \return une nouvelle tile
+ */
 extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y)
 {
     extracted_content_t content;

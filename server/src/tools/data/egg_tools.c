@@ -7,7 +7,16 @@
 
 #include "server.h"
 
-bool add_egg(zappy_data_t *z, char *team, position_t pos, int f)
+/**
+ * \fn bool add_egg(zappy_data_t *z, char *team, position_t pos)
+ * \brief Fonction qui malloc, init et ajoute un oeuf à la liste
+ *
+ * \param z la structure preincipale du programme
+ * \param team le nom de la team de l'oeuf
+ * \param pos sa position sur la map
+ * \return true en succes et false en erreur
+ */
+bool add_egg(zappy_data_t *z, char *team, position_t pos)
 {
     egg_t *new = malloc(sizeof(egg_t));
 
@@ -15,12 +24,20 @@ bool add_egg(zappy_data_t *z, char *team, position_t pos, int f)
         return (ERROR);
     new->pos.x = pos.x;
     new->pos.y = pos.y;
-    new->status = 600.0 / f;
+    new->status = 600.0 / z->data.f;
     new->team = team;
     SLIST_INSERT_HEAD(&z->data.eggs, new, next);
     return (SUCCESS);
 }
 
+/**
+ * \fn egg_t *get_egg_by_team(zappy_data_t *z, char *team)
+ * \brief Fonction qui récupère un oeuf eclot de la team donnée
+ *
+ * \param z structure principale du programme
+ * \param y team nom de la team
+ * \return un oeuf de la team eclot sinon NULL
+ */
 egg_t *get_egg_by_team(zappy_data_t *z, char *team)
 {
     egg_t *tmp;
@@ -33,6 +50,15 @@ egg_t *get_egg_by_team(zappy_data_t *z, char *team)
     return (NULL);
 }
 
+/**
+ * \fn void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
+ * \brief Fonction qui assigne la pos et la team à un client avant de le supprimer
+ *
+ * \param z structure principale du projet
+ * \param client le client auquel on assigne la data
+ * \param egg l'oeuf qui sera supprimé après avoir donné sa data
+ * \return rien
+ */
 void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
 {
     ((c_data_t *)client->data)->pos.x = egg->pos.x;
@@ -42,6 +68,15 @@ void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
     free(egg);
 }
 
+/**
+ * \fn bool init_client_context(zappy_data_t *z, client_t *client, char *name)
+ * \brief Fonction qui assigne des coordonnées et une team au client si possible, sinon il est déconecté
+ *
+ * \param z structure principale du programme
+ * \param client le client a setup
+ * \param name le nom de la team
+ * \return une nouvelle tile
+ */
 bool init_client_context(zappy_data_t *z, client_t *client, char *name)
 {
     egg_t *egg = get_egg_by_team(z, name);

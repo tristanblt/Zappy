@@ -7,6 +7,13 @@
 
 #include "server.h"
 
+/**
+ * \fn zappy_data_t *init_zappy(param_t param)
+ * \brief Fonction qui malloc et init un zappy_data_t
+ *
+ * \param param les paramettres donnés par argv
+ * \return un zappy_data_initialisé
+ */
 zappy_data_t *init_zappy(param_t param)
 {
     zappy_data_t *new = malloc(sizeof(zappy_data_t));
@@ -25,6 +32,14 @@ zappy_data_t *init_zappy(param_t param)
     return (new);
 }
 
+/**
+ * \fn void end_zappy(zappy_data_t *z, param_t param)
+ * \brief Fonction qui free et termine le zappy
+ *
+ * \param z à free
+ * \param param à free
+ * \return la nouvelle valeur de la coordonée
+ */
 void end_zappy(zappy_data_t *z, param_t param)
 {
     end_server(z->server);

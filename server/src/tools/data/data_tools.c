@@ -7,6 +7,13 @@
 
 #include "server.h"
 
+/**
+ * \fn c_data_t *init_client_data(void)
+ * \brief Fonction qui permet d'initialiser c_data de client
+ *
+ * \return c_data * initialisée sauf pour ce qui est de la team et de la position
+ */
+
 c_data_t *init_client_data(void)
 {
     c_data_t *new = malloc(sizeof(c_data_t));
@@ -24,6 +31,14 @@ c_data_t *init_client_data(void)
     return (new);
 }
 
+/**
+ * \fn map_node_t *init_tile(int x, int y)
+ * \brief Fonction qui permet d'initialiser la data du server
+ *
+ * \param data à initialiser
+ * \param param pour initialiser correctement data
+ * \return true en succes et error en echec
+ */
 bool init_server_data(s_data_t *data, param_t params)
 {
     int nb = 0;
@@ -49,6 +64,13 @@ bool init_server_data(s_data_t *data, param_t params)
     return (SUCCESS);
 }
 
+/**
+ * \fn void free_server_data(s_data_t *data)
+ * \brief Fonction qui permet de free data_s
+ *
+ * \param data la data à free
+ * \return rien
+ */
 void free_server_data(s_data_t *data)
 {
     egg_t *tmp;
