@@ -16,7 +16,7 @@ typedef struct param_s param_t;
 
 struct param_s
 {
-    int port;
+    char *port;
     int width;
     int height;
     char **name;
@@ -59,16 +59,20 @@ struct team_s {
 
 
 /* DATA AND CONTEXT STRUCTURES */
+typedef struct map_node_s map_node_t;
 typedef struct time_manager_s time_manager_t;
 typedef struct position_s position_t;
 typedef struct ressources_s ressources_t;
-typedef struct server_data_s server_data_t;
-typedef struct client_data_s client_data_t;
-
+typedef struct egg_s egg_t;
+typedef struct s_data_s s_data_t;
+typedef struct c_data_s c_data_t;
 
 struct time_manager_s {
+    bool is_needed;
+    struct timeval timeout;
     double last_time;
     float delta_time;
+    int ratio;
 };
 
 struct position_s {
@@ -86,18 +90,29 @@ struct ressources_s {
     int thystame;
 };
 
-struct server_data_s {
+struct egg_s {
+    float status;
+    position_t pos;
+    char *team;
+    SLIST_ENTRY(egg_s) next;
+};
+
+struct s_data_s {
     int f;
     int nb_mates;
+    int nb_teams;
     int map_width;
     int map_height;
+    SLIST_HEAD(, egg_s) eggs;
+    map_node_t *map;
     team_t *teams;
 };
 
-struct client_data_s {
+struct c_data_s {
     char *team;
     int level;
-    int cool_down;
+    float cool_down;
+    float hunger_cd;
     int dir;
     position_t pos;
     ressources_t inventory;
@@ -106,23 +121,38 @@ struct client_data_s {
 
 
 /* MAP MANAGEMENT */
-typedef struct map_node_s map_node_t;
+typedef struct extracted_content_s extracted_content_t;
 
 struct map_node_s {
-    SLIST_ENTRY(map_node_t) v_nodes;
-    SLIST_ENTRY(map_node_t) h_nodes;
+    struct map_node_s *top;
+    struct map_node_s *bottom;
+    struct map_node_s *right;
+    struct map_node_s *left;
     position_t coordinates;
     ressources_t ressources;
+};
+struct extracted_content_s {
+    ressources_t *ressources;
+    int nb_player;
 };
 
 
 
 /* SERVER MANAGEMENT */
+typedef struct request_manager_s request_manager_t;
 typedef struct client_s client_t;
 typedef struct server_s server_t;
+typedef struct zappy_data_s zappy_data_t;
+
+struct request_manager_s {
+    char bodies[10][BUFF_SIZE];
+    int pos;
+    int nb;
+};
 
 struct client_s {
-    client_data_t data;
+    request_manager_t requests;
+    void *data;
     socket_t sck;
     flux_t in;
     flux_t out;
@@ -131,11 +161,15 @@ struct client_s {
 
 struct server_s {
     time_manager_t t;
-    server_data_t data;
     socket_t sck;
     fd_lists_t fds;
     SLIST_HEAD(, client_s) clients;
     bool running;
+};
+
+struct zappy_data_s {
+    server_t *server;
+    s_data_t data;
 };
 
 
@@ -147,7 +181,8 @@ typedef struct recipe_s recipe_t;
 struct command_s {
     char *token;
     int token_len;
-    bool (*fct)(server_t *server, client_t *client, char *command);
+    bool (*start)(zappy_data_t *z, client_t *client, char *command);
+    bool (*end)(zappy_data_t *z, client_t *client, char *command);
 };
 
 struct recipe_s {

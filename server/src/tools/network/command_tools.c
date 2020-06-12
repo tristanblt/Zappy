@@ -22,28 +22,35 @@ const command_t cmds[NB_CMDS] = {};
  * \return true en succès et false en cas d'erreur
  */
 
-bool switch_command(server_t *server, client_t *client, char *command)
+bool switch_command(zappy_data_t *z, client_t *client, char *command)
 {
-    char code[4] = {0};
+    bool ret = SUCCESS;
 
-    memcpy(code, command, 3);
+    if (((c_data_t *)client->data)->team == NULL) {
+        check_client_connexion(z, client, command);
+    }
     for (int i = 0; i < NB_CMDS; i++)
-        if (!strncmp(cmds[i].token, command, cmds[i].token_len))
-            return (cmds[i].fct(server, client, command + cmds[i].token_len));
-    return (SUCCESS);
+        if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
+        !((c_data_t *)client->data)->cool_down) {
+            ret = cmds[i].end(z, client, command + cmds[i].token_len);
+            rm_from_request(client);
+        } else if (!strncmp(cmds[i].token, command, cmds[i].token_len)) {
+            ret = cmds[i].start(z, client, command + cmds[i].token_len);
+        }
+    return (ret);
 }
-
 
 /**
  * \fn bool search_command_in_client(server_t *server, client_t *client)
- * \brief Fonction qui va appeller switch_commands pour chaque commandes dans le flux in
+ * \brief Fonction qui va ajouter les commandes présentes dans le buffer
+ * in dans requests du server
  *
  * \param server la variable principale du projet
  * \param client client actuel
- * \return true en succès et false en cas d'erreur
+ * \return rien
  */
 
-bool search_command_in_client(server_t *server, client_t *client)
+void search_command_in_client(client_t *client)
 {
     char *find_cmd;
     int size_cmd;
@@ -54,13 +61,10 @@ bool search_command_in_client(server_t *server, client_t *client)
             break;
         size_cmd = find_cmd - client->in.buff + 2;
         *find_cmd = 0;
-        if (!switch_command(server, client, client->in.buff))
-            return (ERROR);
+        add_to_requests(client->in.buff, client, size_cmd - 2);
         remove_data(&client->in, size_cmd);
     }
-    return (SUCCESS);
 }
-
 
 /**
  * \fn bool handle_commands(server_t *server)
@@ -70,13 +74,16 @@ bool search_command_in_client(server_t *server, client_t *client)
  * \return true en succès et false en cas d'erreur
  */
 
-bool handle_commands(server_t *server)
+bool handle_commands(zappy_data_t *z)
 {
     client_t *tmp;
 
-    SLIST_FOREACH(tmp, &server->clients, next) {
-        if (!search_command_in_client(server, tmp))
+    SLIST_FOREACH(tmp, &z->server->clients, next)
+    {
+        search_command_in_client(tmp);
+        if (!switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
     }
+    update_egg_status(z);
     return (SUCCESS);
 }

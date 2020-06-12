@@ -15,15 +15,14 @@
  * \return la structure server_t initialisée
  */
 
-server_t *init_server(char *port)
+server_t *init_server(char *port, int time_ratio)
 {
     server_t *new = calloc(1, sizeof(server_t));
 
     if (new == NULL)
         return (NULL);
     SLIST_INIT(&new->clients);
-    new->sck.fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (new->sck.fd < 0) {
+    if ((new->sck.fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         free(new);
         return (NULL);
     }
@@ -36,9 +35,9 @@ server_t *init_server(char *port)
         close(new->sck.fd);
         return (NULL);
     }
+    init_time(&new->t, time_ratio);
     return (new);
 }
-
 
 /**
  * \fn void end_server(server_t *server)
@@ -53,8 +52,7 @@ void end_server(server_t *server)
     client_t *tmp;
 
     close(server->sck.fd);
-    while (!SLIST_EMPTY(&server->clients))
-    {
+    while (!SLIST_EMPTY(&server->clients)) {
         tmp = SLIST_FIRST(&server->clients);
         SLIST_REMOVE_HEAD(&server->clients, next);
         close(tmp->sck.fd);
@@ -62,7 +60,6 @@ void end_server(server_t *server)
     }
     free(server);
 }
-
 
 /**
  * \fn void update_fds(server_t *server)
@@ -79,7 +76,8 @@ void update_fds(server_t *server)
     FD_ZERO(&server->fds.read);
     FD_ZERO(&server->fds.write);
     FD_ZERO(&server->fds.error);
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
         FD_SET(tmp->sck.fd, &server->fds.read);
         if (tmp->out.nb > 0)
             FD_SET(tmp->sck.fd, &server->fds.write);
@@ -88,7 +86,6 @@ void update_fds(server_t *server)
     FD_SET(server->sck.fd, &server->fds.read);
     FD_SET(server->sck.fd, &server->fds.error);
 }
-
 
 /**
  * \fn bool handle_fds(server_t *server)
@@ -102,26 +99,25 @@ bool handle_fds(server_t *server)
 {
     bool is_ok = SUCCESS;
     client_t *tmp;
-
-    SLIST_FOREACH(tmp, &server->clients, next) {
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
         if (is_ok == ERROR)
             break;
         if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)
             is_ok = read_flux(server, tmp);
         if (FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
-            is_ok = write_flux(server, tmp);
+            is_ok = write_flux(tmp);
         if (FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok)
             is_ok = rm_client(server, tmp);
     }
     if (is_ok == ERROR || !server)
         return (ERROR);
     if (FD_ISSET(server->sck.fd, &server->fds.read) > 0)
-        is_ok = add_client(server);
+        is_ok = new_client_welcome(server, init_client_data());
     if (!server || !is_ok || FD_ISSET(server->sck.fd, &server->fds.error) > 0)
         return (ERROR);
     return (is_ok);
 }
-
 
 /**
  * \fn bool handle_fds(server_t *server)

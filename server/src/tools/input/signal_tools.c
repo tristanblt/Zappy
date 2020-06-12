@@ -14,7 +14,8 @@
  * \return rien
  */
 
-void handle_sigint()
+void handle_sigint(int i)
 {
+    (void)i;
     sigint_catch = true;
 }

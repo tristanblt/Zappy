@@ -12,33 +12,76 @@
 
 bool sigint_catch;
 
+/* DATA TOOLS */
+char *int_to_char(int nb);
+c_data_t *init_client_data();
+bool init_server_data(s_data_t *data, param_t params);
+void free_server_data(s_data_t *data);
+
+/* RESSOURCES TOOLS */
+void init_ressources(ressources_t *res);
+
+/* TEAM TOOLS */
+team_t *get_team_by_name(team_t *teams, int nb, char *name);
+
+/* REQUEST TOOLS */
+void add_to_requests(char *buff, client_t *client, int size);
+void rm_from_request(client_t *client);
+void init_requests(request_manager_t *r);
+
 /* CLIENT TOOLS */
-bool add_client(server_t *server);
+bool add_client(server_t *server, void *data);
 bool rm_client(server_t *server, client_t *client);
 bool init_client(server_t *s, client_t *client);
+int check_client_connexion(zappy_data_t *z, client_t *client, char *command);
+bool new_client_welcome(server_t *server, void *data);
 
 /* FLUX TOOLS */
 bool read_flux(server_t *server, client_t *client);
-bool write_flux(server_t *server, client_t *client);
+bool write_flux(client_t *client);
 void add_data(flux_t *flux, int n, ...);
 void remove_data(flux_t *flux, int size);
 void add_raw_data(flux_t *flux, char *str);
 
 /* TIME TOOLS */
 void handle_time(server_t *server);
+void init_time(time_manager_t *t, int time_ratio);
+
+/* MAP TOOLS */
+map_node_t *create_map(position_t size);
+void free_map(map_node_t *map, position_t size);
+map_node_t *on_tile(map_node_t *start, int x, int y);
+int graph_value(int size, int value);
+int count_players(server_t *server, int x, int y);
+extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y);
+
+/* REQUEST TOOLS */
+void add_to_requests(char *buff, client_t *client, int size);
+void rm_from_request(client_t *client);
 
 /* SERVER TOOLS */
-server_t *init_server(char *port);
+server_t *init_server(char *port, int time_ratio);
 void end_server(server_t *server);
 void update_fds(server_t *server);
 bool handle_fds(server_t *server);
 bool server_iteration(server_t *server);
 
+/* ZAPPY TOOLS */
+zappy_data_t *init_zappy(param_t param);
+void end_zappy(zappy_data_t *z, param_t param);
+
 /* COMMANDS TOOLS */
-bool handle_commands(server_t *server);
+bool handle_commands(zappy_data_t *z);
+
+/* EGG TOOLS */
+void update_egg_status(zappy_data_t *z);
+bool init_client_context(zappy_data_t *z, client_t *client, char *name);
+void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg);
+egg_t *get_egg_by_team(zappy_data_t *z, char *team);
+bool add_egg(zappy_data_t *z, char *team, position_t pos);
 
 /* SIGNAL TOOLS */
-void handle_sigint();
+void handle_sigint(int i);
 
 /* ERROR HANDLING */
 bool check(int ac, char **av);
@@ -49,11 +92,23 @@ bool check(int ac, char **av);
 int zappy_server(int ac, char **av);
 
 /* PARAM TOOLS */
-void init_param(int ac, char **av, param_t *param);
-void check_param(int ac, char **av, param_t *param);
+int game_param(int ac, char **av, param_t *param);
+int check_param_n(int ac, char **av, param_t *param);
+int check_param(int ac, char **av, param_t *param);
+int check_team_name(param_t *param);
+void init_param(param_t *param);
+void reinit_param(int c, param_t *param);
+int init_param_n(int ac, char **av, param_t *param, int i);
+void free_param(param_t param);
 
 /* USAGES FCT */
-void display_usage_s();
-//void display_usage_c();
+void display_usage_s(void);
+//void display_usage_c(void);
+
+/* SPLIT */
+char **split_command(char *command);
+
+/* EGG_TOOLS */
+bool init_client_context(zappy_data_t *z, client_t *client, char *name);
 
 #endif /* !SERVER_H_ */

@@ -9,5 +9,6 @@
 
 int main(int ac, char **av)
 {
+    srand(time(NULL));
     return (zappy_server(ac, av));
 }

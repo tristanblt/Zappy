@@ -11,23 +11,35 @@ SRCPATH			=	src/
 
 SRCS_FILES		=	main.c \
 					server.c \
-					tools/client_tools.c \
-					tools/time_tools.c \
-					tools/signal_tools.c \
-					tools/command_tools.c \
-					tools/flux_tools.c \
-					tools/map_tools.c \
-					tools/server_tools.c \
-					tools/args_tools.c \
+					commands/move.c \
+					commands/rotate.c \
+					commands/inventory.c \
+					tools/split.c \
+					tools/data/egg_tools.c \
+					tools/data/team_tools.c \
+					tools/data/data_tools.c \
+					tools/data/map_tools.c \
+					tools/data/map_setup_tools.c \
+					tools/data/ressources_tools.c \
+					tools/input/signal_tools.c \
+					tools/input/args_tools.c \
+					tools/input/init_param_tools.c \
+					tools/input/param_tools.c \
+					tools/network/client_tools.c \
+					tools/network/request_tools.c \
+					tools/network/time_tools.c \
+					tools/network/command_tools.c \
+					tools/network/flux_tools.c \
+					tools/network/server_tools.c \
+					tools/zappy_tools.c \
 					tools/display_usage.c \
-					tools/param_tools.c \
 
 SRCS			=	$(addprefix $(SRCPATH), $(SRCS_FILES))
 OBJS			= 	$(SRCS:%.c=%.o)
 
 UNAME_S	= $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LDFLAGS	= 	-ldl -luuid
+	LDFLAGS	= 	-ldl -luuid -lm
 else
 	LDFLAGS	= 	-ldl
 endif

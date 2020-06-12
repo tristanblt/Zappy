@@ -23,6 +23,8 @@ bool read_flux(server_t *server, client_t *client)
     int rd = read(client->sck.fd, tmp,
     BUFF_SIZE - client->in.nb);
 
+    if (rd == -1)
+        return (ERROR);
     if (rd == 0) {
         rm_client(server, client);
         return (SUCCESS);
@@ -30,7 +32,6 @@ bool read_flux(server_t *server, client_t *client)
     add_raw_data(&client->in, tmp);
     return (SUCCESS);
 }
-
 
 /**
  * \fn bool write_flux(server_t *server, client_t *client)
@@ -41,7 +42,7 @@ bool read_flux(server_t *server, client_t *client)
  * \return true en succès et false en cas d'erreur
  */
 
-bool write_flux(server_t *server, client_t *client)
+bool write_flux(client_t *client)
 {
     int wr = write(client->sck.fd, client->out.buff, client->out.nb);
 
@@ -49,10 +50,10 @@ bool write_flux(server_t *server, client_t *client)
     return (SUCCESS);
 }
 
-
 /**
  * \fn void add_data(flux_t *flux, int n, ...)
- * \brief Fonction qui va remplir le flux avec un nombre de char * non défini, met un "\r\n" à la fin
+ * \brief Fonction qui va remplir le flux avec un nombre de char * non défini,
+ * met un "\r\n" à la fin
  *
  * \param flux la fluxque l'on veut remplir
  * \param n le nombre de char * pour la va_list
@@ -83,7 +84,6 @@ void add_data(flux_t *flux, int n, ...)
     va_end(args);
 }
 
-
 /**
  * \fn void add_data(flux_t *flux, int n, ...)
  * \brief Fonction qui va remplir le flux avec un char *
@@ -100,7 +100,6 @@ void add_raw_data(flux_t *flux, char *str)
     strncpy(flux->buff + flux->nb, str, strlen(str));
     flux->nb += strlen(str);
 }
-
 
 /**
  * \fn void remove_data(flux_t *flux, int size)

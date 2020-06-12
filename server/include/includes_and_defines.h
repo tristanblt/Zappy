@@ -24,6 +24,7 @@
 #include <arpa/inet.h>
 #include <sys/queue.h>
 #include <stdarg.h>
+#include <math.h>
 
 #define BUFF_SIZE 4096
 
@@ -33,5 +34,12 @@
 
 #define EPI_EXIT_SUCCESS 0
 #define EPI_EXIT_ERROR 84
+
+#define N 1
+#define E 2
+#define S 3
+#define W 4
+
+#define HATCHED 0
 
 #endif /* !INCLUDES_AND_DEFINES_H_ */
