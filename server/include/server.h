@@ -88,6 +88,7 @@ int zappy_server(int ac, char **av);
 int game_param(int ac, char **av, param_t *param);
 int check_param_n(int ac, char **av, param_t *param);
 int check_param(int ac, char **av, param_t *param);
+int check_team_name(param_t *param);
 void init_param(param_t *param);
 void reinit_param(int c, param_t *param);
 int init_param_n(int ac, char **av, param_t *param, int i);
