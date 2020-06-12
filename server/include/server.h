@@ -33,6 +33,8 @@ void init_requests(request_manager_t *r);
 bool add_client(server_t *server, void *data);
 bool rm_client(server_t *server, client_t *client);
 bool init_client(server_t *s, client_t *client);
+int check_client_connexion(zappy_data_t *z, client_t *client, char *command);
+bool new_client_welcome(server_t *server, void *data);
 
 /* FLUX TOOLS */
 bool read_flux(server_t *server, client_t *client);
@@ -94,5 +96,11 @@ void free_param(param_t param);
 /* USAGES FCT */
 void display_usage_s(void);
 //void display_usage_c(void);
+
+/* SPLIT */
+char **split_command(char *command);
+
+/* EGG_TOOLS */
+bool init_client_context(zappy_data_t *z, client_t *client, char *name);
 
 #endif /* !SERVER_H_ */

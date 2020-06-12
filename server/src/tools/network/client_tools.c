@@ -7,6 +7,38 @@
 
 #include "server.h"
 
+int check_client_connexion(zappy_data_t *z, client_t *client, char *command)
+{
+    char **array = split_command(command);
+    char buffer[12] = {0};
+
+    if (array == NULL)
+        return (ERROR);
+    if (init_client_context(z, client, array[0]) == ERROR)
+        return (ERROR);
+    // sprintf(buffer, "%d",);
+    // add_data_(&client->out, 1, buffer);
+    sprintf(buffer, "%d %d", ((c_data_t *)client->data)->pos.x,
+    ((c_data_t *)client->data)->pos.y);
+    add_data(&client->out, 1, buffer);
+    return (SUCCESS);
+}
+
+bool new_client_welcome(server_t *server, void *data)
+{
+    int is_ok = SUCCESS;
+    client_t *tmp;
+
+    if (add_client(server, data) == ERROR)
+        return (ERROR);
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
+        if (((c_data_t *)tmp->data)->team == NULL)
+            add_data(&tmp->out, 1, "WELCOME");
+    }
+    return (is_ok);
+}
+
 /**
  * \fn bool add_client(server_t *server, void *data)
  * \brief Fonction qui ajoute un client à la liste du server
