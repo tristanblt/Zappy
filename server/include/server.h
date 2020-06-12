@@ -33,6 +33,8 @@ void init_requests(request_manager_t *r);
 bool add_client(server_t *server, void *data);
 bool rm_client(server_t *server, client_t *client);
 bool init_client(server_t *s, client_t *client);
+int check_client_connexion(zappy_data_t *z, client_t *client, char *command);
+bool new_client_welcome(server_t *server, void *data);
 
 /* FLUX TOOLS */
 bool read_flux(server_t *server, client_t *client);
@@ -93,6 +95,7 @@ int zappy_server(int ac, char **av);
 int game_param(int ac, char **av, param_t *param);
 int check_param_n(int ac, char **av, param_t *param);
 int check_param(int ac, char **av, param_t *param);
+int check_team_name(param_t *param);
 void init_param(param_t *param);
 void reinit_param(int c, param_t *param);
 int init_param_n(int ac, char **av, param_t *param, int i);
@@ -101,5 +104,11 @@ void free_param(param_t param);
 /* USAGES FCT */
 void display_usage_s(void);
 //void display_usage_c(void);
+
+/* SPLIT */
+char **split_command(char *command);
+
+/* EGG_TOOLS */
+bool init_client_context(zappy_data_t *z, client_t *client, char *name);
 
 #endif /* !SERVER_H_ */
