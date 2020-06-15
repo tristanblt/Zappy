@@ -109,8 +109,8 @@ void destruction_ressources(ressources_t inventory, ressources_t incantation)
  */
 int start_incantation(zappy_data_t *z, client_t *client, char *arg)
 {
+    (void)arg;
     ((c_data_t *)client->data)->cool_down = 7.0 / z->data.f;
-
     add_data(&client->out, 1, "Elevation underway");
     return (1);
 }
@@ -131,6 +131,7 @@ int end_incantation(zappy_data_t *z, client_t *client, char *arg)
     data->level);
     char buff[2] = {0};
 
+    (void)arg;
     if (is_incantation_possible(data->inventory, recipes[data->level - 1],
     nb_player) == false) {
         add_data(&client->out, 1, "ko");

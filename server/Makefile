@@ -20,6 +20,7 @@ SRCS_FILES		=	main.c \
 					commands/death.c \
 					commands/look.c \
 					commands/look_tools.c \
+					commands/incantation.c \
 					tools/split.c \
 					tools/data/egg_tools.c \
 					tools/data/team_tools.c \
