@@ -99,15 +99,15 @@ void destruction_ressources(ressources_t inventory, ressources_t incantation)
 }
 
 /**
- * \fn int incantation(server_t *server, client_t *client, char *arg)
- * \brief réaliser l'incatation pour le passage de niveau
+ * \fn int start_incantation(zappy_data_t *z, client_t *client, char *arg)
+ * \brief réaliser l'incantation pour le passage de niveau
  *
  * \param z la variable principale du projet
  * \param client le client appelant cette fonction
  * \param arg les arguments
  * \return 0 en cas de succès, 1 quand l'incantation n'est pas possible
  */
-int incantation(zappy_data_t *z, client_t *client, char *arg)
+int start_incantation(zappy_data_t *z, client_t *client, char *arg)
 {
     c_data_t *data = ((c_data_t *)client->data);
     int nb_player = player_same_level(z->server, data->pos.x, data->pos.y,
@@ -116,13 +116,30 @@ int incantation(zappy_data_t *z, client_t *client, char *arg)
 
     if (is_incantation_possible(data->inventory, recipes[data->level - 1],
     nb_player) == false) {
-        add_data(&client->out, "ko");
+        add_data(&client->out, 1, "ko");
         return (1);
     }
     destruction_ressources(data->inventory, recipes[data->level - 1].needed);
-    add_data(&client->out, "Elevation underway");
-    sprintf(buff, "%d", data->level);
-    add_data(&client->out, "Current level:", buff);
+    add_data(&client->out, 1, "Elevation underway");
+    return (0);
+}
+
+/**
+ * \fn int end_incantation(zappy_data_t *z, client_t *client, char *arg)
+ * \brief terminer l'incantation pour le passage à niveau
+ *
+ * \param z la variable principale du projet
+ * \param client le client appelant cette fonction
+ * \param arg les arguments
+ * \return 0 en cas de succès, 1 quand l'incantation n'est pas possible
+ */
+int end_incantation(zappy_data_t *z, client_t *client, char *arg)
+{
+    char buff[2] = {0};
+    c_data_t *data = ((c_data_t *)client->data);
+
     data->level += 1;
+    sprintf(buff, "%d", data->level);
+    add_data(&client->out, 2, "Current level:", buff);
     return (0);
 }

@@ -54,6 +54,8 @@ map_node_t *on_tile(map_node_t *start, int x, int y);
 int graph_value(int size, int value);
 int count_players(server_t *server, int x, int y);
 extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y);
+void delete_line_tile(map_node_t *line);
+void delete_map_tile(map_node_t *map);
 
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
