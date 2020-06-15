@@ -26,7 +26,6 @@ bool switch_command(zappy_data_t *z, client_t *client, char *command)
 {
     bool ret = SUCCESS;
 
-    printf("%s", command);
     if (((c_data_t *)client->data)->team == NULL) {
         check_client_connexion(z, client, command);
     }
