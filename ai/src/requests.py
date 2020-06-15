@@ -115,6 +115,7 @@ def setThystameRequest(mainsock):
 
 def incantationRequest(mainsock):
     if (ai.src.glob.gameState["canIncant"]):
+        print("INCANTTION")
         ai.src.glob.reward += 200
         sendRequest(mainsock, "Incantation")
         ai.src.glob.currentCommand = incantationResponse

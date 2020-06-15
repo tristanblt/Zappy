@@ -52,7 +52,7 @@ def forwardResponse(response):
         item["pos"]["x"] += x
         item["pos"]["y"] += y
     computePlayerDistances()
-    ai.src.glob.reward += 3
+    ai.src.glob.reward += 1
     return True
 
 def rightResponse(response):
@@ -144,7 +144,6 @@ def takeFoodResponse(response):
     else:
         ai.src.glob.reward -= 20
     print("take food : "+response)
-    ai.src.glob.reward += 1
     return True
 
 def takeLinemateResponse(response):
