@@ -119,14 +119,40 @@ def ejectResponse(response):
     #print(response)
     return True
 
-#faire un take par objet
-def takeObjectResponse(response):
-    #print(response)
+def takeFoodResponse(response):
     return True
 
-#faire un set par objet
-def setObjectResponse(response):
-    #print(response)
+def takeLinemateResponse(response):
+    return True
+
+def takeDeraumereResponse(response):
+    return True
+
+def takeSiburResponse(response):
+    return True
+
+def takeMendianeResponse(response):
+    return True
+
+def takePhirasResponse(response):
+    return True
+
+def setFoodResponse(response):
+    return True
+
+def setLinemateResponse(response):
+    return True
+
+def setDeraumereResponse(response):
+    return True
+
+def setSiburResponse(response):
+    return True
+
+def setMendianeResponse(response):
+    return True
+
+def setPhirasResponse(response):
     return True
 
 def incantationResponse(response):
