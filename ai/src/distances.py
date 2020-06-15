@@ -11,6 +11,12 @@ import math
 
 def computePlayerDistances():
     computePlayerDistanceResource("food", "directionFood")
+    computePlayerDistanceResource("linemate", "directionLinemate")
+    computePlayerDistanceResource("deraumere", "directionDeraumere")
+    computePlayerDistanceResource("sibur", "directionSibur")
+    computePlayerDistanceResource("mendiane", "directionMendiane")
+    computePlayerDistanceResource("phiras", "directionPhiras")
+    computePlayerDistanceResource("thystame", "directionThystame")
 
 def computePlayerDistanceResource(resource, gameMapField):
     x = sys.maxsize
@@ -23,7 +29,7 @@ def computePlayerDistanceResource(resource, gameMapField):
         if item["type"] != resource:
             continue
         tmpDistance = math.sqrt(math.pow(item["pos"]["x"], 2) + math.pow(item["pos"]["y"], 2))
-        if distance < tmpDistance:
+        if distance > tmpDistance:
             exist = True
             distance = tmpDistance
             x = item["pos"]["x"]

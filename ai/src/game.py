@@ -76,6 +76,8 @@ def resetGame():
 
 def startGame(params, mainsock, model):
     recordStates = []
+    iteration = 0
+    batchSize = 10
 
     resetGame()
     ai.src.requests.initGameRequest(mainsock, params["name"])
@@ -101,74 +103,103 @@ def startGame(params, mainsock, model):
         while True:
             try:
                 response = ai.src.glob.readQueue.get_nowait()
+                iteration += 1
                 if not eventHandler(response):
                     if not ai.src.glob.currentCommand(response):
                         mainsock.close()
                         exit(84)
-                    if ai.src.glob.reward > 0:
-                        for i in range(ai.src.glob.reward):
-                            recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandIdx])
-                    ai.src.glob.reward = 0
                     ai.src.glob.currentCommand = None
+                    if ai.src.glob.currentCommandPred:
+                        ai.src.glob.currentCommandPred[ai.src.glob.currentCommandIdx] = ai.src.glob.reward
+                        recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandPred])
+                        ai.src.glob.reward = 0
             except queue.Empty:
                 break
         if ai.src.glob.currentCommand is None:
             requestSelection(mainsock, model)
-    Xtrain = []
-    Ytrain = []
-    for gs in recordStates:
-        Xtrain.append([
-            gs[0]["level"],
-            gs[0]["directionFood"],
-            gs[0]["directionLinemate"],
-            gs[0]["directionDeraumere"],
-            gs[0]["directionSibur"],
-            gs[0]["directionMendiane"],
-            gs[0]["directionPhiras"],
-            gs[0]["directionThystame"],
-            gs[0]["nbFood"],
-            gs[0]["nbLinemate"],
-            gs[0]["nbDeraumere"],
-            gs[0]["nbSibur"],
-            gs[0]["nbMendiane"],
-            gs[0]["nbPhiras"],
-            gs[0]["nbThystame"],
-            gs[0]["canFork"],
-            gs[0]["canIncant"]
-        ])
-        Ytrain.append(gs[1])
-    model.fit(np.array(Xtrain), np.array(Ytrain))
+        if iteration == batchSize:
+            iteration = 0
+            if len(recordStates) > 0:
+                Xtrain = []
+                Ytrain = []
+                for gs in recordStates:
+                    Xtrain.append([
+                        gs[0]["level"],
+                        gs[0]["directionFood"],
+                        gs[0]["directionLinemate"],
+                        gs[0]["directionDeraumere"],
+                        gs[0]["directionSibur"],
+                        gs[0]["directionMendiane"],
+                        gs[0]["directionPhiras"],
+                        gs[0]["directionThystame"],
+                        gs[0]["nbFood"],
+                        gs[0]["nbLinemate"],
+                        gs[0]["nbDeraumere"],
+                        gs[0]["nbSibur"],
+                        gs[0]["nbMendiane"],
+                        gs[0]["nbPhiras"],
+                        gs[0]["nbThystame"],
+                        gs[0]["canFork"],
+                        gs[0]["canIncant"]
+                    ])
+                    Ytrain.append(gs[1])
+                model.fit(np.array(Xtrain), np.array(Ytrain), batch_size=batchSize)
+                recordStates.clear()
     return False
 
 def requestSelection(ms, model):
-    if random.randrange(0, 7) == 0:
-        print("rand: ", end='')
-        requestWithIdx(ms, random.randrange(0, len(functions)))
-    else:
-        prediction = model.predict(np.array([[
-            ai.src.glob.gameState["level"],
-            ai.src.glob.gameState["directionFood"],
-            ai.src.glob.gameState["directionLinemate"],
-            ai.src.glob.gameState["directionDeraumere"],
-            ai.src.glob.gameState["directionSibur"],
-            ai.src.glob.gameState["directionMendiane"],
-            ai.src.glob.gameState["directionPhiras"],
-            ai.src.glob.gameState["directionThystame"],
-            ai.src.glob.gameState["nbFood"],
-            ai.src.glob.gameState["nbLinemate"],
-            ai.src.glob.gameState["nbDeraumere"],
-            ai.src.glob.gameState["nbSibur"],
-            ai.src.glob.gameState["nbMendiane"],
-            ai.src.glob.gameState["nbPhiras"],
-            ai.src.glob.gameState["nbThystame"],
-            ai.src.glob.gameState["canFork"],
-            ai.src.glob.gameState["canIncant"]
-        ]])).flatten().tolist()
-        print("pred: ", end='')
-        requestWithIdx(ms, prediction.index(max(prediction)))
+    prediction = model.predict(np.array([[
+        ai.src.glob.gameState["level"],
+        ai.src.glob.gameState["directionFood"],
+        ai.src.glob.gameState["directionLinemate"],
+        ai.src.glob.gameState["directionDeraumere"],
+        ai.src.glob.gameState["directionSibur"],
+        ai.src.glob.gameState["directionMendiane"],
+        ai.src.glob.gameState["directionPhiras"],
+        ai.src.glob.gameState["directionThystame"],
+        ai.src.glob.gameState["nbFood"],
+        ai.src.glob.gameState["nbLinemate"],
+        ai.src.glob.gameState["nbDeraumere"],
+        ai.src.glob.gameState["nbSibur"],
+        ai.src.glob.gameState["nbMendiane"],
+        ai.src.glob.gameState["nbPhiras"],
+        ai.src.glob.gameState["nbThystame"],
+        ai.src.glob.gameState["canFork"],
+        ai.src.glob.gameState["canIncant"]
+    ]])).flatten().tolist()
 
+    print([
+        ai.src.glob.gameState["level"],
+        ai.src.glob.gameState["directionFood"],
+        ai.src.glob.gameState["directionLinemate"],
+        ai.src.glob.gameState["directionDeraumere"],
+        ai.src.glob.gameState["directionSibur"],
+        ai.src.glob.gameState["directionMendiane"],
+        ai.src.glob.gameState["directionPhiras"],
+        ai.src.glob.gameState["directionThystame"],
+        ai.src.glob.gameState["nbFood"],
+        ai.src.glob.gameState["nbLinemate"],
+        ai.src.glob.gameState["nbDeraumere"],
+        ai.src.glob.gameState["nbSibur"],
+        ai.src.glob.gameState["nbMendiane"],
+        ai.src.glob.gameState["nbPhiras"],
+        ai.src.glob.gameState["nbThystame"],
+        ai.src.glob.gameState["canFork"],
+        ai.src.glob.gameState["canIncant"]
+    ])
+
+    if random.randrange(1, 3) == 1:
+        print("rand: ", end='')
+        cmdIdx = random.randrange(0, len(functions))
+        requestWithIdx(ms, cmdIdx)
+    else:
+        print("pred: ", end='')
+        cmdIdx = prediction.index(max(prediction))
+        requestWithIdx(ms, cmdIdx)
+    
+    ai.src.glob.currentCommandPred = prediction
+    ai.src.glob.currentCommandIdx = cmdIdx
 
 def requestWithIdx(ms, idx):
+    print(idx)
     functions[idx](ms)
-    print (idx)
-    ai.src.glob.currentCommandIdx = idx
