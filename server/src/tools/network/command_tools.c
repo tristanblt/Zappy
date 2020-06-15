@@ -26,8 +26,10 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
     int ret = SUCCESS;
 
+    setvbuf(stdout, NULL, _IONBF, 0);
     if (((c_data_t *)client->data)->team == NULL) {
         check_client_connexion(z, client, command);
+        rm_from_request(client);
         return (2);
     }
     for (int i = 0; i < NB_CMDS; i++) {
