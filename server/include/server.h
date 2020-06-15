@@ -48,7 +48,7 @@ void handle_time(server_t *server);
 void init_time(time_manager_t *t, int time_ratio);
 
 /* LIFE TOOLS */
-void handle_life(zappy_data_t *z, client_t *client);
+bool handle_life(zappy_data_t *z, client_t *client);
 
 /* MAP TOOLS */
 map_node_t *create_map(position_t size);
