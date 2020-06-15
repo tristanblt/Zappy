@@ -79,7 +79,7 @@ bool add_client(server_t *server, void *data)
 bool rm_client(server_t *server, client_t *client)
 {
     SLIST_REMOVE(&server->clients, client, client_s, next);
-    close(client->sck.fd);
+    close((client)->sck.fd);
     free(client);
     return (SUCCESS);
 }

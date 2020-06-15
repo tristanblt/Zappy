@@ -35,6 +35,9 @@
 #define EPI_EXIT_SUCCESS 0
 #define EPI_EXIT_ERROR 84
 
+#define SUPP_IN_SWITCH 2
+#define SUPP_IN_LIFE 0
+
 #define N 1
 #define E 2
 #define S 3

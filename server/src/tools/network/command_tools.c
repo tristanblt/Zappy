@@ -22,13 +22,13 @@ const command_t cmds[NB_CMDS] = {{"Forward", 7, &start_move_cmd, &end_move_cmd}}
  * \return true en succès et false en cas d'erreur
  */
 
-bool switch_command(zappy_data_t *z, client_t *client, char *command)
+int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
-    bool ret = SUCCESS;
+    int ret = SUCCESS;
 
     if (((c_data_t *)client->data)->team == NULL) {
         check_client_connexion(z, client, command);
-        return (ret);
+        return (2);
     }
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
@@ -79,12 +79,16 @@ void search_command_in_client(client_t *client)
 bool handle_commands(zappy_data_t *z)
 {
     client_t *tmp;
-
-    for (tmp = z->server->clients.slh_first; tmp != NULL; tmp =
-    tmp->next.sle_next) {
+    client_t *tmp2;
+    int s_ret;
+    for (tmp = z->server->clients.slh_first; tmp != NULL; tmp = (tmp)?
+    tmp->next.sle_next : tmp2) {
+        tmp2 = tmp->next.sle_next;
         search_command_in_client(tmp);
-        if (handle_life(z, tmp) && !switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
+        if ((s_ret = handle_life(z, tmp)) && !(s_ret = switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos])))
             return (ERROR);
+        else if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE)
+            tmp = NULL;
     }
     update_egg_status(z);
     return (SUCCESS);
