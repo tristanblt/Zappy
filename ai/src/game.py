@@ -106,7 +106,8 @@ def startGame(params, mainsock, model):
                         mainsock.close()
                         exit(84)
                     if ai.src.glob.reward > 0:
-                        recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandIdx])
+                        for i in range(ai.src.glob.reward):
+                            recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandIdx])
                     ai.src.glob.reward = 0
                     ai.src.glob.currentCommand = None
             except queue.Empty:
@@ -140,7 +141,7 @@ def startGame(params, mainsock, model):
     return False
 
 def requestSelection(ms, model):
-    if random.randrange(0, 2) == 0:
+    if random.randrange(0, 7) == 0:
         print("rand: ", end='')
         requestWithIdx(ms, random.randrange(0, len(functions)))
     else:

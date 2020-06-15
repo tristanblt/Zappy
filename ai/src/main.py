@@ -19,7 +19,7 @@ def main():
     model = createModel()
 
     # play N games
-    for i in range(1):
+    for i in range(100):
         mainsock = initSocket(params)
         startGame(params, mainsock, model)
         mainsock.close()
