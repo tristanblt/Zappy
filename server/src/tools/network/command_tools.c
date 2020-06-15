@@ -28,6 +28,7 @@ bool switch_command(zappy_data_t *z, client_t *client, char *command)
 
     if (((c_data_t *)client->data)->team == NULL) {
         check_client_connexion(z, client, command);
+        return (ret);
     }
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
@@ -79,15 +80,11 @@ bool handle_commands(zappy_data_t *z)
 {
     client_t *tmp;
 
-    printf("-----------------\n");
-    SLIST_FOREACH(tmp, &z->server->clients, next)
-    {
-        printf("a\n");
+    for (tmp = z->server->clients.slh_first; tmp != NULL; tmp =
+    tmp->next.sle_next) {
         search_command_in_client(tmp);
-        printf("b\n");
         if (handle_life(z, tmp) && !switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
-        printf("c\n");
     }
     update_egg_status(z);
     return (SUCCESS);
