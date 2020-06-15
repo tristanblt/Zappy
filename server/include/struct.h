@@ -101,14 +101,14 @@ struct s_data_s {
     int f;
     int nb_mates;
     int nb_teams;
-    int map_width;
-    int map_height;
+    position_t map_sz;
     SLIST_HEAD(, egg_s) eggs;
     map_node_t *map;
     team_t *teams;
 };
 
 struct c_data_s {
+    bool is_alive;
     char *team;
     int level;
     float cool_down;

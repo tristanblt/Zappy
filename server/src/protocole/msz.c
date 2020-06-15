@@ -12,10 +12,10 @@ int msz(zappy_data_t *z, client_t *client, char *arg)
     char buffer[6] = {0};
 
     add_raw_data(&client->out, "msz ");
-    sprintf(buffer, "%d", z->data.map_width);
+    sprintf(buffer, "%d", z->data.map_sz.x);
     add_raw_data(&client->out, buffer);
     add_raw_data(&client->out, " ");
-    sprintf(buffer, "%d", z->data.map_height);
+    sprintf(buffer, "%d", z->data.map_sz.y);
     add_raw_data(&client->out, buffer);
     add_raw_data(&client->out, "\n");
 }

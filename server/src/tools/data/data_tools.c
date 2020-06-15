@@ -26,6 +26,7 @@ c_data_t *init_client_data(void)
     new->level = 1;
     new->pos.x = 0;
     new->pos.y = 0;
+    new->is_alive = true;
     init_ressources(&new->inventory);
     new->inventory.food = 10;
     return (new);
@@ -44,8 +45,8 @@ bool init_server_data(s_data_t *data, param_t params)
     int nb = 0;
 
     data->f = params.freq;
-    data->map_height = params.height;
-    data->map_width = params.width;
+    data->map_sz.y = params.height;
+    data->map_sz.x = params.width;
     data->nb_mates = params.clientNB;
     SLIST_INIT(&data->eggs);
     while (params.name[nb])
@@ -82,6 +83,6 @@ void free_server_data(s_data_t *data)
     }
     for (int i = 0; i < data->nb_teams; i++)
         free(data->teams[i].name);
-    free_map(data->map, (position_t){data->map_width, data->map_height});
+    free_map(data->map, (position_t){data->map_sz.x, data->map_sz.y});
     free(data->teams);
 }

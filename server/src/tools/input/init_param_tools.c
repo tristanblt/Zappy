@@ -22,7 +22,7 @@ void init_param(param_t *param)
     param->height = 0;
     param->name = NULL;
     param->clientNB = 0;
-    param->freq = 0;
+    param->freq = 100;
 }
 
 /**

@@ -7,9 +7,9 @@
 
 #include "server.h"
 
-#define NB_CMDS 0
+#define NB_CMDS 1
 
-const command_t cmds[NB_CMDS] = {};
+const command_t cmds[NB_CMDS] = {{"Forward", 7, &start_move_cmd, &end_move_cmd}};
 
 
 /**
@@ -29,7 +29,7 @@ bool switch_command(zappy_data_t *z, client_t *client, char *command)
     if (((c_data_t *)client->data)->team == NULL) {
         check_client_connexion(z, client, command);
     }
-    for (int i = 0; i < NB_CMDS; i++)
+    for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         !((c_data_t *)client->data)->cool_down) {
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
@@ -37,6 +37,7 @@ bool switch_command(zappy_data_t *z, client_t *client, char *command)
         } else if (!strncmp(cmds[i].token, command, cmds[i].token_len)) {
             ret = cmds[i].start(z, client, command + cmds[i].token_len);
         }
+    }
     return (ret);
 }
 
@@ -83,6 +84,7 @@ bool handle_commands(zappy_data_t *z)
         search_command_in_client(tmp);
         if (!switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
+        handle_life(z, tmp);
     }
     update_egg_status(z);
     return (SUCCESS);

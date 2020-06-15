@@ -36,8 +36,8 @@ int bct(zappy_data_t *z, client_t *client, char *arg)
 
     if (split_nb_argument(array_arg) < 2)
         return (-1);
-    x = graph_value(z->data.map_width, array_arg[0]);
-    y = graph_value(z->data.map_height, array_arg[1]);
+    x = graph_value(z->data.map_sz.x, array_arg[0]);
+    y = graph_value(z->data.map_sz.y, array_arg[1]);
     content = get_tile_content(&z->data, z->server, x, y);
     char buffer[6] = {0};
     add_raw_data(&client->out, "bct ");

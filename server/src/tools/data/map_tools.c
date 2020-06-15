@@ -78,10 +78,34 @@ int count_players(server_t *server, int x, int y)
 extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y)
 {
     extracted_content_t content;
-    int true_x = graph_value(data->map_width, x);
-    int true_y = graph_value(data->map_height, y);
+    int true_x = graph_value(data->map_sz.x, x);
+    int true_y = graph_value(data->map_sz.y, y);
 
     content.ressources = &on_tile(data->map, true_x, true_y)->ressources;
     content.nb_player = count_players(s, x, y);
     return (content);
+}
+
+void move_in_dir(client_t *client, int dir, position_t map_sz)
+{
+    switch (dir) {
+    case N:
+        ((c_data_t *)client->data)->pos.y =
+        graph_value(map_sz.y, ((c_data_t *)client->data)->pos.y - 1);
+        break;
+    case E:
+        ((c_data_t *)client->data)->pos.x =
+        graph_value(map_sz.x, ((c_data_t *)client->data)->pos.x - 1);
+        break;
+    case S:
+        ((c_data_t *)client->data)->pos.y =
+        graph_value(map_sz.y, ((c_data_t *)client->data)->pos.y + 1);
+        break;
+    case W:
+        ((c_data_t *)client->data)->pos.x =
+        graph_value(map_sz.x, ((c_data_t *)client->data)->pos.x + 1);
+        break;
+    default:
+        break;
+    }
 }

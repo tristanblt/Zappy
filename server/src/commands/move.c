@@ -9,28 +9,15 @@
 
 bool start_move_cmd(zappy_data_t *z, client_t *client, char *command)
 {
+    printf("ok\n");
     ((c_data_t *)client->data)->cool_down = 7.0 / z->data.f;
     return (SUCCESS);
 }
 
 bool end_move_cmd(zappy_data_t *z, client_t *client, char *command)
 {
-    switch (((c_data_t *)client->data)->dir) {
-    case N:
-        ((c_data_t *)client->data)->pos.y--;
-        break;
-    case E:
-        ((c_data_t *)client->data)->pos.x--;
-        break;
-    case S:
-        ((c_data_t *)client->data)->pos.y++;
-        break;
-    case W:
-        ((c_data_t *)client->data)->pos.x++;
-        break;
-    default:
-        break;
-    }
+    printf("ok2\n");
+    move_in_dir(client, ((c_data_t *)client->data)->dir, z->data.map_sz);
     add_data(&client->out, 1, "ok");
     return (SUCCESS);
 }

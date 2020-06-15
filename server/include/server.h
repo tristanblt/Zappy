@@ -47,6 +47,9 @@ void add_raw_data(flux_t *flux, char *str);
 void handle_time(server_t *server);
 void init_time(time_manager_t *t, int time_ratio);
 
+/* LIFE TOOLS */
+void handle_life(zappy_data_t *z, client_t *client);
+
 /* MAP TOOLS */
 map_node_t *create_map(position_t size);
 void free_map(map_node_t *map, position_t size);
@@ -54,6 +57,10 @@ map_node_t *on_tile(map_node_t *start, int x, int y);
 int graph_value(int size, int value);
 int count_players(server_t *server, int x, int y);
 extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y);
+void move_in_dir(client_t *client, int dir, position_t map);
+
+/* VECTOR TOOLS */
+int compute_direction(position_t sender, position_t reciever, position_t map, int dir);
 
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
@@ -87,6 +94,8 @@ void handle_sigint(int i);
 bool check(int ac, char **av);
 
 /* COMMANDS FCT */
+bool start_move_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_move_cmd(zappy_data_t *z, client_t *client, char *command);
 
 /* MAIN FCT */
 int zappy_server(int ac, char **av);

@@ -6,3 +6,27 @@
 */
 
 #include "server.h"
+
+void start_proceed_death(zappy_data_t *z, client_t *client)
+{
+    ((c_data_t *)client->data)->is_alive = false;
+    add_data(&client->out, 1, "dead");
+}
+void end_proceed_death(zappy_data_t *z, client_t *client)
+{
+    team_t *team = get_team_by_name(z->data.teams, z->data.nb_teams,
+    ((c_data_t *)client->data)->team);
+
+    team->nb--;
+    rm_client(z->server, client);
+}
+
+void handle_life(zappy_data_t *z, client_t *client)
+{
+    if (((c_data_t *)client->data)->is_alive == false &&
+        client->out.nb == 0)
+        end_proceed_death(z, client);
+    if (((c_data_t *)client->data)->inventory.food == 0 &&
+        ((c_data_t *)client->data)->hunger_cd == 0)
+        start_proceed_death(z, client);
+}
