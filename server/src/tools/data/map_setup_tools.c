@@ -15,7 +15,7 @@
  * \param y la position en hauteur de la tile
  * \return une nouvelle tile
  */
-map_node_t *init_tile(int x, int y)
+map_node_t *create_tile(int x, int y)
 {
     map_node_t *tile = malloc(sizeof(map_node_t));
 
@@ -41,7 +41,7 @@ map_node_t *init_tile(int x, int y)
  */
 map_node_t *create_line_circular(position_t size, int x)
 {
-    map_node_t *tmp = init_tile(x, 0);
+    map_node_t *tmp = create_tile(x, 0);
     map_node_t *head;
     map_node_t *tile;
 
@@ -49,12 +49,13 @@ map_node_t *create_line_circular(position_t size, int x)
         return (NULL);
     head = tmp;
     for (int y = 1; y < size.y; y++) {
-        tile = init_tile(x, y);
-        if (!tile)
+        tile = create_tile(x, y);
+        if (!tile) {
+            delete_line_tile(head);
             return (NULL);
+        }
         tmp->right = tile;
         tile->left = tmp;
-
         tmp = tile;
     }
     tile->right = head;
@@ -102,39 +103,13 @@ map_node_t *create_map(position_t size)
     head = tmp;
     for (int x = 1; x < size.x; x++) {
         line = create_line_circular(size, x);
-
-        if (!line)
+        if (!line) {
+            delete_map_tile(head);
             return (NULL);
-
+        }
         link_two_line(tmp, line, size);
         tmp = line;
     }
     link_two_line(line, head, size);
     return (head);
-}
-
-/**
- * \fn void free_map(map_node_t *map, position_t size)
- * \brief Permet de free une map circulaire
- *
- * \param size la taille maximum de la map
- * \return rien
- */
-void free_map(map_node_t *map, position_t size)
-{
-    map_node_t *tmp = map;
-    map_node_t *next_bottom;
-    map_node_t *next_right;
-
-    for (int x = 0; x < size.x; x++) {
-        next_bottom = tmp->bottom;
-        for (int y = 0; y < size.y; y++) {
-            next_right = tmp->right;
-            if (tmp) {
-                free(tmp);
-            }
-            tmp = next_right;
-        }
-        tmp = next_bottom;
-    }
 }
