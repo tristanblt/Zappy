@@ -79,12 +79,15 @@ bool handle_commands(zappy_data_t *z)
 {
     client_t *tmp;
 
+    printf("-----------------\n");
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
+        printf("a\n");
         search_command_in_client(tmp);
-        if (!switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
+        printf("b\n");
+        if (handle_life(z, tmp) && !switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
-        handle_life(z, tmp);
+        printf("c\n");
     }
     update_egg_status(z);
     return (SUCCESS);
