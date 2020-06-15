@@ -33,12 +33,14 @@ functions = [
     ai.src.requests.takeSiburRequest,
     ai.src.requests.takeMendianeRequest,
     ai.src.requests.takePhirasRequest,
+    ai.src.requests.takeThystameRequest,
     ai.src.requests.setFoodRequest,
     ai.src.requests.setLinemateRequest,
     ai.src.requests.setDeraumereRequest,
     ai.src.requests.setSiburRequest,
     ai.src.requests.setMendianeRequest,
     ai.src.requests.setPhirasRequest,
+    ai.src.requests.setThystameRequest,
     #ai.src.requests.ejectRequest,
     #ai.src.requests.broadcastRequest,
 ]
@@ -103,37 +105,38 @@ def startGame(params, mainsock, model):
                     if not ai.src.glob.currentCommand(response):
                         mainsock.close()
                         exit(84)
-                    recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandIdx])
+                    if ai.src.glob.reward > 0:
+                        recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandIdx])
+                    ai.src.glob.reward = 0
                     ai.src.glob.currentCommand = None
             except queue.Empty:
                 break
         if ai.src.glob.currentCommand is None:
             requestSelection(mainsock, model)
-    if ai.src.glob.reward > 0:
-        Xtrain = []
-        Ytrain = []
-        for gs in recordStates:
-            Xtrain.append([
-                gs[0]["level"],
-                gs[0]["directionFood"],
-                gs[0]["directionLinemate"],
-                gs[0]["directionDeraumere"],
-                gs[0]["directionSibur"],
-                gs[0]["directionMendiane"],
-                gs[0]["directionPhiras"],
-                gs[0]["directionThystame"],
-                gs[0]["nbFood"],
-                gs[0]["nbLinemate"],
-                gs[0]["nbDeraumere"],
-                gs[0]["nbSibur"],
-                gs[0]["nbMendiane"],
-                gs[0]["nbPhiras"],
-                gs[0]["nbThystame"],
-                gs[0]["canFork"],
-                gs[0]["canIncant"]
-            ])
-            Ytrain.append(gs[1])
-        model.fit(np.array(Xtrain), np.array(Ytrain))
+    Xtrain = []
+    Ytrain = []
+    for gs in recordStates:
+        Xtrain.append([
+            gs[0]["level"],
+            gs[0]["directionFood"],
+            gs[0]["directionLinemate"],
+            gs[0]["directionDeraumere"],
+            gs[0]["directionSibur"],
+            gs[0]["directionMendiane"],
+            gs[0]["directionPhiras"],
+            gs[0]["directionThystame"],
+            gs[0]["nbFood"],
+            gs[0]["nbLinemate"],
+            gs[0]["nbDeraumere"],
+            gs[0]["nbSibur"],
+            gs[0]["nbMendiane"],
+            gs[0]["nbPhiras"],
+            gs[0]["nbThystame"],
+            gs[0]["canFork"],
+            gs[0]["canIncant"]
+        ])
+        Ytrain.append(gs[1])
+    model.fit(np.array(Xtrain), np.array(Ytrain))
     return False
 
 def requestSelection(ms, model):

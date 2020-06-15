@@ -6,7 +6,6 @@
 ##
 
 import ai.src.glob
-# from ai.src.glob import gameState, gameMap
 
 def getNbItemOnPlayerTile(itemName):
     nbItem = 0

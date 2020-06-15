@@ -81,6 +81,10 @@ def takePhirasRequest(mainsock):
     sendRequest(mainsock, "Take phiras")
     ai.src.glob.currentCommand = takePhirasResponse
 
+def takeThystameRequest(mainsock):
+    sendRequest(mainsock, "Take thystame")
+    ai.src.glob.currentCommand = takeThystameResponse
+
 def setFoodRequest(mainsock):
     sendRequest(mainsock, "Set food")
     ai.src.glob.currentCommand = setFoodResponse
@@ -104,6 +108,10 @@ def setMendianeRequest(mainsock):
 def setPhirasRequest(mainsock):
     sendRequest(mainsock, "Set phiras")
     ai.src.glob.currentCommand = setPhirasResponse
+
+def setThystameRequest(mainsock):
+    sendRequest(mainsock, "Set thystame")
+    ai.src.glob.currentCommand = setThystameResponse
 
 def incantationRequest(mainsock):
     if (ai.src.glob.gameState["canIncant"]):
