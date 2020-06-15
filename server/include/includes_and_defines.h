@@ -38,6 +38,9 @@
 #define SUPP_IN_SWITCH 2
 #define SUPP_IN_LIFE 0
 
+#define START false
+#define END true
+
 #define N 1
 #define E 2
 #define S 3

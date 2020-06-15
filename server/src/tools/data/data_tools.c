@@ -28,6 +28,7 @@ c_data_t *init_client_data(void)
     new->pos.x = 0;
     new->pos.y = 0;
     new->is_alive = true;
+    new->req_cntx = END;
     init_ressources(&new->inventory);
     new->inventory.food = 10;
     return (new);

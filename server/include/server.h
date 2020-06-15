@@ -46,6 +46,7 @@ void add_raw_data(flux_t *flux, char *str);
 /* TIME TOOLS */
 void handle_time(server_t *server);
 void init_time(time_manager_t *t, int time_ratio);
+void update_timeout(server_t *server);
 
 /* LIFE TOOLS */
 bool handle_life(zappy_data_t *z, client_t *client);

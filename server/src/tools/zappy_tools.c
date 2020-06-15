@@ -17,7 +17,7 @@
 zappy_data_t *init_zappy(param_t param)
 {
     zappy_data_t *new = malloc(sizeof(zappy_data_t));
-    printf("fres: %i\n", param.freq);
+
     if (!new)
         return (NULL);
     if ((new->server = init_server(param.port, param.freq)) == NULL) {
