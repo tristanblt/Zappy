@@ -20,21 +20,21 @@ from keras.callbacks import Callback
 
 def createModel():
     # get model from json
-    #json_file = open('model.json', 'r')
-    #loaded_json_model = json_file.read()
-    #model = model_from_json(loaded_json_model)
-    #model.load_weights('model.h5')
+    json_file = open('model.json', 'r')
+    loaded_json_model = json_file.read()
+    model = model_from_json(loaded_json_model)
+    model.load_weights('model.h5')
 
     #init model
-    model = Sequential()
-    model.add(Dense(17, input_shape=(17,), activation="sigmoid"))
-    model.add(Dense(512, activation="sigmoid"))
-    model.add(Dense(512, activation="sigmoid"))
-    model.add(Dense(256, activation="sigmoid"))
-    model.add(Dense(20, activation="softmax"))
-    model.summary()
+    #model = Sequential()
+    #model.add(Dense(17, input_shape=(17,), activation="sigmoid"))
+    #model.add(Dense(512, activation="sigmoid"))
+    #model.add(Dense(512, activation="sigmoid"))
+    #model.add(Dense(256, activation="sigmoid"))
+    #model.add(Dense(20, activation="softmax"))
+    #model.summary()
 
-    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["accuracy"])
+    model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
     return model
 
 def saveModel(model):
