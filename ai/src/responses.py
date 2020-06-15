@@ -10,6 +10,17 @@ import ai.src.glob
 from ai.src.distances import computePlayerDistances
 from ai.src.incant import checkIncant
 
+def removeFromTile(item):
+    for it in ai.src.glob.gameMap:
+        if (it["type"] == item
+        and it["pos"]["x"] == 0
+        and it["pos"]["y"] == 0):
+            try:
+                ai.src.glob.gameMap.remove(it)
+            except:
+                pass
+            return
+    return
 
 def initGameResponse(response):
     if (response == "ko\n"):
@@ -120,41 +131,172 @@ def ejectResponse(response):
     return True
 
 def takeFoodResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbFood"] += 1
+        ai.src.glob.reward += 10
+        removeFromTile("food")
+    else:
+        ai.src.glob.reward -= 20
+    print("take food : "+response)
     return True
 
 def takeLinemateResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbLinemate"] += 1
+        ai.src.glob.reward += 10
+        removeFromTile("linemate")
+    else:
+        ai.src.glob.reward -= 20
+    print("take linemate : "+response)
     return True
 
 def takeDeraumereResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbDeraumere"] += 1
+        ai.src.glob.reward += 10
+        removeFromTile("deraumere")
+    else:
+        ai.src.glob.reward -= 20
+    print("take deraumere : "+response)
     return True
 
 def takeSiburResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbSibur"] += 1
+        ai.src.glob.reward += 10
+        removeFromTile("sibur")
+    else:
+        ai.src.glob.reward -= 20
+    print("take sibur : "+response)
     return True
 
 def takeMendianeResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbMendiane"] += 1
+        ai.src.glob.reward += 10
+        removeFromTile("mendiane")
+    else:
+        ai.src.glob.reward -= 20
+    print("take mendiane : "+response)
     return True
 
 def takePhirasResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbPhiras"] += 1
+        ai.src.glob.reward += 10
+        removeFromTile("phiras")
+    else:
+        ai.src.glob.reward -= 20
+    print("take phiras : "+response)
+    return True
+
+def takeThystameResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbThystame"] += 1
+        ai.src.glob.reward += 10
+        removeFromTile("thystame")
+    else:
+        ai.src.glob.reward -= 20
+    print("take thystame : "+response)
     return True
 
 def setFoodResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbFood"] -= 1
+        ai.src.glob.reward += 10
+        ai.src.glob.gameMap.append({
+            "type": "food",
+            "x": 0,
+            "y": 0
+        })
+    else:
+        ai.src.glob.reward -= 20
+    print("set food : "+response)
     return True
 
 def setLinemateResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbLinemate"] -= 1
+        ai.src.glob.reward += 10
+        ai.src.glob.gameMap.append({
+            "type": "linemate",
+            "x": 0,
+            "y": 0
+        })
+    else:
+        ai.src.glob.reward -= 20
+    print("set linemate : "+response)
     return True
 
 def setDeraumereResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbDeraumere"] -= 1
+        ai.src.glob.reward += 10
+        ai.src.glob.gameMap.append({
+            "type": "deraumere",
+            "x": 0,
+            "y": 0
+        })
+    else:
+        ai.src.glob.reward -= 20
+    print("set deraumere : "+response)
     return True
 
 def setSiburResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbSibur"] -= 1
+        ai.src.glob.reward += 10
+        ai.src.glob.gameMap.append({
+            "type": "sibur",
+            "x": 0,
+            "y": 0
+        })
+    else:
+        ai.src.glob.reward -= 20
+    print("set sibur : "+response)
     return True
 
 def setMendianeResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbMendiane"] -= 1
+        ai.src.glob.reward += 10
+        ai.src.glob.gameMap.append({
+            "type": "mendiane",
+            "x": 0,
+            "y": 0
+        })
+    else:
+        ai.src.glob.reward -= 20
+    print("set mendiane : "+response)
     return True
 
 def setPhirasResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbPhiras"] -= 1
+        ai.src.glob.reward += 10
+        ai.src.glob.gameMap.append({
+            "type": "phiras",
+            "x": 0,
+            "y": 0
+        })
+    else:
+        ai.src.glob.reward -= 20
+    print("set phiras : "+response)
+    return True
+
+def setThystameResponse(response):
+    if response == "ok":
+        ai.src.glob.gameState["nbThystame"] -= 1
+        ai.src.glob.reward += 10
+        ai.src.glob.gameMap.append({
+            "type": "thystame",
+            "x": 0,
+            "y": 0
+        })
+    else:
+        ai.src.glob.reward -= 20
+    print("set thystame : "+response)
     return True
 
 def incantationResponse(response):
-    #print(response)
     return True
