@@ -9,9 +9,11 @@
 
 void start_proceed_death(zappy_data_t *z, client_t *client)
 {
+    (void)z;
     ((c_data_t *)client->data)->is_alive = false;
     add_data(&client->out, 1, "dead");
 }
+
 void end_proceed_death(zappy_data_t *z, client_t *client)
 {
     team_t *team = get_team_by_name(z->data.teams, z->data.nb_teams,

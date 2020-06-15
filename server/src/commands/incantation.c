@@ -105,23 +105,14 @@ void destruction_ressources(ressources_t inventory, ressources_t incantation)
  * \param z la variable principale du projet
  * \param client le client appelant cette fonction
  * \param arg les arguments
- * \return 0 en cas de succès, 1 quand l'incantation n'est pas possible
+ * \return 1 en cas de succès, 0 quand l'incantation n'est pas possible
  */
 int start_incantation(zappy_data_t *z, client_t *client, char *arg)
 {
-    c_data_t *data = ((c_data_t *)client->data);
-    int nb_player = player_same_level(z->server, data->pos.x, data->pos.y,
-    data->level);
-    char buff[2] = {0};
+    ((c_data_t *)client->data)->cool_down = 7.0 / z->data.f;
 
-    if (is_incantation_possible(data->inventory, recipes[data->level - 1],
-    nb_player) == false) {
-        add_data(&client->out, 1, "ko");
-        return (1);
-    }
-    destruction_ressources(data->inventory, recipes[data->level - 1].needed);
     add_data(&client->out, 1, "Elevation underway");
-    return (0);
+    return (1);
 }
 
 /**
@@ -135,11 +126,19 @@ int start_incantation(zappy_data_t *z, client_t *client, char *arg)
  */
 int end_incantation(zappy_data_t *z, client_t *client, char *arg)
 {
-    char buff[2] = {0};
     c_data_t *data = ((c_data_t *)client->data);
+    int nb_player = player_same_level(z->server, data->pos.x, data->pos.y,
+    data->level);
+    char buff[2] = {0};
 
+    if (is_incantation_possible(data->inventory, recipes[data->level - 1],
+    nb_player) == false) {
+        add_data(&client->out, 1, "ko");
+        return (0);
+    }
+    destruction_ressources(data->inventory, recipes[data->level - 1].needed);
     data->level += 1;
     sprintf(buff, "%d", data->level);
-    add_data(&client->out, 2, "Current level:", buff);
-    return (0);
+    add_data(&client->out, 2, "Current level: ", buff);
+    return (1);
 }

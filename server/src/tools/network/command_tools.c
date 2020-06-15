@@ -30,7 +30,7 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
         if (check_client_connexion(z, client, command) == ERROR)
             return(2);
         rm_from_request(client);
-        return (2);
+        return (1);
     }
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&

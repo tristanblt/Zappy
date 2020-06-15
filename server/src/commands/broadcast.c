@@ -9,6 +9,7 @@
 
 bool start_broadcast_cmd(zappy_data_t *z, client_t *client, char *command)
 {
+    (void)command;
     ((c_data_t *)client->data)->cool_down = 7.0 / z->data.f;
     return (SUCCESS);
 }
@@ -17,6 +18,7 @@ bool end_broadcast_cmd(zappy_data_t *z, client_t *client, char *command)
 {
     client_t *tmp;
 
+    (void)command;
     add_data(&client->out, 1, "ok");
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {

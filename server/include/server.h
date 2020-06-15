@@ -99,6 +99,13 @@ bool check(int ac, char **av);
 bool start_move_cmd(zappy_data_t *z, client_t *client, char *command);
 bool end_move_cmd(zappy_data_t *z, client_t *client, char *command);
 
+/*LOOK COMMAND */
+bool start_look(zappy_data_t *z, client_t *client, char *command);
+bool end_look(zappy_data_t *z, client_t *client, char *arg);
+void look_bottom_top(client_t *cli, zappy_data_t *z, int signe_y);
+void look_right_left(client_t *cli, zappy_data_t *z, int signe_x);
+
+
 /* MAIN FCT */
 int zappy_server(int ac, char **av);
 
