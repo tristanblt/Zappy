@@ -11,7 +11,6 @@
 
 const command_t cmds[NB_CMDS] = {{"Forward", 7, &start_move_cmd, &end_move_cmd}};
 
-
 /**
  * \fn bool switch_command(server_t *server, client_t *client, char *command)
  * \brief Fonction qui va appeller la fct corespondant à la commande trouvée
@@ -28,7 +27,8 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
 
     setvbuf(stdout, NULL, _IONBF, 0);
     if (((c_data_t *)client->data)->team == NULL) {
-        check_client_connexion(z, client, command);
+        if (check_client_connexion(z, client, command) == ERROR)
+            return(2);
         rm_from_request(client);
         return (2);
     }
