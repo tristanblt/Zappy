@@ -96,6 +96,7 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name)
         rm_client(z->server, client);
         return (ERROR);
     }
+    team->nb++;
     return (SUCCESS);
 }
 

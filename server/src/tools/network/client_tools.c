@@ -11,13 +11,18 @@ int check_client_connexion(zappy_data_t *z, client_t *client, char *command)
 {
     char **array = split_command(command);
     char buffer[12] = {0};
+    team_t *team;
 
     if (array == NULL)
         return (ERROR);
     if (init_client_context(z, client, array[0]) == ERROR)
         return (ERROR);
-    // sprintf(buffer, "%d",);
-    // add_data_(&client->out, 1, buffer);
+    team = get_team_by_name(z->data.teams, z->data.nb_teams,
+    ((c_data_t *)client->data)->team);
+    if (!team)
+        return (ERROR);
+    sprintf(buffer, "%d", z->data.nb_mates - team->nb);
+    add_data(&client->out, 1, buffer);
     sprintf(buffer, "%d %d", ((c_data_t *)client->data)->pos.x,
     ((c_data_t *)client->data)->pos.y);
     add_data(&client->out, 1, buffer);
@@ -79,7 +84,7 @@ bool add_client(server_t *server, void *data)
 bool rm_client(server_t *server, client_t *client)
 {
     SLIST_REMOVE(&server->clients, client, client_s, next);
-    close(client->sck.fd);
+    close((client)->sck.fd);
     free(client);
     return (SUCCESS);
 }
