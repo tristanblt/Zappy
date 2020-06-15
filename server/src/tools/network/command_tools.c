@@ -83,9 +83,7 @@ bool handle_commands(zappy_data_t *z)
     for (tmp = z->server->clients.slh_first; tmp != NULL; tmp =
     tmp->next.sle_next) {
         search_command_in_client(tmp);
-        if (handle_life(z, tmp) == false)
-            break;
-        if (!switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
+        if (handle_life(z, tmp) && !switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))
             return (ERROR);
     }
     update_egg_status(z);
