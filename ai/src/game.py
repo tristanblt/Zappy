@@ -168,6 +168,26 @@ def requestSelection(ms, model):
         ai.src.glob.gameState["canIncant"]
     ]])).flatten().tolist()
 
+    print([
+        ai.src.glob.gameState["level"],
+        ai.src.glob.gameState["directionFood"],
+        ai.src.glob.gameState["directionLinemate"],
+        ai.src.glob.gameState["directionDeraumere"],
+        ai.src.glob.gameState["directionSibur"],
+        ai.src.glob.gameState["directionMendiane"],
+        ai.src.glob.gameState["directionPhiras"],
+        ai.src.glob.gameState["directionThystame"],
+        ai.src.glob.gameState["nbFood"],
+        ai.src.glob.gameState["nbLinemate"],
+        ai.src.glob.gameState["nbDeraumere"],
+        ai.src.glob.gameState["nbSibur"],
+        ai.src.glob.gameState["nbMendiane"],
+        ai.src.glob.gameState["nbPhiras"],
+        ai.src.glob.gameState["nbThystame"],
+        ai.src.glob.gameState["canFork"],
+        ai.src.glob.gameState["canIncant"]
+    ])
+
     if random.randrange(1, 3) == 1:
         print("rand: ", end='')
         cmdIdx = random.randrange(0, len(functions))
