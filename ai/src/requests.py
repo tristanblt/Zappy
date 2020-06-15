@@ -47,8 +47,8 @@ def connectNbrRequest(mainsock):
 def forkRequest(mainsock):
     if (ai.src.glob.gameState["canFork"]):
         ai.src.glob.reward += 10
-        #sendRequest(mainsock, "Fork")
-        #ai.src.glob.currentCommand = forkResponse
+        sendRequest(mainsock, "Fork")
+        ai.src.glob.currentCommand = forkResponse
     else:
         ai.src.glob.reward -= 20
     print("fork")
@@ -57,13 +57,53 @@ def ejectRequest(mainsock):
     sendRequest(mainsock, "Eject")
     ai.src.glob.currentCommand = ejectResponse
 
-def takeObjectRequest(mainsock, object):
-    sendRequest(mainsock, "Take " + object)
-    ai.src.glob.currentCommand = takeObjectResponse
+def takeFoodRequest(mainsock):
+    sendRequest(mainsock, "Take food")
+    ai.src.glob.currentCommand = takeFoodResponse
 
-def setObjectRequest(mainsock, object):
-    sendRequest(mainsock, "Set " + object)
-    ai.src.glob.currentCommand = setObjectResponse
+def takeLinemateRequest(mainsock):
+    sendRequest(mainsock, "Take linemate")
+    ai.src.glob.currentCommand = takeLinemateResponse
+
+def takeDeraumereRequest(mainsock):
+    sendRequest(mainsock, "Take deraumere")
+    ai.src.glob.currentCommand = takeDeraumereResponse
+
+def takeSiburRequest(mainsock):
+    sendRequest(mainsock, "Take sibur")
+    ai.src.glob.currentCommand = takeSiburResponse
+
+def takeMendianeRequest(mainsock):
+    sendRequest(mainsock, "Take mendiane")
+    ai.src.glob.currentCommand = takeMendianeResponse
+
+def takePhirasRequest(mainsock):
+    sendRequest(mainsock, "Take phiras")
+    ai.src.glob.currentCommand = takePhirasResponse
+
+def setFoodRequest(mainsock):
+    sendRequest(mainsock, "Set food")
+    ai.src.glob.currentCommand = setFoodResponse
+
+def setLinemateRequest(mainsock):
+    sendRequest(mainsock, "Set linemate")
+    ai.src.glob.currentCommand = setLinemateResponse
+
+def setDeraumereRequest(mainsock):
+    sendRequest(mainsock, "Set deraumere")
+    ai.src.glob.currentCommand = setDeraumereResponse
+
+def setSiburRequest(mainsock):
+    sendRequest(mainsock, "Set sibur")
+    ai.src.glob.currentCommand = setSiburResponse
+
+def setMendianeRequest(mainsock):
+    sendRequest(mainsock, "Set mendiane")
+    ai.src.glob.currentCommand = setMendianeResponse
+
+def setPhirasRequest(mainsock):
+    sendRequest(mainsock, "Set phiras")
+    ai.src.glob.currentCommand = setPhirasResponse
 
 def incantationRequest(mainsock):
     if (ai.src.glob.gameState["canIncant"]):

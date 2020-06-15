@@ -25,12 +25,22 @@ functions = [
     ai.src.requests.lookRequest,
     ai.src.requests.connectNbrRequest,
     ai.src.requests.inventoryRequest,
-    #ai.src.requests.forkRequest,
+    ai.src.requests.forkRequest,
+    ai.src.requests.incantationRequest,
+    ai.src.requests.takeFoodRequest,
+    ai.src.requests.takeLinemateRequest,
+    ai.src.requests.takeDeraumereRequest,
+    ai.src.requests.takeSiburRequest,
+    ai.src.requests.takeMendianeRequest,
+    ai.src.requests.takePhirasRequest,
+    ai.src.requests.setFoodRequest,
+    ai.src.requests.setLinemateRequest,
+    ai.src.requests.setDeraumereRequest,
+    ai.src.requests.setSiburRequest,
+    ai.src.requests.setMendianeRequest,
+    ai.src.requests.setPhirasRequest,
     #ai.src.requests.ejectRequest,
-    #ai.src.requests.incantationRequest
     #ai.src.requests.broadcastRequest,
-    # ai.src.requests.takeObjectRequest,
-    #ai.src.requests.setObjectRequest,
 ]
 
 def resetGame():
