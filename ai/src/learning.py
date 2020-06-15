@@ -28,9 +28,11 @@ def createModel():
     #init model
     #model = Sequential()
     #model.add(Dense(17, input_shape=(17,), activation="sigmoid"))
+    #model.add(Dense(1024, activation="sigmoid"))
+    #model.add(Dense(1024, activation="sigmoid"))
+    #model.add(Dense(1024, activation="sigmoid"))
+    #model.add(Dense(1024, activation="sigmoid"))
     #model.add(Dense(512, activation="sigmoid"))
-    #model.add(Dense(512, activation="sigmoid"))
-    #model.add(Dense(256, activation="sigmoid"))
     #model.add(Dense(20, activation="softmax"))
     #model.summary()
 

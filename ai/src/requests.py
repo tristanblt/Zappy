@@ -46,11 +46,11 @@ def connectNbrRequest(mainsock):
 
 def forkRequest(mainsock):
     if (ai.src.glob.gameState["canFork"]):
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 0
         sendRequest(mainsock, "Fork")
         ai.src.glob.currentCommand = forkResponse
     else:
-        ai.src.glob.reward -= 20
+        ai.src.glob.reward -= 3
     print("fork")
 
 def ejectRequest(mainsock):

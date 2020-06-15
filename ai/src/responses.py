@@ -52,6 +52,7 @@ def forwardResponse(response):
         item["pos"]["x"] += x
         item["pos"]["y"] += y
     computePlayerDistances()
+    ai.src.glob.reward += 3
     return True
 
 def rightResponse(response):
@@ -59,6 +60,7 @@ def rightResponse(response):
     if (ai.src.glob.lookAt < 0):
         ai.src.glob.lookAt = 3
     computePlayerDistances()
+    ai.src.glob.reward += 1
     return True
 
 def leftResponse(response):
@@ -66,6 +68,7 @@ def leftResponse(response):
     if (ai.src.glob.lookAt > 3):
         ai.src.glob.lookAt = 0
     computePlayerDistances()
+    ai.src.glob.reward += 1
     return True
 
 def lookResponse(response):
@@ -94,6 +97,7 @@ def lookResponse(response):
     computePlayerDistances()
     ai.src.glob.gameState["canIncant"] = checkIncant()
     print(ai.src.glob.gameState["canIncant"])
+    ai.src.glob.reward += 5
     return True
 
 def inventoryResponse(response):
@@ -109,6 +113,7 @@ def inventoryResponse(response):
     ai.src.glob.gameState["nbMendiane"] = inventory["mendiane"]
     ai.src.glob.gameState["nbPhiras"] = inventory["phiras"]
     ai.src.glob.gameState["nbThystame"] = inventory["thystame"]
+    ai.src.glob.reward += 3
     return True
 
 def broadcastResponse(response):
@@ -121,6 +126,7 @@ def connectNbrResponse(response):
         ai.src.glob.gameState["canFork"] = True
     else:
         ai.src.glob.gameState["canFork"] = False
+    ai.src.glob.reward += 1
     return True
 
 def forkResponse(response):
@@ -138,12 +144,13 @@ def takeFoodResponse(response):
     else:
         ai.src.glob.reward -= 20
     print("take food : "+response)
+    ai.src.glob.reward += 1
     return True
 
 def takeLinemateResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbLinemate"] += 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 5
         removeFromTile("linemate")
     else:
         ai.src.glob.reward -= 20
@@ -153,7 +160,7 @@ def takeLinemateResponse(response):
 def takeDeraumereResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbDeraumere"] += 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 5
         removeFromTile("deraumere")
     else:
         ai.src.glob.reward -= 20
@@ -163,7 +170,7 @@ def takeDeraumereResponse(response):
 def takeSiburResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbSibur"] += 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 5
         removeFromTile("sibur")
     else:
         ai.src.glob.reward -= 20
@@ -173,7 +180,7 @@ def takeSiburResponse(response):
 def takeMendianeResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbMendiane"] += 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 5
         removeFromTile("mendiane")
     else:
         ai.src.glob.reward -= 20
@@ -183,7 +190,7 @@ def takeMendianeResponse(response):
 def takePhirasResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbPhiras"] += 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 5
         removeFromTile("phiras")
     else:
         ai.src.glob.reward -= 20
@@ -193,7 +200,7 @@ def takePhirasResponse(response):
 def takeThystameResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbThystame"] += 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 5
         removeFromTile("thystame")
     else:
         ai.src.glob.reward -= 20
@@ -203,7 +210,7 @@ def takeThystameResponse(response):
 def setFoodResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbFood"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 3
         ai.src.glob.gameMap.append({
             "type": "food",
             "x": 0,
@@ -217,7 +224,7 @@ def setFoodResponse(response):
 def setLinemateResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbLinemate"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 3
         ai.src.glob.gameMap.append({
             "type": "linemate",
             "x": 0,
@@ -231,7 +238,7 @@ def setLinemateResponse(response):
 def setDeraumereResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbDeraumere"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 3
         ai.src.glob.gameMap.append({
             "type": "deraumere",
             "x": 0,
@@ -245,7 +252,7 @@ def setDeraumereResponse(response):
 def setSiburResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbSibur"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 3
         ai.src.glob.gameMap.append({
             "type": "sibur",
             "x": 0,
@@ -259,7 +266,7 @@ def setSiburResponse(response):
 def setMendianeResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbMendiane"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 3
         ai.src.glob.gameMap.append({
             "type": "mendiane",
             "x": 0,
@@ -273,7 +280,7 @@ def setMendianeResponse(response):
 def setPhirasResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbPhiras"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 3
         ai.src.glob.gameMap.append({
             "type": "phiras",
             "x": 0,
@@ -287,7 +294,7 @@ def setPhirasResponse(response):
 def setThystameResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbThystame"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward += 3
         ai.src.glob.gameMap.append({
             "type": "thystame",
             "x": 0,
