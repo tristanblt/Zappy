@@ -26,7 +26,7 @@ void end_proceed_death(zappy_data_t *z, client_t *client)
 bool handle_life(zappy_data_t *z, client_t *client)
 {
     if (((c_data_t *)client->data)->is_alive == false &&
-        client->out.nb == 0) {
+    client->out.nb == 0) {
         end_proceed_death(z, client);
         return (false);
     }

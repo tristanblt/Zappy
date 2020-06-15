@@ -52,7 +52,8 @@ egg_t *get_egg_by_team(zappy_data_t *z, char *team)
 
 /**
  * \fn void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
- * \brief Fonction qui assigne la pos et la team à un client avant de le supprimer
+ * \brief Fonction qui assigne la pos et la team à un client avant de le
+ * supprimer
  *
  * \param z structure principale du projet
  * \param client le client auquel on assigne la data
@@ -70,7 +71,8 @@ void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
 
 /**
  * \fn bool init_client_context(zappy_data_t *z, client_t *client, char *name)
- * \brief Fonction qui assigne des coordonnées et une team au client si possible, sinon il est déconecté
+ * \brief Fonction qui assigne des coordonnées et une team au client si
+ * possible, sinon il est déconecté
  *
  * \param z structure principale du programme
  * \param client le client a setup

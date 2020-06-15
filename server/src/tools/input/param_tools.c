@@ -99,7 +99,7 @@ int check_param_n(int ac, char **av, param_t *param)
 {
     int found_n = -1;
     int is_init = -1;
-    
+
     for (int i = 0; i < ac; i++) {
         if (strcmp(av[i], "-n") == 0) {
             is_init = init_param_n(ac, av, param, i);

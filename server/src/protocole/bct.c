@@ -11,19 +11,19 @@ void write_ressources(client_t *client, extracted_content_t content)
 {
     char buffer[6] = {0};
 
-    sprintf(buffer,"%d", content.ressources->food);
+    sprintf(buffer, "%d", content.ressources->food);
     add_raw_data(&client->out, buffer);
-    sprintf(buffer,"%d", content.ressources->linemate);
+    sprintf(buffer, "%d", content.ressources->linemate);
     add_raw_data(&client->out, buffer);
-    sprintf(buffer,"%d", content.ressources->deraumere);
+    sprintf(buffer, "%d", content.ressources->deraumere);
     add_raw_data(&client->out, buffer);
-    sprintf(buffer,"%d", content.ressources->sibur);
+    sprintf(buffer, "%d", content.ressources->sibur);
     add_raw_data(&client->out, buffer);
-    sprintf(buffer,"%d", content.ressources->mendiane);
+    sprintf(buffer, "%d", content.ressources->mendiane);
     add_raw_data(&client->out, buffer);
-    sprintf(buffer,"%d", content.ressources->phiras);
+    sprintf(buffer, "%d", content.ressources->phiras);
     add_raw_data(&client->out, buffer);
-    sprintf(buffer,"%d", content.ressources->thystame);
+    sprintf(buffer, "%d", content.ressources->thystame);
     add_raw_data(&client->out, buffer);
 }
 

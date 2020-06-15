@@ -14,7 +14,8 @@
  * \param start corrspond à la tile 0 0
  * \param x la position en largeur
  * \param y la position en hauteur de la tile
- * \return la tile demandée (attention peu bouclinf si les coordonées ne sont pas bonnes)
+ * \return la tile demandée (attention peu bouclinf si les coordonées ne
+ * sont pas bonnes)
  */
 map_node_t *on_tile(map_node_t *start, int x, int y)
 {
@@ -66,8 +67,10 @@ int count_players(server_t *server, int x, int y)
 }
 
 /**
- * \fn extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y)
- * \brief Fonction qui retourne les ressources et le nombre de joueurs sur une tile
+ * \fn extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x,
+ * int y)
+ * \brief Fonction qui retourne les ressources et le nombre de joueurs sur une
+ * tile
  *
  * \param data data du programme dont la map et ses informations
  * \param s le server

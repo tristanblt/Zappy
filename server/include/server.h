@@ -14,7 +14,7 @@ bool sigint_catch;
 
 /* DATA TOOLS */
 char *int_to_char(int nb);
-c_data_t *init_client_data();
+c_data_t *init_client_data(void);
 bool init_server_data(s_data_t *data, param_t params);
 void free_server_data(s_data_t *data);
 
@@ -61,7 +61,8 @@ void delete_line_tile(map_node_t *line);
 void delete_map_tile(map_node_t *map);
 
 /* VECTOR TOOLS */
-int compute_direction(position_t sender, position_t reciever, position_t map, int dir);
+int compute_direction(position_t sender, position_t reciever, position_t map,
+int dir);
 void move_in_dir(client_t *client, int dir, position_t map);
 
 /* REQUEST TOOLS */

@@ -24,7 +24,8 @@ void init_requests(request_manager_t *r)
 
 /**
  * \fn void add_to_requests(char *buff, client_t *client, int size)
- * \brief Fonction qui ajoute une commande dans le buffer circulaire si il y a de la place
+ * \brief Fonction qui ajoute une commande dans le buffer circulaire si il y a
+ * de la place
  *
  * \param buff la commande
  * \param client contenant requests
@@ -53,7 +54,8 @@ void add_to_requests(char *buff, client_t *client, int size)
 
 /**
  * \fn void rm_from_request(client_t *client)
- * \brief Fonction qui retire la commande en cours de traitement et bouge pos sur la prochaine
+ * \brief Fonction qui retire la commande en cours de traitement et bouge pos
+ * sur la prochaine
  *
  * \param client contenant requests
  * \return rien

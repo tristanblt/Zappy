@@ -11,7 +11,8 @@
  * \fn c_data_t *init_client_data(void)
  * \brief Fonction qui permet d'initialiser c_data de client
  *
- * \return c_data * initialisée sauf pour ce qui est de la team et de la position
+ * \return c_data * initialisée sauf pour ce qui est de la team et de la
+ * position
  */
 
 c_data_t *init_client_data(void)
