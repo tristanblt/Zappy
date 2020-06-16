@@ -9,7 +9,8 @@ import json
 import getopt
 import sys
 
-from ai.src.error import exceptionError
+from ai.src.error import *
+
 
 def usage():
     print("USAGE: ./zappy_ai -p port -n name -h machine")

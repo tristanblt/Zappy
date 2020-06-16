@@ -6,18 +6,18 @@
 ##
 
 import time
-import tensorflow
 import random
-import select
 import queue
 import random
 import numpy as np
 import json
+import sys
 
 import ai.src.glob
 from ai.src.requests import *
 from ai.src.event import eventHandler
 from ai.src.error import exceptionError
+from ai.src.select import selectHandler
 
 functions = [
     ai.src.requests.forwardRequest,
@@ -48,16 +48,20 @@ functions = [
 
 def resetGame():
     ai.src.glob.AIRunning = True
+    ai.src.glob.readBuffer = ""
+    ai.src.glob.writeBuffer = ""
     ai.src.glob.readQueue = queue.Queue()
-    ai.src.glob.writeQueue = queue.Queue()
+
     ai.src.glob.currentCommand = None
-    ai.src.glob.reward = 0
+
     ai.src.glob.gameState = {}
     ai.src.glob.gameState["clientNum"] = 0
     ai.src.glob.gameState["mapSize"] = {}
     ai.src.glob.gameState["mapSize"]["x"] = 0
     ai.src.glob.gameState["mapSize"]["y"] = 0
     ai.src.glob.gameState["level"] = 1
+
+    # ?????
     ai.src.glob.gameState["directionFood"] = -1
     ai.src.glob.gameState["directionLinemate"] = -1
     ai.src.glob.gameState["directionDeraumere"] = -1
@@ -75,118 +79,26 @@ def resetGame():
     ai.src.glob.gameState["canFork"] = True
     ai.src.glob.gameState["canIncant"] = False
 
-def startGame(params, mainsock, model):
-    recordStates = []
-    iteration = 0
-    globIteration = 0
-    batchSize = 10
-
+def startGame(params, mainsock):
     resetGame()
-    ai.src.requests.initGameRequest(mainsock, params["name"])
+    ai.src.requests.initGameRequest(params["name"])
+
     while ai.src.glob.AIRunning:
-        readable, writable, exceptional = select.select([mainsock], [mainsock], [mainsock])
-        for s in readable:
-            data = s.recv(1024)
-            if data:
-                ai.src.glob.readQueue.put(data.decode())
-            else:
-                mainsock.close()
-                exit(84)
-        for s in writable:
-            try:
-                next_cmd = ai.src.glob.writeQueue.get_nowait()
-            except queue.Empty:
-                pass
-            else:
-                s.send(next_cmd.encode())
-        for s in exceptional:
-            mainsock.close()
-            exit(84)
+        selectHandler(mainsock)
         while True:
             try:
                 response = ai.src.glob.readQueue.get_nowait()
-                iteration += 1
-                globIteration += 1
+                print(response)
                 if not eventHandler(response):
-                    if not ai.src.glob.currentCommand(response):
+                    command = ai.src.glob.currentCommand
+                    ai.src.glob.currentCommand = None
+                    if not command(response):
                         mainsock.close()
                         exit(84)
-                    ai.src.glob.currentCommand = None
-                    if ai.src.glob.currentCommandPred:
-                        ai.src.glob.currentCommandPred[ai.src.glob.currentCommandIdx] = ai.src.glob.reward
-                        recordStates.append([ai.src.glob.gameState, ai.src.glob.currentCommandPred])
-                        ai.src.glob.reward = 0
             except queue.Empty:
                 break
         if ai.src.glob.currentCommand is None:
-            requestSelection(mainsock, model)
-        if iteration == batchSize:
-            iteration = 0
-            if len(recordStates) > 0:
-                Xtrain = []
-                Ytrain = []
-                for gs in recordStates:
-                    Xtrain.append([
-                        gs[0]["level"],
-                        gs[0]["directionFood"],
-                        gs[0]["directionLinemate"],
-                        gs[0]["directionDeraumere"],
-                        gs[0]["directionSibur"],
-                        gs[0]["directionMendiane"],
-                        gs[0]["directionPhiras"],
-                        gs[0]["directionThystame"],
-                        gs[0]["nbFood"],
-                        gs[0]["nbLinemate"],
-                        gs[0]["nbDeraumere"],
-                        gs[0]["nbSibur"],
-                        gs[0]["nbMendiane"],
-                        gs[0]["nbPhiras"],
-                        gs[0]["nbThystame"],
-                        gs[0]["canFork"],
-                        gs[0]["canIncant"]
-                    ])
-                    Ytrain.append(gs[1])
-                model.fit(np.array(Xtrain), np.array(Ytrain), batch_size=batchSize)
-                recordStates.clear()
-    print("-------------------------------------------------------------")
-    print("iterations: " + str(globIteration))
-    print(json.dumps(ai.src.glob.gameState, indent=4))
-    print("-------------------------------------------------------------")
-    return False
+            requestSelection(mainsock)
 
-def requestSelection(ms, model):
-    prediction = model.predict(np.array([[
-        ai.src.glob.gameState["level"],
-        ai.src.glob.gameState["directionFood"],
-        ai.src.glob.gameState["directionLinemate"],
-        ai.src.glob.gameState["directionDeraumere"],
-        ai.src.glob.gameState["directionSibur"],
-        ai.src.glob.gameState["directionMendiane"],
-        ai.src.glob.gameState["directionPhiras"],
-        ai.src.glob.gameState["directionThystame"],
-        ai.src.glob.gameState["nbFood"],
-        ai.src.glob.gameState["nbLinemate"],
-        ai.src.glob.gameState["nbDeraumere"],
-        ai.src.glob.gameState["nbSibur"],
-        ai.src.glob.gameState["nbMendiane"],
-        ai.src.glob.gameState["nbPhiras"],
-        ai.src.glob.gameState["nbThystame"],
-        ai.src.glob.gameState["canFork"],
-        ai.src.glob.gameState["canIncant"]
-    ]])).flatten().tolist()
-
-    if random.randrange(1, 3) == 1:
-        print("rand: ", end='')
-        cmdIdx = random.randrange(0, len(functions))
-        requestWithIdx(ms, cmdIdx)
-    else:
-        print("pred: ", end='')
-        cmdIdx = prediction.index(max(prediction))
-        requestWithIdx(ms, cmdIdx)
+def requestSelection(mainsock):
     
-    ai.src.glob.currentCommandPred = prediction
-    ai.src.glob.currentCommandIdx = cmdIdx
-
-def requestWithIdx(ms, idx):
-    print(idx)
-    functions[idx](ms)

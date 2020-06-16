@@ -13,17 +13,23 @@ AIRunning = True
 global readQueue
 readQueue = queue.Queue()
 
-global readBuffer
-readBuffer = ""
-
-global writeBuffer
-writeBuffer = ""
+global writeQueue
+writeQueue = queue.Queue()
 
 global currentCommand
 currentCommand = None
 
+global currentCommandIdx
+currentCommandIdx = 0
+
+global currentCommandPred
+currentCommandPred = None
+
 global gameState
 gameState = {}
+
+global reward
+reward = 0
 
 global gameMap
 gameMap = []

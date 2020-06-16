@@ -22,23 +22,13 @@ def removeFromTile(item):
             return
     return
 
-def initGameResponseClientNum(response):
+def initGameResponse(response):
     if (response == "ko\n"):
         return None
     lineSplit = response.split("\n")
+    spaceSplit = lineSplit[1].split(" ")    
     try:
         ai.src.glob.gameState["clientNum"] = int(lineSplit[0])
-        ai.src.glob.currentCommand = initGameResponseMapSize
-        return True
-    except:
-        return False
-
-def initGameResponseMapSize(response):
-    if (response == "ko\n"):
-        return None
-    lineSplit = response.split("\n")
-    spaceSplit = lineSplit[0].split(" ")    
-    try:
         ai.src.glob.gameState["mapSize"]["x"] = int(spaceSplit[0])
         ai.src.glob.gameState["mapSize"]["y"] = int(spaceSplit[1])
         return True

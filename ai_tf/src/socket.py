@@ -15,9 +15,10 @@ def initSocket(params):
     try:
         mainsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         mainsock.connect((params['machine'], params['port']))
-        sendRequest("")
+        sendRequest(mainsock, "")
         mainsock.recv(1024)
         return mainsock
-    except:
-        print("Can't connect to server")
-        return None
+        
+    except Exception as e:
+        exceptionError(e)
+    

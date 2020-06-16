@@ -5,25 +5,23 @@
 ## main
 ##
 
-import sys
-import socket
+import os
 import time
 
 from ai.src.arguments import parseArgs
 from ai.src.socket import initSocket
 from ai.src.game import startGame
-from ai.src.learning import createModel, saveModel
 
 def main():
     params = parseArgs()
-    model = createModel()
 
-    # play N games
-    for i in range(1):
-        mainsock = initSocket(params)
-        startGame(params, mainsock, model)
-        mainsock.close()
-        time.sleep(0.5)
-
-    saveModel(model)
-
+    while True:
+        pid = os.fork()
+        if pid == 0:
+            mainsock = initSocket(params)
+            if mainsock is None:
+                break
+            startGame(params, mainsock)
+            mainsock.close()
+        else:
+            time.sleep(5)

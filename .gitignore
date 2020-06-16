@@ -1,3 +1,4 @@
+ai_tf/src/__pycache__/*
 ai/src/__pycache__/*
 zappy_server
 .vscode/*
