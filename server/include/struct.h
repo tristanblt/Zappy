@@ -70,7 +70,7 @@ typedef struct c_data_s c_data_t;
 struct time_manager_s {
     bool is_needed;
     struct timeval timeout;
-    double last_time;
+    struct timeval last_time;
     float delta_time;
     int ratio;
 };
@@ -109,6 +109,7 @@ struct s_data_s {
 
 struct c_data_s {
     bool is_alive;
+    bool req_cntx;
     char *team;
     int level;
     float cool_down;

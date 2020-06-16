@@ -112,8 +112,9 @@ bool handle_fds(server_t *server)
     }
     if (is_ok == ERROR || !server)
         return (ERROR);
-    if (FD_ISSET(server->sck.fd, &server->fds.read) > 0)
+    if (FD_ISSET(server->sck.fd, &server->fds.read) > 0) {
         is_ok = new_client_welcome(server, init_client_data());
+    }
     if (!server || !is_ok || FD_ISSET(server->sck.fd, &server->fds.error) > 0)
         return (ERROR);
     return (is_ok);
@@ -132,7 +133,9 @@ bool server_iteration(server_t *server)
     handle_time(server);
     update_fds(server);
     if (select(FD_SETSIZE, &server->fds.read, &server->fds.write,
-        &server->fds.error, NULL) == -1)
+        &server->fds.error, server->t.is_needed? &server->t.timeout : NULL) == -1) {
         return (ERROR);
+    }
+    update_cool_downs(server);
     return (handle_fds(server));
 }

@@ -25,24 +25,27 @@ const command_t cmds[NB_CMDS] = {
 
 int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
-    int ret = SUCCESS;
+    bool ret = SUCCESS;
 
-    setvbuf(stdout, NULL, _IONBF, 0);
     if (((c_data_t *)client->data)->team == NULL) {
         if (check_client_connexion(z, client, command) == ERROR)
             return (2);
         rm_from_request(client);
-        return (1);
+        return (SUCCESS);
     }
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
-        !((c_data_t *)client->data)->cool_down) {
+        ((c_data_t *)client->data)->req_cntx == END) {
+            ((c_data_t *)client->data)->req_cntx = START;
+            return (cmds[i].start(z, client, command + cmds[i].token_len));
+        } else if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
+            !((c_data_t *)client->data)->cool_down) {
+            ((c_data_t *)client->data)->req_cntx = END;
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
-            rm_from_request(client);
-        } else if (!strncmp(cmds[i].token, command, cmds[i].token_len)) {
-            ret = cmds[i].start(z, client, command + cmds[i].token_len);
         }
     }
+    if (((c_data_t *)client->data)->cool_down == 0)
+        rm_from_request(client);
     return (ret);
 }
 
@@ -90,7 +93,7 @@ bool handle_commands(zappy_data_t *z)
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {
         tmp2 = tmp->next.sle_next;
         search_command_in_client(tmp);
-        if ((s_ret = handle_life(z, tmp)) &&!(s_ret =
+        if ((s_ret = handle_life(z, tmp)) && tmp->requests.nb && !(s_ret =
         switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))) {
             return (ERROR);
         } else if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE)

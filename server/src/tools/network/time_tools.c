@@ -16,10 +16,7 @@
  */
 void init_time(time_manager_t *t, int ratio)
 {
-    struct timespec ts;
-
-    timespec_get(&ts, TIME_UTC);
-    t->last_time = (double)clock() / CLOCKS_PER_SEC;
+    gettimeofday(&t->last_time, NULL);
     t->delta_time = 1;
     t->is_needed = false;
     t->timeout.tv_sec = 0;
@@ -36,12 +33,12 @@ void init_time(time_manager_t *t, int ratio)
  */
 void update_delta_time(time_manager_t *t)
 {
-    struct timespec ts;
-    double tmp = t->last_time;
+    struct timeval tv;
 
-    timespec_get(&ts, TIME_UTC);
-    t->last_time = (double)clock() / CLOCKS_PER_SEC;
-    t->delta_time = (t->last_time - tmp);
+    gettimeofday(&tv, NULL);
+    t->delta_time = (float)(tv.tv_usec - t->last_time.tv_usec) / 1000000 + (tv.tv_sec - t->last_time.tv_sec);
+    t->last_time.tv_sec = tv.tv_sec;
+    t->last_time.tv_usec = tv.tv_usec;
 }
 
 /**
@@ -60,7 +57,6 @@ void update_cool_downs(server_t *server)
         if (((c_data_t *)tmp->data)->cool_down - server->t.delta_time > 0)
             ((c_data_t *)tmp->data)->cool_down -= server->t.delta_time;
         else if (((c_data_t *)tmp->data)->cool_down != 0) {
-            rm_from_request(tmp);
             ((c_data_t *)tmp->data)->cool_down = 0;
         }
         if (((c_data_t *)tmp->data)->hunger_cd - server->t.delta_time > 0)
@@ -89,9 +85,9 @@ void update_timeout(server_t *server)
         if (cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down)
             cd = ((c_data_t *)tmp->data)->cool_down;
     }
-    server->t.is_needed = (cd == 0) ? false : true;
+    server->t.is_needed = (cd <= 0) ? false : true;
     server->t.timeout.tv_sec = (long)cd;
-    server->t.timeout.tv_usec = 1000 * (cd - (int)cd);
+    server->t.timeout.tv_usec = 1000000 * (cd - (int)cd);
 }
 
 /**
@@ -104,6 +100,5 @@ void update_timeout(server_t *server)
 void handle_time(server_t *server)
 {
     update_delta_time(&server->t);
-    update_cool_downs(server);
     update_timeout(server);
 }
