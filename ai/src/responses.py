@@ -209,7 +209,7 @@ def takeThystameResponse(response):
 def setFoodResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbFood"] -= 1
-        ai.src.glob.reward += 10
+        ai.src.glob.reward -= 0
         ai.src.glob.gameMap.append({
             "type": "food",
             "x": 0,

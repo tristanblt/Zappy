@@ -12,6 +12,7 @@ import select
 import queue
 import random
 import numpy as np
+import json
 
 import ai.src.glob
 from ai.src.requests import *
@@ -77,6 +78,7 @@ def resetGame():
 def startGame(params, mainsock, model):
     recordStates = []
     iteration = 0
+    globIteration = 0
     batchSize = 10
 
     resetGame()
@@ -104,6 +106,7 @@ def startGame(params, mainsock, model):
             try:
                 response = ai.src.glob.readQueue.get_nowait()
                 iteration += 1
+                globIteration += 1
                 if not eventHandler(response):
                     if not ai.src.glob.currentCommand(response):
                         mainsock.close()
@@ -145,6 +148,10 @@ def startGame(params, mainsock, model):
                     Ytrain.append(gs[1])
                 model.fit(np.array(Xtrain), np.array(Ytrain), batch_size=batchSize)
                 recordStates.clear()
+    print("-------------------------------------------------------------")
+    print("iterations: " + str(globIteration))
+    print(json.dumps(ai.src.glob.gameState, indent=4))
+    print("-------------------------------------------------------------")
     return False
 
 def requestSelection(ms, model):
@@ -167,26 +174,6 @@ def requestSelection(ms, model):
         ai.src.glob.gameState["canFork"],
         ai.src.glob.gameState["canIncant"]
     ]])).flatten().tolist()
-
-    print([
-        ai.src.glob.gameState["level"],
-        ai.src.glob.gameState["directionFood"],
-        ai.src.glob.gameState["directionLinemate"],
-        ai.src.glob.gameState["directionDeraumere"],
-        ai.src.glob.gameState["directionSibur"],
-        ai.src.glob.gameState["directionMendiane"],
-        ai.src.glob.gameState["directionPhiras"],
-        ai.src.glob.gameState["directionThystame"],
-        ai.src.glob.gameState["nbFood"],
-        ai.src.glob.gameState["nbLinemate"],
-        ai.src.glob.gameState["nbDeraumere"],
-        ai.src.glob.gameState["nbSibur"],
-        ai.src.glob.gameState["nbMendiane"],
-        ai.src.glob.gameState["nbPhiras"],
-        ai.src.glob.gameState["nbThystame"],
-        ai.src.glob.gameState["canFork"],
-        ai.src.glob.gameState["canIncant"]
-    ])
 
     if random.randrange(1, 3) == 1:
         print("rand: ", end='')
