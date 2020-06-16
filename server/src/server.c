@@ -34,6 +34,7 @@ int zappy_server(int ac, char **av)
             is_ok = handle_commands(z);
         if (!is_ok || sigint_catch == true)
             z->server->running = false;
+        update_map(z);
     }
     end_zappy(z, param);
     return (is_ok ? EPI_EXIT_ERROR : EPI_EXIT_SUCCESS);

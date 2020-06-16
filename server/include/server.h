@@ -14,7 +14,7 @@ bool sigint_catch;
 
 /* DATA TOOLS */
 char *int_to_char(int nb);
-c_data_t *init_client_data(void);
+c_data_t *init_client_data(int f);
 bool init_server_data(s_data_t *data, param_t params);
 void free_server_data(s_data_t *data);
 
@@ -48,6 +48,7 @@ void handle_time(server_t *server);
 void init_time(time_manager_t *t, int time_ratio);
 void update_timeout(server_t *server);
 
+
 /* LIFE TOOLS */
 bool handle_life(zappy_data_t *z, client_t *client);
 
@@ -60,6 +61,7 @@ int count_players(server_t *server, int x, int y);
 extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y);
 void delete_line_tile(map_node_t *line);
 void delete_map_tile(map_node_t *map);
+void update_map(zappy_data_t *z);
 
 /* VECTOR TOOLS */
 int compute_direction(position_t sender, position_t reciever, position_t map,

@@ -56,15 +56,12 @@ void update_cool_downs(server_t *server)
     {
         if (((c_data_t *)tmp->data)->cool_down - server->t.delta_time > 0)
             ((c_data_t *)tmp->data)->cool_down -= server->t.delta_time;
-        else if (((c_data_t *)tmp->data)->cool_down != 0) {
+        else if (((c_data_t *)tmp->data)->cool_down != 0)
             ((c_data_t *)tmp->data)->cool_down = 0;
-        }
-        if (((c_data_t *)tmp->data)->hunger_cd - server->t.delta_time > 0)
-            ((c_data_t *)tmp->data)->hunger_cd -= server->t.delta_time;
-        else {
-            ((c_data_t *)tmp->data)->inventory.food--;
-            ((c_data_t *)tmp->data)->hunger_cd = 126 / server->t.ratio;
-        }
+        if (((c_data_t *)tmp->data)->team && ((c_data_t *)tmp->data)->inventory.food - server->t.delta_time > 0)
+            ((c_data_t *)tmp->data)->inventory.food -= server->t.delta_time;
+        else if (((c_data_t *)tmp->data)->team)
+            ((c_data_t *)tmp->data)->inventory.food = 0;
     }
 }
 
@@ -82,8 +79,10 @@ void update_timeout(server_t *server)
 
     SLIST_FOREACH(tmp, &server->clients, next)
     {
-        if (cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down)
+        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down) && ((c_data_t *)tmp->data)->cool_down)
             cd = ((c_data_t *)tmp->data)->cool_down;
+        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->inventory.food) && ((c_data_t *)tmp->data)->team)
+            cd = ((c_data_t *)tmp->data)->inventory.food;
     }
     server->t.is_needed = (cd <= 0) ? false : true;
     server->t.timeout.tv_sec = (long)cd;
@@ -100,5 +99,5 @@ void update_timeout(server_t *server)
 void handle_time(server_t *server)
 {
     update_delta_time(&server->t);
-    update_timeout(server);
+    update_cool_downs(server);
 }
