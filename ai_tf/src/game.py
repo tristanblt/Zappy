@@ -13,6 +13,7 @@ import queue
 import random
 import numpy as np
 import json
+import sys
 
 import ai.src.glob
 from ai.src.requests import *
@@ -148,10 +149,10 @@ def startGame(params, mainsock, model):
                     Ytrain.append(gs[1])
                 model.fit(np.array(Xtrain), np.array(Ytrain), batch_size=batchSize)
                 recordStates.clear()
-    print("-------------------------------------------------------------")
-    print("iterations: " + str(globIteration))
-    print(json.dumps(ai.src.glob.gameState, indent=4))
-    print("-------------------------------------------------------------")
+    print("-------------------------------------------------------------", file=sys.stderr)
+    print("iterations: " + str(globIteration), file=sys.stderr)
+    print(json.dumps(ai.src.glob.gameState, indent=4), file=sys.stderr)
+    print("-------------------------------------------------------------", file=sys.stderr)
     return False
 
 def requestSelection(ms, model):
@@ -176,11 +177,9 @@ def requestSelection(ms, model):
     ]])).flatten().tolist()
 
     if random.randrange(1, 3) == 1:
-        print("rand: ", end='')
         cmdIdx = random.randrange(0, len(functions))
         requestWithIdx(ms, cmdIdx)
     else:
-        print("pred: ", end='')
         cmdIdx = prediction.index(max(prediction))
         requestWithIdx(ms, cmdIdx)
     
@@ -188,5 +187,4 @@ def requestSelection(ms, model):
     ai.src.glob.currentCommandIdx = cmdIdx
 
 def requestWithIdx(ms, idx):
-    print(idx)
     functions[idx](ms)

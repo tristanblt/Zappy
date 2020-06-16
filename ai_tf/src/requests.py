@@ -51,7 +51,6 @@ def forkRequest(mainsock):
         ai.src.glob.currentCommand = forkResponse
     else:
         ai.src.glob.reward -= 200
-    print("fork")
 
 def ejectRequest(mainsock):
     sendRequest(mainsock, "Eject")
@@ -115,7 +114,6 @@ def setThystameRequest(mainsock):
 
 def incantationRequest(mainsock):
     if (ai.src.glob.gameState["canIncant"]):
-        print("INCANTION")
         ai.src.glob.reward += 200
         sendRequest(mainsock, "Incantation")
         ai.src.glob.currentCommand = incantationResponse

@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2020
+## Zappy
+## File description:
+## main
+##
+
+import os
+import time
+
+from ai_tf.src.main import main
+
+if __name__ == "__main__":
+    while True:
+        pid = os.fork()
+        if pid == 0:
+            main()
+        else:
+            time.sleep(10)

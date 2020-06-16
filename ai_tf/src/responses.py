@@ -96,7 +96,6 @@ def lookResponse(response):
             i = 0
     computePlayerDistances()
     ai.src.glob.gameState["canIncant"] = checkIncant()
-    print(ai.src.glob.gameState["canIncant"])
     ai.src.glob.reward += 5
     return True
 
@@ -117,33 +116,31 @@ def inventoryResponse(response):
     return True
 
 def broadcastResponse(response):
-    #print(response)
     return True
 
 def connectNbrResponse(response):
     ai.src.glob.gameState["clientNum"] = int(response)
-    if ai.src.glob.gameState["clientNum"] > 0:
-        ai.src.glob.gameState["canFork"] = True
-    else:
-        ai.src.glob.gameState["canFork"] = False
-    ai.src.glob.reward += 1
+    #if ai.src.glob.gameState["clientNum"] > 0:
+    #    ai.src.glob.gameState["canFork"] = True
+    #else:
+    #    ai.src.glob.gameState["canFork"] = False
+    #ai.src.glob.reward += 1
     return True
 
 def forkResponse(response):
+    ai.src.glob.gameState["canFork"] = False
     return True
 
 def ejectResponse(response):
-    #print(response)
     return True
 
 def takeFoodResponse(response):
     if response == "ok":
         ai.src.glob.gameState["nbFood"] += 1
-        ai.src.glob.reward += 40
+        ai.src.glob.reward += 100
         removeFromTile("food")
     else:
         ai.src.glob.reward -= 40
-    print("take food : "+response)
     return True
 
 def takeLinemateResponse(response):
@@ -153,7 +150,6 @@ def takeLinemateResponse(response):
         removeFromTile("linemate")
     else:
         ai.src.glob.reward -= 40
-    print("take linemate : "+response)
     return True
 
 def takeDeraumereResponse(response):
@@ -163,7 +159,6 @@ def takeDeraumereResponse(response):
         removeFromTile("deraumere")
     else:
         ai.src.glob.reward -= 40
-    print("take deraumere : "+response)
     return True
 
 def takeSiburResponse(response):
@@ -173,7 +168,6 @@ def takeSiburResponse(response):
         removeFromTile("sibur")
     else:
         ai.src.glob.reward -= 40
-    print("take sibur : "+response)
     return True
 
 def takeMendianeResponse(response):
@@ -183,7 +177,6 @@ def takeMendianeResponse(response):
         removeFromTile("mendiane")
     else:
         ai.src.glob.reward -= 40
-    print("take mendiane : "+response)
     return True
 
 def takePhirasResponse(response):
@@ -193,7 +186,6 @@ def takePhirasResponse(response):
         removeFromTile("phiras")
     else:
         ai.src.glob.reward -= 40
-    print("take phiras : "+response)
     return True
 
 def takeThystameResponse(response):
@@ -203,7 +195,6 @@ def takeThystameResponse(response):
         removeFromTile("thystame")
     else:
         ai.src.glob.reward -= 40
-    print("take thystame : "+response)
     return True
 
 def setFoodResponse(response):
@@ -217,7 +208,6 @@ def setFoodResponse(response):
         })
     else:
         ai.src.glob.reward -= 40
-    print("set food : "+response)
     return True
 
 def setLinemateResponse(response):
@@ -231,7 +221,6 @@ def setLinemateResponse(response):
         })
     else:
         ai.src.glob.reward -= 40
-    print("set linemate : "+response)
     return True
 
 def setDeraumereResponse(response):
@@ -245,7 +234,6 @@ def setDeraumereResponse(response):
         })
     else:
         ai.src.glob.reward -= 40
-    print("set deraumere : "+response)
     return True
 
 def setSiburResponse(response):
@@ -259,7 +247,6 @@ def setSiburResponse(response):
         })
     else:
         ai.src.glob.reward -= 40
-    print("set sibur : "+response)
     return True
 
 def setMendianeResponse(response):
@@ -273,7 +260,6 @@ def setMendianeResponse(response):
         })
     else:
         ai.src.glob.reward -= 40
-    print("set mendiane : "+response)
     return True
 
 def setPhirasResponse(response):
@@ -287,7 +273,6 @@ def setPhirasResponse(response):
         })
     else:
         ai.src.glob.reward -= 40
-    print("set phiras : "+response)
     return True
 
 def setThystameResponse(response):
@@ -301,7 +286,6 @@ def setThystameResponse(response):
         })
     else:
         ai.src.glob.reward -= 40
-    print("set thystame : "+response)
     return True
 
 def incantationResponse(response):

@@ -19,11 +19,9 @@ def main():
     model = createModel()
 
     # play N games
-    for i in range(1):
-        mainsock = initSocket(params)
-        startGame(params, mainsock, model)
-        mainsock.close()
-        time.sleep(0.5)
+    mainsock = initSocket(params)
+    startGame(params, mainsock, model)
+    mainsock.close()
 
     saveModel(model)
 
