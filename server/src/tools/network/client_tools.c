@@ -20,7 +20,7 @@ client_t *get_graphical_client(server_t *server)
 
     SLIST_FOREACH(tmp, &server->clients, next)
     {
-        if (tmp->type == GRAPHIQUE)
+        if (tmp->type == GRAPHICAL)
             return (tmp);
     }
     return (NULL);

@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-bool smg(zappy_data_t *z, client_t *client, char *arg)
+bool smg(zappy_data_t *z, char *arg)
 {
     client_t *tmp;
     SLIST_FOREACH(tmp, &z->server->clients, next)

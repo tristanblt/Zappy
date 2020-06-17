@@ -54,7 +54,7 @@ int check_client_connexion(zappy_data_t *z, client_t *client, char *command)
 {
     if (((c_data_t *)client->data)->team == NULL && client->type == NOTHING) {
         if (strcmp(command, "") == 0) {
-            client->type = GRAPHIQUE;
+            client->type = GRAPHICAL;
         } else if (is_ai_client_connexion(z, client, command) == ERROR)
             return (2);
         rm_from_request(client);

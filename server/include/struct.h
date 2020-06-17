@@ -148,7 +148,7 @@ typedef enum type_e type_e;
 
 enum type_e {
     AI,
-    GRAPHIQUE,
+    GRAPHICAL,
     NOTHING
 };
 

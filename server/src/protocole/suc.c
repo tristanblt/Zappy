@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-bool suc(zappy_data_t *z, client_t *client, char *arg)
+bool suc(zappy_data_t *z)
 {
     client_t *tmp;
         SLIST_FOREACH(tmp, &z->server->clients, next)
