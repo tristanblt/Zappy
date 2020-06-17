@@ -132,7 +132,6 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     char buff[2] = {0};
 
     (void)arg;
-    printf("hello\n");
     if (is_incantation_possible(data->inventory, recipes[data->level - 1],
     nb_player) == false) {
         add_data(&client->out, 1, "ko");

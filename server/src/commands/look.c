@@ -35,22 +35,26 @@ bool start_look(zappy_data_t *z, client_t *client, char *command)
  */
 bool end_look(zappy_data_t *z, client_t *client, char *arg)
 {
-    printf("ok2\n");
+    printf("ok\n");
     (void)arg;
     switch (((c_data_t *)client->data)->dir) {
     case 0:
+        printf("ok0\n");
         look_bottom_top(client, z, -1);
         break;
     case 1:
+        printf("ok1\n");
         look_right_left(client, z, 1);
         break;
     case 2:
+        printf("ok2\n");
         look_bottom_top(client, z, 1);
         break;
     case 3:
+        printf("ok3\n");
         look_right_left(client, z, -1);
         break;
     }
-    printf("ok3\n");
+    printf("ok\n");
     return (SUCCESS);
 }

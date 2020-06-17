@@ -139,4 +139,8 @@ char **split_command(char *command);
 /* EGG_TOOLS */
 bool init_client_context(zappy_data_t *z, client_t *client, char *name);
 
+
+/* PROTOCOLE */
+bool msz(zappy_data_t *z, client_t *client, char *arg);
+
 #endif /* !SERVER_H_ */

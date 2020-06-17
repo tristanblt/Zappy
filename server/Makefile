@@ -21,6 +21,7 @@ SRCS_FILES		=	main.c \
 					commands/inventory.c \
 					commands/look.c \
 					commands/look_tools.c \
+					protocole/msz.c \
 					tools/split.c \
 					tools/data/data_tools.c \
 					tools/data/egg_tools.c \

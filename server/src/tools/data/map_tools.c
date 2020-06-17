@@ -20,11 +20,19 @@
 map_node_t *on_tile(map_node_t *start, int x, int y)
 {
     map_node_t *pos = start;
-
-    while (pos->coordinates.x != x)
+    int i = 0;
+    while (pos->coordinates.x != x && i < 30) {
+        printf("pos_x = %i, x = %i\n", pos->coordinates.x, x);
+        printf("pos_x = %p\n", pos);
         pos = pos->right;
-    while (pos->coordinates.y != y)
+        i++;
+    }
+    i = 0;
+    while (pos->coordinates.y != y && i < 30) {
+        printf("pos_y = %i, y = %i\n", pos->coordinates.y, y);
         pos = pos->bottom;
+        i++;
+    }
     return (pos);
 }
 
