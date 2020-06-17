@@ -30,6 +30,7 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
 
     if ((ret = check_client_connexion(z, client, command)) > 0)
         return (ret);
+    ret = (ret == 0) ? SUCCESS : ret;
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         ((c_data_t *)client->data)->req_cntx == END) {
@@ -41,8 +42,9 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }
     }
-    if (((c_data_t *)client->data)->cool_down == 0)
+    if (((c_data_t *)client->data)->cool_down == 0) {
         rm_from_request(client);
+    }
     return (ret);
 }
 
@@ -93,8 +95,9 @@ bool handle_commands(zappy_data_t *z)
         if ((s_ret = handle_life(z, tmp)) && tmp->requests.nb && !(s_ret =
         switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))) {
             return (ERROR);
-        } else if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE)
+        } else if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE) {
             tmp = NULL;
+        }
     }
     update_egg_status(z);
     return (SUCCESS);

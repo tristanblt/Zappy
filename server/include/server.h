@@ -30,9 +30,12 @@ void rm_from_request(client_t *client);
 void init_requests(request_manager_t *r);
 
 /* CLIENT TOOLS */
+client_t *get_graphical_client(server_t *server);
 bool add_client(server_t *server, void *data);
 bool rm_client(server_t *server, client_t *client);
 bool init_client(server_t *s, client_t *client);
+
+/* CONNEXION_TOOLS */
 int check_client_connexion(zappy_data_t *z, client_t *client, char *command);
 bool new_client_welcome(server_t *server, void *data);
 

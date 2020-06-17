@@ -8,6 +8,25 @@
 #include "server.h"
 
 /**
+ * \fn client_t *get_graphical_client(server_t *server)
+ * \brief Retourne le client graphique
+ *
+ * \param server la variable principale du projet
+ * \return le client si il y en un, sinon NULL
+ */
+client_t *get_graphical_client(server_t *server)
+{
+    client_t *tmp;
+
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
+        if (tmp->type == GRAPHIQUE)
+            return (tmp);
+    }
+    return (NULL);
+}
+
+/**
  * \fn bool new_client_welcome(server_t *server, void *data)
  * \brief Ajoute un client si pas d'erreur et l'accueil
  *
