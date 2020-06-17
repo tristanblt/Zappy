@@ -152,6 +152,7 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name);
 /* PROTOCOLE */
 bool msz(zappy_data_t *z, client_t *client, char *arg);
 bool sbp(zappy_data_t *z, client_t *client, char *arg);
+bool smg(zappy_data_t *z, client_t *client, char *arg);
 bool suc(zappy_data_t *z, client_t *client, char *arg);
 
 #endif /* !SERVER_H_ */
