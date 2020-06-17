@@ -25,6 +25,7 @@ SRCS_FILES		=	main.c \
 					commands/set_down.c \
 					commands/take.c \
 					protocole/msz.c \
+					protocole/sbp.c \
 					tools/split.c \
 					tools/data/data_tools.c \
 					tools/data/egg_tools.c \
