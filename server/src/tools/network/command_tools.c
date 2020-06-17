@@ -7,13 +7,21 @@
 
 #include "server.h"
 
-#define NB_CMDS 4
+#define NB_CMDS 11
 
 const command_t cmds[NB_CMDS] = {
-    {"Forward", 7, &start_move_cmd, &end_move_cmd, AI},
-    {"Look", 4, &start_look, &end_look, AI},
-    {"Incantation", 11, &start_incantation, &end_incantation, AI},
-    {"msz", 3, &msz, NULL, GRAPHICAL},
+    {"Forward ", 8, &start_move_cmd, &end_move_cmd, AI},
+    {"Look ", 5, &start_look, &end_look, AI},
+    {"Incantation ", 12, &start_incantation, &end_incantation, AI},
+    {"msz ", 4, &start_msz, &end_msz, GRAPHICAL},
+    {"bct ", 4, &start_bct, &end_bct, GRAPHICAL},
+    {"mct ", 4, &start_mct, &end_mct, GRAPHICAL},
+    {"tna ", 4, &start_tna, &end_tna, GRAPHICAL},
+    {"ppo ", 4, &start_ppo, &end_ppo, GRAPHICAL},
+    {"plv ", 4, &start_plv, &end_plv, GRAPHICAL},
+    {"pin ", 4, &start_pin, &end_pin, GRAPHICAL},
+    {"sst ", 4, &start_sst, &end_sst, GRAPHICAL},
+
 };
 
 bool is_acceptable(client_t *client, char *command)

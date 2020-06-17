@@ -116,6 +116,15 @@ void look_right_left(client_t *cli, zappy_data_t *z, int signe_x);
 bool start_incantation(zappy_data_t *z, client_t *client, char *arg);
 bool end_incantation(zappy_data_t *z, client_t *client, char *arg);
 
+/* TAKE COMMAND */
+bool start_take_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_take_cmd(zappy_data_t *z, client_t *c, char *arg);
+
+/* SET COMMAND */
+bool start_set_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_set_cmd(zappy_data_t *z, client_t *c, char *arg);
+
+
 /* MAIN FCT */
 int zappy_server(int ac, char **av);
 
@@ -135,6 +144,7 @@ void display_usage_s(void);
 
 /* SPLIT */
 char **split_command(char *command);
+int split_nb_argument(char **array);
 
 /* EGG_TOOLS */
 bool init_client_context(zappy_data_t *z, client_t *client, char *name);
@@ -142,5 +152,42 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name);
 
 /* PROTOCOLE */
 bool msz(zappy_data_t *z, client_t *client, char *arg);
+bool sbp(zappy_data_t *z);
+bool seg(zappy_data_t *z, char *team_name);
+bool smg(zappy_data_t *z, char *arg);
+bool suc(zappy_data_t *z);
+
+bool pex(zappy_data_t *z, char *arg);
+bool pnw(zappy_data_t *z, client_t *client);
+
+bool start_msz(zappy_data_t *z, client_t *client, char *arg);
+bool end_msz(zappy_data_t *z, client_t *client, char *arg);
+bool ebo(zappy_data_t *z, egg_t *egg);
+bool edi(zappy_data_t *z, egg_t *egg);
+
+
+bool start_bct(zappy_data_t *z, client_t *client, char *arg);
+bool end_bct(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_msz(zappy_data_t *z, client_t *client, char *arg);
+bool end_msz(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_mct(zappy_data_t *z, client_t *client, char *arg);
+bool end_mct(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_tna(zappy_data_t *z, client_t *client, char *arg);
+bool end_tna(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_ppo(zappy_data_t *z, client_t *client, char *arg);
+bool end_ppo(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_plv(zappy_data_t *z, client_t *client, char *arg);
+bool end_plv(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_pin(zappy_data_t *z, client_t *client, char *arg);
+bool end_pin(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_sst(zappy_data_t *z, client_t *client, char *arg);
+bool end_sst(zappy_data_t *z, client_t *client, char *arg);
 
 #endif /* !SERVER_H_ */
