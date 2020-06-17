@@ -13,35 +13,35 @@ SRCS_FILES		=	main.c \
 					server.c \
 					commands/broadcast.c \
 					commands/connect_number.c \
+					commands/death.c \
+					commands/eject.c \
+					commands/incantation.c \
 					commands/move.c \
 					commands/rotate.c \
 					commands/inventory.c \
-					commands/eject.c \
-					commands/death.c \
 					commands/look.c \
 					commands/look_tools.c \
-					commands/incantation.c \
 					tools/split.c \
-					tools/data/egg_tools.c \
-					tools/data/team_tools.c \
 					tools/data/data_tools.c \
-					tools/data/map_tools.c \
-					tools/data/map_spawn_tools.c \
-					tools/data/vector_tools.c \
-					tools/data/map_setup_tools.c \
+					tools/data/egg_tools.c \
 					tools/data/map_delete_tools.c \
+					tools/data/map_setup_tools.c \
+					tools/data/map_spawn_tools.c \
+					tools/data/map_tools.c \
 					tools/data/ressources_tools.c \
-					tools/input/signal_tools.c \
+					tools/data/team_tools.c \
+					tools/data/vector_tools.c \
 					tools/input/args_tools.c \
 					tools/input/init_param_tools.c \
 					tools/input/param_tools.c \
+					tools/input/signal_tools.c \
 					tools/network/client_tools.c \
-					tools/network/request_tools.c \
-					tools/network/time_tools.c \
 					tools/network/command_tools.c \
-					tools/network/flux_tools.c \
-					tools/network/server_tools.c \
 					tools/network/connexion_tools.c \
+					tools/network/flux_tools.c \
+					tools/network/request_tools.c \
+					tools/network/server_tools.c \
+					tools/network/time_tools.c \
 					tools/zappy_tools.c \
 					tools/display_usage.c \
 
