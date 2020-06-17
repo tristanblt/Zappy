@@ -35,6 +35,7 @@ def resetGame():
     ai.src.glob.gameState["incantationBroadcast"] = -1
     ai.src.glob.gameState["callBroadcast"] = 0
     ai.src.glob.gameState["bufferBroadcast"] = True
+    ai.src.glob.gameState["canMoveBroadcast"] = True
 
     ai.src.glob.gameState["starveCheckTime"] = 0
     ai.src.glob.gameState["broadcastIncantationCheckTime"] = 0

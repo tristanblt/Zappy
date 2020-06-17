@@ -55,6 +55,7 @@ def eventHandler(response):
             pass
         return True
     if response.startswith("eject"):
+        print("tu t fé tej gronul")
         firstPlayer = True
         for item in ai.src.glob.gameMap:
             if (item["type"] == "player"

@@ -43,11 +43,13 @@ def requestSelection(mainsock):
             explore()
     else:
         if ai.src.glob.gameState['joinPlayer']:
-            if ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
-                ai.src.glob.gameState['joinPlayer'] = False
-                return
+            print("elapsed time since last broadcast : " + str(ai.src.glob.gameState['broadcastIncantationCheckTime']))
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
+                inventoryRequest()
                 print("---> direction : 0")
+                return
+            elif ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
+                ai.src.glob.gameState['joinPlayer'] = False
                 return
             if ai.src.glob.gameState['incantationBroadcast'] != -1:
                 print("---> direction : "+str(ai.src.glob.gameState['incantationBroadcast']))
@@ -58,10 +60,8 @@ def requestSelection(mainsock):
                     rightRequest()
                 else:
                     leftRequest()
+                ai.src.glob.gameState['incantationBroadcast'] = -1
                 
-                #pas bouger le chien
-
-            # phase rejoindre poto
         else:
             print(ai.src.glob.gameState["level"])
             elevationFunctions[ai.src.glob.gameState["level"] - 1]()
