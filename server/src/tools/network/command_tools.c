@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-#define NB_CMDS 10
+#define NB_CMDS 11
 
 const command_t cmds[NB_CMDS] = {
     {"Forward", 7, &start_move_cmd, &end_move_cmd},
@@ -20,6 +20,7 @@ const command_t cmds[NB_CMDS] = {
     {"ppo", 3, &start_ppo, &end_ppo},
     {"plv", 3, &start_plv, &end_plv},
     {"pin", 3, &start_pin, &end_pin},
+    {"sst", 3, &start_sst, &end_sst},
 
 };
 

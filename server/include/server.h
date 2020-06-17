@@ -180,4 +180,7 @@ bool end_plv(zappy_data_t *z, client_t *client, char *arg);
 bool start_pin(zappy_data_t *z, client_t *client, char *arg);
 bool end_pin(zappy_data_t *z, client_t *client, char *arg);
 
+bool start_sst(zappy_data_t *z, client_t *client, char *arg);
+bool end_sst(zappy_data_t *z, client_t *client, char *arg);
+
 #endif /* !SERVER_H_ */
