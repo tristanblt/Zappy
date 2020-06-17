@@ -8,7 +8,8 @@
 #include "server.h"
 
 /**
- * \fn int is_ai_client_connexion(zappy_data_t *z, client_t *client, char *command)
+ * \fn int is_ai_client_connexion(zappy_data_t *z, client_t *client,
+ * char *command)
  * \brief Connecte un client de type ai si possible
  *
  * \param server la variable principale du projet

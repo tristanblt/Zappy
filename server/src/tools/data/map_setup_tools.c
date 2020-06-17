@@ -8,12 +8,6 @@
 #include "server.h"
 
 
-void init_pos(position_t *pos, int x, int y)
-{
-    pos->x = x;
-    pos->y = y;
-}
-
 /**
  * \fn map_node_t *init_tile(int x, int y)
  * \brief Fonction qui permet d'initialiser une tile de la map
@@ -32,7 +26,8 @@ map_node_t *create_tile(int x, int y)
     tile->left = NULL;
     tile->right = NULL;
     tile->top = NULL;
-    init_pos(&tile->coordinates, x, y);
+    tile->coordinates.x = x;
+    tile->coordinates.y = y;
     init_ressources(&tile->ressources);
     return (tile);
 }
@@ -45,16 +40,16 @@ map_node_t *create_tile(int x, int y)
  * \param x la position actuelle de cette ligne
  * \return la tête de la nouvelle ligne de la map
  */
-map_node_t *create_line_circular(position_t size, int x)
+map_node_t *create_line_circular(position_t size, int y)
 {
-    map_node_t *tmp = create_tile(x, 0);
+    map_node_t *tmp = create_tile(0, y);
     map_node_t *head;
     map_node_t *tile;
 
     if (!tmp)
         return (NULL);
     head = tmp;
-    for (int y = 1; y < size.y; y++) {
+    for (int x = 1; x < size.x; x++) {
         tile = create_tile(x, y);
         if (!tile) {
             delete_line_tile(head);
@@ -107,8 +102,8 @@ map_node_t *create_map(position_t size)
     if (!tmp)
         return (NULL);
     head = tmp;
-    for (int x = 1; x < size.x; x++) {
-        line = create_line_circular(size, x);
+    for (int y = 1; y < size.y; y++) {
+        line = create_line_circular(size, y);
         if (!line) {
             delete_map_tile(head);
             return (NULL);
@@ -117,11 +112,5 @@ map_node_t *create_map(position_t size)
         tmp = line;
     }
     link_two_line(line, head, size);
-    map_node_t *test = head;
-    printf("x = %i, y = %i\n", test->coordinates.x, test->coordinates.y);
-    printf("%p\n", test);
-    test = test->right;
-    printf("x = %i, y = %i\n", test->coordinates.x, test->coordinates.y);
-    printf("%p\n", test);
     return (head);
 }

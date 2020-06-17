@@ -38,7 +38,7 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
             ((c_data_t *)client->data)->req_cntx = START;
             return (cmds[i].start(z, client, command + cmds[i].token_len));
         } else if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
-            !((c_data_t *)client->data)->cool_down) {
+        !((c_data_t *)client->data)->cool_down) {
             ((c_data_t *)client->data)->req_cntx = END;
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }

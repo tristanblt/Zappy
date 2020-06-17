@@ -22,16 +22,15 @@
 void print_type_content_tile(bool *first, client_t *client, int quantity,
 char *what)
 {
-    printf("%i\n", quantity);
-    // for (int i = quantity; i > 0; i--) {
-    //     if (*first == true) {
-    //         add_raw_data(&client->out, what);
-    //         *first = false;
-    //     } else {
-    //         add_raw_data(&client->out, " ");
-    //         add_raw_data(&client->out, what);
-    //     }
-    // }
+    for (int i = quantity; i > 0; i--) {
+        if (*first == true) {
+            add_raw_data(&client->out, what);
+            *first = false;
+        } else {
+            add_raw_data(&client->out, " ");
+            add_raw_data(&client->out, what);
+        }
+    }
 }
 
 /**
@@ -89,7 +88,6 @@ void look_right_left(client_t *cli, zappy_data_t *z, int signe_x)
     add_raw_data(&cli->out, "[");
     for (int cpt_x = 0; cpt_x <= ((c_data_t *)cli->data)->level; cpt_x++) {
         for (int cpt_y = 0; cpt_y < 1 + cpt_x * 2; cpt_y++) {
-            printf("cpt_x = %i, cpt_y = %i, x = %i, y = %i\n", cpt_x, cpt_y, x, y);
             content = get_tile_content(&z->data, z->server, x, y);
             print_content_tile(cli, content, x, y);
             y++;
@@ -120,7 +118,6 @@ void look_bottom_top(client_t *cli, zappy_data_t *z, int signe_y)
     add_raw_data(&cli->out, "[");
     for (int cpt_y = 0; cpt_y <= ((c_data_t *)cli->data)->level; cpt_y++) {
         for (int cpt_x = 0; cpt_x < 1 + cpt_y * 2; cpt_x++) {
-            printf("cpt_x = %i, cpt_y = %i, x = %i, y = %i\n", cpt_x, cpt_y, x, y);
             content = get_tile_content(&z->data, z->server, x, y);
             print_content_tile(cli, content, x, y);
             x++;

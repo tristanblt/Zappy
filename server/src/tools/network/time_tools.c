@@ -36,7 +36,8 @@ void update_delta_time(time_manager_t *t)
     struct timeval tv;
 
     gettimeofday(&tv, NULL);
-    t->delta_time = (float)(tv.tv_usec - t->last_time.tv_usec) / 1000000 + (tv.tv_sec - t->last_time.tv_sec);
+    t->delta_time = (float)(tv.tv_usec - t->last_time.tv_usec) / 1000000 +
+    (tv.tv_sec - t->last_time.tv_sec);
     t->last_time.tv_sec = tv.tv_sec;
     t->last_time.tv_usec = tv.tv_usec;
 }
@@ -58,9 +59,10 @@ void update_cool_downs(server_t *server)
             ((c_data_t *)tmp->data)->cool_down -= server->t.delta_time;
         else if (((c_data_t *)tmp->data)->cool_down != 0)
             ((c_data_t *)tmp->data)->cool_down = 0;
-        if (((c_data_t *)tmp->data)->team && ((c_data_t *)tmp->data)->inventory.food - server->t.delta_time > 0)
+        if (((c_data_t *)tmp->data)->team &&
+        ((c_data_t *)tmp->data)->inventory.food - server->t.delta_time > 0) {
             ((c_data_t *)tmp->data)->inventory.food -= server->t.delta_time;
-        else if (((c_data_t *)tmp->data)->team)
+        } else if (((c_data_t *)tmp->data)->team)
             ((c_data_t *)tmp->data)->inventory.food = 0;
     }
 }
@@ -79,10 +81,14 @@ void update_timeout(server_t *server)
 
     SLIST_FOREACH(tmp, &server->clients, next)
     {
-        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down) && ((c_data_t *)tmp->data)->cool_down)
+        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down) &&
+        ((c_data_t *)tmp->data)->cool_down) {
             cd = ((c_data_t *)tmp->data)->cool_down;
-        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->inventory.food) && ((c_data_t *)tmp->data)->team)
+        }
+        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->inventory.food) &&
+        ((c_data_t *)tmp->data)->team) {
             cd = ((c_data_t *)tmp->data)->inventory.food;
+        }
     }
     server->t.is_needed = (cd <= 0) ? false : true;
     server->t.timeout.tv_sec = (long)cd;

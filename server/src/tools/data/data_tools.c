@@ -68,12 +68,6 @@ bool init_server_data(s_data_t *data, param_t params)
         free(data->teams);
         return (ERROR);
     }
-    map_node_t *tmp = data->map;
-    printf("x = %i, y = %i\n", tmp->coordinates.x, tmp->coordinates.x);
-    printf("%p\n", tmp);
-    tmp = tmp->right;
-    printf("x = %i, y = %i\n", tmp->coordinates.x, tmp->coordinates.x);
-    printf("%p\n", tmp);
     return (SUCCESS);
 }
 
