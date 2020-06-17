@@ -26,6 +26,7 @@ SRCS_FILES		=	main.c \
 					tools/data/team_tools.c \
 					tools/data/data_tools.c \
 					tools/data/map_tools.c \
+					tools/data/map_spawn_tools.c \
 					tools/data/vector_tools.c \
 					tools/data/map_setup_tools.c \
 					tools/data/map_delete_tools.c \

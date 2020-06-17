@@ -15,9 +15,10 @@
  * position
  */
 
-c_data_t *init_client_data(void)
+c_data_t *init_client_data(int f)
 {
     c_data_t *new = malloc(sizeof(c_data_t));
+    static int idx = 0;
 
     if (!new)
         return (NULL);
@@ -29,8 +30,11 @@ c_data_t *init_client_data(void)
     new->pos.y = 0;
     new->is_alive = true;
     new->req_cntx = END;
+    new->team = NULL;
+    new->idx = idx;
     init_ressources(&new->inventory);
-    new->inventory.food = 10;
+    new->inventory.food = 1260.0 / f;
+    idx++;
     return (new);
 }
 
@@ -50,9 +54,9 @@ bool init_server_data(s_data_t *data, param_t params)
     data->map_sz.y = params.height;
     data->map_sz.x = params.width;
     data->nb_mates = params.clientNB;
+    data->spawn_cd = 0;
     SLIST_INIT(&data->eggs);
-    while (params.name[nb])
-        nb++;
+    for (nb = 0; params.name[nb]; nb++);
     if ((data->teams = malloc(sizeof(team_t) * nb)) == NULL)
         return (ERROR);
     for (int i = 0; i < nb; i++) {

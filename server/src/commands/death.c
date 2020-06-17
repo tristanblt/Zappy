@@ -30,8 +30,7 @@ bool handle_life(zappy_data_t *z, client_t *client)
         end_proceed_death(z, client);
         return (false);
     }
-    if (((c_data_t *)client->data)->inventory.food == 0 &&
-        ((c_data_t *)client->data)->hunger_cd == 0)
+    if (((c_data_t *)client->data)->inventory.food == 0)
         start_proceed_death(z, client);
     return (true);
 }

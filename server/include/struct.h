@@ -81,7 +81,7 @@ struct position_s {
 };
 
 struct ressources_s {
-    int food;
+    float food;
     int linemate;
     int deraumere;
     int sibur;
@@ -101,6 +101,7 @@ struct s_data_s {
     int f;
     int nb_mates;
     int nb_teams;
+    float spawn_cd;
     position_t map_sz;
     SLIST_HEAD(, egg_s) eggs;
     map_node_t *map;
@@ -110,10 +111,10 @@ struct s_data_s {
 struct c_data_s {
     bool is_alive;
     bool req_cntx;
+    int idx;
     char *team;
     int level;
     float cool_down;
-    float hunger_cd;
     int dir;
     position_t pos;
     ressources_t inventory;
