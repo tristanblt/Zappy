@@ -5,7 +5,35 @@
 ## incant
 ##
 
+import random
 import ai.src.glob
+from ai.src.requests import *
+
+def explore():
+    decision = random.randrange(0, 6)
+    if decision in [0, 1]:
+        lookRequest()
+    elif decision in [2, 3]:
+        forwardRequest()
+    elif decision == 4:
+        rightRequest()
+    else:
+        leftRequest()
+
+def lookForItem(item):
+    item = item.capitalize()
+    print("Looking for : "+item + " (direction "+str(ai.src.glob.gameState["direction"+item])+")")
+    if ai.src.glob.gameState["direction"+item] in [1, 2, 8]:
+        print("fwd")
+        forwardRequest()
+    elif ai.src.glob.gameState["direction"+item] in [3, 4, 5]:
+        print("rt")
+        rightRequest()
+    elif ai.src.glob.gameState["direction"+item] in [6, 7]:
+        print("lt")
+        leftRequest()
+    else:
+        explore()
 
 def getNbItemOnPlayerTile(itemName):
     nbItem = 0
@@ -16,6 +44,63 @@ def getNbItemOnPlayerTile(itemName):
             nbItem += 1
     return nbItem
 
+def prepareTile(items):
+    for item in items:
+        nbItemOnTile = getNbItemOnPlayerTile(item)
+        if nbItemOnTile < items[item]:
+            print("<---"+item)
+            setObjectRequest(item)
+            return False
+        elif nbItemOnTile > items[item]:
+            print("--->"+item)
+            takeObjectRequest(item)
+            return False
+        elif getNbItemOnPlayerTile("food") > 0:
+            takeObjectRequest("food")
+            return False
+    return True
+
+def elevationLevel2():
+    elevationItems = {
+        "linemate": 1,
+        "deraumere": 0,
+        "sibur": 0,
+        "mendiane": 0,
+        "phiras": 0,
+        "thystame": 0
+    }
+    if not ai.src.glob.gameState["elevationReady"] and getNbItemOnPlayerTile("linemate") > 0:
+        takeObjectRequest("linemate")
+    elif (not ai.src.glob.gameState["elevationReady"] and
+        ai.src.glob.gameState["nbLinemate"] < 1 and
+        getNbItemOnPlayerTile("linemate") < 1):
+        lookForItem("linemate")
+    else:
+        ai.src.glob.gameState["elevationReady"] = True
+        if (prepareTile(elevationItems)):
+            incantationRequest()
+            print("UP LEVEL 2 !!!!!!!!!!!!!!!!!!!!!")
+    return
+
+def elevationLevel3():
+    return
+
+def elevationLevel4():
+    return
+
+def elevationLevel5():
+    return
+
+def elevationLevel6():
+    return
+
+def elevationLevel7():
+    return
+
+def elevationLevel8():
+    return
+
+'''
 def checkIncant():
     level = ai.src.glob.gameState['level']
     nbPlayers = getNbItemOnPlayerTile("player")
@@ -74,4 +159,5 @@ def checkIncant():
     and nbThystame == 1):
         return True
     return False
+    '''
     

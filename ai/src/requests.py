@@ -6,7 +6,28 @@
 ##
 
 import ai.src.glob
+from ai.src.timeHandling import addTime
 from ai.src.responses import *
+
+takeResponses = {
+    "food": takeFoodResponse,
+    "linemate": takeLinemateResponse,
+    "deraumere": takeDeraumereResponse,
+    "sibur": takeSiburResponse,
+    "mendiane": takeMendianeResponse,
+    "phiras": takePhirasResponse,
+    "thystame": takeThystameResponse
+}
+
+setResponses = {
+    "food": setFoodResponse,
+    "linemate": setLinemateResponse,
+    "deraumere": setDeraumereResponse,
+    "sibur": setSiburResponse,
+    "mendiane": setMendianeResponse,
+    "phiras": setPhirasResponse,
+    "thystame": setThystameResponse
+}
 
 def sendRequest(request):
     ai.src.glob.writeBuffer += request + "\n"
@@ -16,26 +37,32 @@ def initGameRequest(teamName):
     ai.src.glob.currentCommand = initGameResponseClientNum
 
 def forwardRequest():
+    addTime(7)
     sendRequest("Forward")
     ai.src.glob.currentCommand = forwardResponse
 
 def rightRequest():
+    addTime(7)
     sendRequest("Right")
     ai.src.glob.currentCommand = rightResponse
     
 def leftRequest():
+    addTime(7)
     sendRequest("Left")
     ai.src.glob.currentCommand = leftResponse
 
 def lookRequest():
+    addTime(7)
     sendRequest("Look")
     ai.src.glob.currentCommand = lookResponse
 
 def inventoryRequest():
+    addTime(1)
     sendRequest("Inventory")
     ai.src.glob.currentCommand = inventoryResponse
 
 def broadcastRequest(text):
+    addTime(7)
     sendRequest(text)
     ai.src.glob.currentCommand = broadcastResponse
 
@@ -44,69 +71,27 @@ def connectNbrRequest():
     ai.src.glob.currentCommand = connectNbrResponse
 
 def forkRequest():
+    addTime(42)
     sendRequest("Fork")
     ai.src.glob.currentCommand = forkResponse
 
 def ejectRequest():
+    addTime(7)
     sendRequest("Eject")
     ai.src.glob.currentCommand = ejectResponse
 
-def takeFoodRequest():
-    sendRequest("Take food")
-    ai.src.glob.currentCommand = takeFoodResponse
+def takeObjectRequest(object):
+    print("Picking : "+object)
+    addTime(7)
+    sendRequest("Take "+object)
+    ai.src.glob.currentCommand = takeResponses[object]
 
-def takeLinemateRequest():
-    sendRequest("Take linemate")
-    ai.src.glob.currentCommand = takeLinemateResponse
-
-def takeDeraumereRequest():
-    sendRequest("Take deraumere")
-    ai.src.glob.currentCommand = takeDeraumereResponse
-
-def takeSiburRequest():
-    sendRequest("Take sibur")
-    ai.src.glob.currentCommand = takeSiburResponse
-
-def takeMendianeRequest():
-    sendRequest("Take mendiane")
-    ai.src.glob.currentCommand = takeMendianeResponse
-
-def takePhirasRequest():
-    sendRequest("Take phiras")
-    ai.src.glob.currentCommand = takePhirasResponse
-
-def takeThystameRequest():
-    sendRequest("Take thystame")
-    ai.src.glob.currentCommand = takeThystameResponse
-
-def setFoodRequest():
-    sendRequest("Set food")
-    ai.src.glob.currentCommand = setFoodResponse
-
-def setLinemateRequest():
-    sendRequest("Set linemate")
-    ai.src.glob.currentCommand = setLinemateResponse
-
-def setDeraumereRequest():
-    sendRequest("Set deraumere")
-    ai.src.glob.currentCommand = setDeraumereResponse
-
-def setSiburRequest():
-    sendRequest("Set sibur")
-    ai.src.glob.currentCommand = setSiburResponse
-
-def setMendianeRequest():
-    sendRequest("Set mendiane")
-    ai.src.glob.currentCommand = setMendianeResponse
-
-def setPhirasRequest():
-    sendRequest("Set phiras")
-    ai.src.glob.currentCommand = setPhirasResponse
-
-def setThystameRequest():
-    sendRequest("Set thystame")
-    ai.src.glob.currentCommand = setThystameResponse
+def setObjectRequest(object):
+    addTime(7)
+    sendRequest("Set "+object)
+    ai.src.glob.currentCommand = setResponses[object]
 
 def incantationRequest():
+    addTime(300)
     sendRequest("Incantation")
     ai.src.glob.currentCommand = incantationResponse

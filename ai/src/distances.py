@@ -34,7 +34,6 @@ def computePlayerDistanceResource(resource, gameMapField):
             distance = tmpDistance
             x = item["pos"]["x"]
             y = item["pos"]["y"]
-
     #compute direction of the object
     if exist == False:
         ai.src.glob.gameState[gameMapField] = -1
@@ -59,7 +58,13 @@ def computePlayerDistanceResource(resource, gameMapField):
 
     #change direction with local rotation
     if ai.src.glob.gameState[gameMapField] > 0:
-        ai.src.glob.gameState[gameMapField] += ai.src.glob.lookAt * 2
+        lookAt = ai.src.glob.lookAt * 2 + 1
+        lookAt = 8 - lookAt
+        a = (int((ai.src.glob.gameState[gameMapField] - 1) / 2) + 1)
+        if a > 3:
+            a = 0
+        a = a * 2 + (ai.src.glob.gameState[gameMapField] % 2 == 0)
+        ai.src.glob.gameState[gameMapField] = lookAt + a
         if ai.src.glob.gameState[gameMapField] > 8:
-            ai.src.glob.gameState[gameMapField] = - 8 + ai.src.glob.gameState[gameMapField]
+            ai.src.glob.gameState[gameMapField] = ai.src.glob.gameState[gameMapField] - 8
 
