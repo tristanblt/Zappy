@@ -7,15 +7,14 @@
 
 #include "server.h"
 
-bool pex(zappy_data_t *z, client_t *client, char *arg)
+bool pex(zappy_data_t *z, char *arg)
 {
     client_t *tmp;
 
-    ((c_data_t *)client->data)->cool_down = 0 / z->data.f;
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
-        if( tmp->type == GRAPHICAL) {
-            add_data(&tmp->out, 2, "pex ", arg);
+        if (tmp->type == GRAPHICAL) {
+            add_data(&tmp->out, 2, "pex", arg);
         }
     }
     return (SUCCESS);

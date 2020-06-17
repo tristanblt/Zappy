@@ -15,8 +15,8 @@ bool start_plv(zappy_data_t *z, client_t *client, char *arg)
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (((c_data_t *)tmp->data)->idx == atoi(arg)) {
-            add_data(&client->out, 4, "plv ",
-            int_to_char(((c_data_t *)tmp->data)->idx), " ",
+            add_data(&client->out, 3, "plv",
+            int_to_char(((c_data_t *)tmp->data)->idx),
             int_to_char(((c_data_t *)tmp->data)->level));
         }
     }

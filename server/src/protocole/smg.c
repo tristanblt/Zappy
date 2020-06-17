@@ -13,7 +13,7 @@ bool smg(zappy_data_t *z, char *arg)
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp->type == GRAPHICAL) {
-            add_data(&tmp->out, 2, "smg ", arg);
+            add_data(&tmp->out, 2, "smg", arg);
         }
     }
     return (SUCCESS);

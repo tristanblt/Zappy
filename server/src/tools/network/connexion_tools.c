@@ -37,6 +37,7 @@ int is_ai_client_connexion(zappy_data_t *z, client_t *client, char *command)
     ((c_data_t *)client->data)->pos.y);
     add_data(&client->out, 1, buffer);
     client->type = AI;
+    pnw(z, client);
     return (SUCCESS);
 }
 

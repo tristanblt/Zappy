@@ -10,11 +10,11 @@
 bool suc(zappy_data_t *z)
 {
     client_t *tmp;
-        SLIST_FOREACH(tmp, &z->server->clients, next)
+    SLIST_FOREACH(tmp, &z->server->clients, next)
     {
-            if (tmp->type == GRAPHICAL) {
-                add_data(&tmp->out, 1, "suc");
+        if (tmp->type == GRAPHICAL) {
+            add_data(&tmp->out, 1, "suc");
         }
     }
-        return (SUCCESS);
+    return (SUCCESS);
 }
