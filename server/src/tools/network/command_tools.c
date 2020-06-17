@@ -7,19 +7,20 @@
 
 #include "server.h"
 
-#define NB_CMDS 9
+#define NB_CMDS 10
 
 const command_t cmds[NB_CMDS] = {
     {"Forward", 7, &start_move_cmd, &end_move_cmd},
     {"Look", 4, &start_look, &end_look},
     {"Incantation", 11, &start_incantation, &end_incantation},
-    {"Take ", 5, &start_take_cmd, &end_take_cmd},
-    {"Set ", 4, &start_set_cmd, &end_set_cmd},
-    {"msz", 3, &msz, NULL},
-    {"sbp", 3, &sbp, NULL},
-    {"seg", 3, &seg, NULL},
-    {"smg", 3, &smg, NULL},
-    {"suc", 3, &suc, NULL},
+    {"msz", 3, &start_msz, &end_msz},
+    {"bct", 3, &start_bct, &end_bct},
+    {"mct", 3, &start_mct, &end_mct},
+    {"tna", 3, &start_tna, &end_tna},
+    {"ppo", 3, &start_ppo, &end_ppo},
+    {"plv", 3, &start_plv, &end_plv},
+    {"pin", 3, &start_pin, &end_pin},
+
 };
 
 /**

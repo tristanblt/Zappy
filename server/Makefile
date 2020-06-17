@@ -22,13 +22,19 @@ SRCS_FILES		=	main.c \
 					commands/look.c \
 					commands/look_tools.c \
 					commands/set.c \
-					commands/set_down.c \
-					commands/take.c \
+					protocole/bct.c \
+					protocole/mct.c \
 					protocole/msz.c \
+					protocole/pex.c \
+					protocole/pin.c \
+					protocole/plv.c \
+					protocole/pnw.c \
+					protocole/ppo.c \
 					protocole/sbp.c \
 					protocole/seg.c \
 					protocole/smg.c \
 					protocole/suc.c \
+					protocole/tna.c \
 					tools/split.c \
 					tools/data/data_tools.c \
 					tools/data/egg_tools.c \
