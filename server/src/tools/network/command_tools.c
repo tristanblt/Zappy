@@ -17,6 +17,7 @@ const command_t cmds[NB_CMDS] = {
     {"Set ", 4, &start_set_cmd, &end_set_cmd},
     {"msz", 3, &msz, NULL},
     {"sbp", 3, &sbp, NULL},
+    {"seg", 3, &seg, NULL},
     {"smg", 3, &smg, NULL},
     {"suc", 3, &suc, NULL},
 };
