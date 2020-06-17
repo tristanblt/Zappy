@@ -76,6 +76,14 @@ int check_param(int ac, char **av, param_t *param)
     int c;
 
     while ((c = getopt(ac, av, optstring)) != EOF) {
+        switch (c) {
+        case 'c':
+            if (atoi(optarg) < 6)
+                return (-1);
+            else
+                param->clientNB = atoi(optarg);
+            break;
+        }
         reinit_param(c, param);
     }
     if (param->clientNB == 0 || param->height == 0 || param->width == 0 ||

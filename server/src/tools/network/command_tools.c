@@ -7,11 +7,38 @@
 
 #include "server.h"
 
-#define NB_CMDS 1
+#define NB_CMDS 13
 
 const command_t cmds[NB_CMDS] = {
-    {"Forward", 7, &start_move_cmd, &end_move_cmd}
+    {"Forward ", 8, &start_move_cmd, &end_move_cmd, AI},
+    {"Look ", 5, &start_look, &end_look, AI},
+    {"Incantation ", 12, &start_incantation, &end_incantation, AI},
+    {"Take ", 5, &start_take_cmd, &end_take_cmd, AI},
+    {"Set ", 4, &start_set_cmd, &end_set_cmd, AI},
+    {"msz ", 4, &start_msz, &end_msz, GRAPHICAL},
+    {"bct ", 4, &start_bct, &end_bct, GRAPHICAL},
+    {"mct ", 4, &start_mct, &end_mct, GRAPHICAL},
+    {"tna ", 4, &start_tna, &end_tna, GRAPHICAL},
+    {"ppo ", 4, &start_ppo, &end_ppo, GRAPHICAL},
+    {"plv ", 4, &start_plv, &end_plv, GRAPHICAL},
+    {"pin ", 4, &start_pin, &end_pin, GRAPHICAL},
+    {"sst ", 4, &start_sst, &end_sst, GRAPHICAL},
+
 };
+
+bool is_acceptable(client_t *client, char *command)
+{
+    int found;
+
+    for (int i = 0; i < NB_CMDS; i++) {
+        if (!(found = strncmp(cmds[i].token, command, cmds[i].token_len))
+        && client->type != cmds[i].client_type)
+        return (false);
+        if (found == 0)
+            break;
+    }
+    return (true);
+}
 
 /**
  * \fn bool switch_command(server_t *server, client_t *client, char *command)
@@ -22,30 +49,27 @@ const command_t cmds[NB_CMDS] = {
  * \param command corps de la commande
  * \return true en succès et false en cas d'erreur
  */
-
 int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
     bool ret = SUCCESS;
 
-    if (((c_data_t *)client->data)->team == NULL) {
-        if (check_client_connexion(z, client, command) == ERROR)
-            return (2);
-        rm_from_request(client);
-        return (SUCCESS);
-    }
+    if ((ret = check_client_connexion(z, client, command)) > 0)
+        return (ret);
+    ret = (ret == 0) ? SUCCESS : ret;
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         ((c_data_t *)client->data)->req_cntx == END) {
             ((c_data_t *)client->data)->req_cntx = START;
             return (cmds[i].start(z, client, command + cmds[i].token_len));
         } else if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
-            !((c_data_t *)client->data)->cool_down) {
+        !((c_data_t *)client->data)->cool_down) {
             ((c_data_t *)client->data)->req_cntx = END;
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }
     }
-    if (((c_data_t *)client->data)->cool_down == 0)
+    if (((c_data_t *)client->data)->cool_down == 0) {
         rm_from_request(client);
+    }
     return (ret);
 }
 
@@ -70,7 +94,8 @@ void search_command_in_client(client_t *client)
             break;
         size_cmd = find_cmd - client->in.buff + 2;
         *find_cmd = 0;
-        add_to_requests(client->in.buff, client, size_cmd - 2);
+        if (is_acceptable(client, client->in.buff))
+            add_to_requests(client->in.buff, client, size_cmd - 2);
         remove_data(&client->in, size_cmd);
     }
 }
@@ -96,8 +121,9 @@ bool handle_commands(zappy_data_t *z)
         if ((s_ret = handle_life(z, tmp)) && tmp->requests.nb && !(s_ret =
         switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))) {
             return (ERROR);
-        } else if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE)
+        } else if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE) {
             tmp = NULL;
+        }
     }
     update_egg_status(z);
     return (SUCCESS);

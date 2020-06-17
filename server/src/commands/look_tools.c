@@ -22,7 +22,7 @@
 void print_type_content_tile(bool *first, client_t *client, int quantity,
 char *what)
 {
-    for (int i = quantity; i > 0; i++) {
+    for (int i = quantity; i > 0; i--) {
         if (*first == true) {
             add_raw_data(&client->out, what);
             *first = false;

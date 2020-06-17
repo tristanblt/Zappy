@@ -20,11 +20,12 @@
 map_node_t *on_tile(map_node_t *start, int x, int y)
 {
     map_node_t *pos = start;
-
-    while (pos->coordinates.x != x)
+    while (pos->coordinates.x != x) {
         pos = pos->right;
-    while (pos->coordinates.y != y)
+    }
+    while (pos->coordinates.y != y) {
         pos = pos->bottom;
+    }
     return (pos);
 }
 

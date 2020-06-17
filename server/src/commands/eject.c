@@ -29,11 +29,12 @@ bool end_eject_cmd(zappy_data_t *z, client_t *cli, char *command)
             ((c_data_t *)tmp->data)->pos, z->data.map_sz,
             ((c_data_t *)tmp->data)->dir)));
             ejected = true;
+            pex(z, int_to_char(((c_data_t *)tmp->data)->idx));
         }
     }
-    if (ejected)
+    if (ejected) {
         add_data(&cli->out, 1, "ok");
-    else
+    } else
         add_data(&cli->out, 1, "ko");
     return (SUCCESS);
 }

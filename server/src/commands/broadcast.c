@@ -22,7 +22,7 @@ bool end_broadcast_cmd(zappy_data_t *z, client_t *client, char *command)
     add_data(&client->out, 1, "ok");
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
-        if (tmp != client) {
+        if (tmp != client && tmp->type == AI) {
             add_data(&tmp->out, 3, "message",
             int_to_char(compute_direction(((c_data_t *)client->data)->pos,
             ((c_data_t *)tmp->data)->pos, z->data.map_sz,

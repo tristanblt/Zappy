@@ -24,7 +24,6 @@ struct param_s
     int freq;
 };
 
-
 /* SOCKET MANAGEMENT */
 typedef struct flux_s flux_t;
 typedef struct socket_s socket_t;
@@ -91,6 +90,7 @@ struct ressources_s {
 };
 
 struct egg_s {
+    int idx;
     float status;
     position_t pos;
     char *team;
@@ -145,6 +145,13 @@ typedef struct request_manager_s request_manager_t;
 typedef struct client_s client_t;
 typedef struct server_s server_t;
 typedef struct zappy_data_s zappy_data_t;
+typedef enum type_e type_e;
+
+enum type_e {
+    AI,
+    GRAPHICAL,
+    NOTHING
+};
 
 struct request_manager_s {
     char bodies[10][BUFF_SIZE];
@@ -158,6 +165,7 @@ struct client_s {
     socket_t sck;
     flux_t in;
     flux_t out;
+    type_e type;
     SLIST_ENTRY(client_s) next;
 };
 
@@ -185,6 +193,7 @@ struct command_s {
     int token_len;
     bool (*start)(zappy_data_t *z, client_t *client, char *command);
     bool (*end)(zappy_data_t *z, client_t *client, char *command);
+    type_e client_type;
 };
 
 struct recipe_s {
