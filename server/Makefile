@@ -22,6 +22,8 @@ SRCS_FILES		=	main.c \
 					commands/look.c \
 					commands/look_tools.c \
 					commands/set.c \
+					commands/set_down.c \
+					commands/take.c \
 					protocole/bct.c \
 					protocole/ebo.c \
 					protocole/edi.c \
