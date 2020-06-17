@@ -21,6 +21,9 @@ SRCS_FILES		=	main.c \
 					commands/inventory.c \
 					commands/look.c \
 					commands/look_tools.c \
+					commands/set.c \
+					commands/set_down.c \
+					commands/take.c \
 					protocole/msz.c \
 					tools/split.c \
 					tools/data/data_tools.c \

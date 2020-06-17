@@ -116,6 +116,15 @@ void look_right_left(client_t *cli, zappy_data_t *z, int signe_x);
 bool start_incantation(zappy_data_t *z, client_t *client, char *arg);
 bool end_incantation(zappy_data_t *z, client_t *client, char *arg);
 
+/* TAKE COMMAND */
+bool start_take_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_take_cmd(zappy_data_t *z, client_t *c, char *arg);
+
+/* SET COMMAND */
+bool start_set_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_set_cmd(zappy_data_t *z, client_t *c, char *arg);
+
+
 /* MAIN FCT */
 int zappy_server(int ac, char **av);
 
