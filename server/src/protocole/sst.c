@@ -16,7 +16,7 @@ bool start_sst(zappy_data_t *z, client_t *client, char *arg)
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp->type == GRAPHICAL) {
-            add_data(&tmp->out, 2, "smg ", z->data.f);
+            add_data(&tmp->out, 2, "sst ", z->data.f);
         }
     }
     return (SUCCESS);

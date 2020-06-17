@@ -23,6 +23,8 @@ SRCS_FILES		=	main.c \
 					commands/look_tools.c \
 					commands/set.c \
 					protocole/bct.c \
+					protocole/ebo.c \
+					protocole/edi.c \
 					protocole/mct.c \
 					protocole/msz.c \
 					protocole/pex.c \

@@ -158,6 +158,8 @@ bool smg(zappy_data_t *z, char *arg);
 bool suc(zappy_data_t *z);
 bool start_msz(zappy_data_t *z, client_t *client, char *arg);
 bool end_msz(zappy_data_t *z, client_t *client, char *arg);
+bool ebo(zappy_data_t *z, egg_t *egg);
+bool edi(zappy_data_t *z, egg_t *egg);
 
 bool start_bct(zappy_data_t *z, client_t *client, char *arg);
 bool end_bct(zappy_data_t *z, client_t *client, char *arg);
