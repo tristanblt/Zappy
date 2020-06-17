@@ -10,11 +10,25 @@
 #define NB_CMDS 4
 
 const command_t cmds[NB_CMDS] = {
-    {"Forward", 7, &start_move_cmd, &end_move_cmd},
-    {"Look", 4, &start_look, &end_look},
-    {"Incantation", 11, &start_incantation, &end_incantation},
-    {"msz", 3, &msz, NULL},
+    {"Forward", 7, &start_move_cmd, &end_move_cmd, AI},
+    {"Look", 4, &start_look, &end_look, AI},
+    {"Incantation", 11, &start_incantation, &end_incantation, AI},
+    {"msz", 3, &msz, NULL, GRAPHICAL},
 };
+
+bool is_acceptable(client_t *client, char *command)
+{
+    int found;
+
+    for (int i = 0; i < NB_CMDS; i++) {
+        if (!(found = strncmp(cmds[i].token, command, cmds[i].token_len))
+        && client->type != cmds[i].client_type)
+        return (false);
+        if (found == 0)
+            break;
+    }
+    return (true);
+}
 
 /**
  * \fn bool switch_command(server_t *server, client_t *client, char *command)
@@ -70,7 +84,8 @@ void search_command_in_client(client_t *client)
             break;
         size_cmd = find_cmd - client->in.buff + 2;
         *find_cmd = 0;
-        add_to_requests(client->in.buff, client, size_cmd - 2);
+        if (is_acceptable(client, client->in.buff))
+            add_to_requests(client->in.buff, client, size_cmd - 2);
         remove_data(&client->in, size_cmd);
     }
 }

@@ -90,6 +90,7 @@ struct ressources_s {
 };
 
 struct egg_s {
+    int idx;
     float status;
     position_t pos;
     char *team;
@@ -148,7 +149,7 @@ typedef enum type_e type_e;
 
 enum type_e {
     AI,
-    GRAPHIQUE,
+    GRAPHICAL,
     NOTHING
 };
 
@@ -192,6 +193,7 @@ struct command_s {
     int token_len;
     bool (*start)(zappy_data_t *z, client_t *client, char *command);
     bool (*end)(zappy_data_t *z, client_t *client, char *command);
+    type_e client_type;
 };
 
 struct recipe_s {

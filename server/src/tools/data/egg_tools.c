@@ -19,6 +19,7 @@
 bool add_egg(zappy_data_t *z, char *team, position_t pos)
 {
     egg_t *new = malloc(sizeof(egg_t));
+    static int idx = 0;
 
     if (new == NULL)
         return (ERROR);
@@ -26,6 +27,8 @@ bool add_egg(zappy_data_t *z, char *team, position_t pos)
     new->pos.y = pos.y;
     new->status = 600.0 / z->data.f;
     new->team = team;
+    new->idx = idx;
+    idx++;
     SLIST_INSERT_HEAD(&z->data.eggs, new, next);
     return (SUCCESS);
 }
