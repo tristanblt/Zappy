@@ -110,8 +110,8 @@ void look_bottom_top(client_t *cli, zappy_data_t *z, int signe_y);
 void look_right_left(client_t *cli, zappy_data_t *z, int signe_x);
 
 /* INCANTATION COMMAND*/
-int start_incantation(zappy_data_t *z, client_t *client, char *arg);
-int end_incantation(zappy_data_t *z, client_t *client, char *arg);
+bool start_incantation(zappy_data_t *z, client_t *client, char *arg);
+bool end_incantation(zappy_data_t *z, client_t *client, char *arg);
 
 /* MAIN FCT */
 int zappy_server(int ac, char **av);

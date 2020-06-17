@@ -7,10 +7,12 @@
 
 #include "server.h"
 
-#define NB_CMDS 1
+#define NB_CMDS 3
 
 const command_t cmds[NB_CMDS] = {
-    {"Forward", 7, &start_move_cmd, &end_move_cmd}
+    {"Forward", 7, &start_move_cmd, &end_move_cmd},
+    {"Look", 4, &start_look, &end_look},
+    {"Incantation", 11, &start_incantation, &end_incantation},
 };
 
 /**
@@ -22,17 +24,12 @@ const command_t cmds[NB_CMDS] = {
  * \param command corps de la commande
  * \return true en succès et false en cas d'erreur
  */
-
 int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
     bool ret = SUCCESS;
 
-    if (((c_data_t *)client->data)->team == NULL) {
-        if (check_client_connexion(z, client, command) == ERROR)
-            return (2);
-        rm_from_request(client);
-        return (SUCCESS);
-    }
+    if ((ret = check_client_connexion(z, client, command)) > 0)
+        return (ret);
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         ((c_data_t *)client->data)->req_cntx == END) {

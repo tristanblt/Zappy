@@ -7,28 +7,14 @@
 
 #include "server.h"
 
-int check_client_connexion(zappy_data_t *z, client_t *client, char *command)
-{
-    char **array = split_command(command);
-    char buffer[12] = {0};
-    team_t *team;
-
-    if (array == NULL)
-        return (ERROR);
-    if (init_client_context(z, client, array[0]) == ERROR)
-        return (ERROR);
-    team = get_team_by_name(z->data.teams, z->data.nb_teams,
-    ((c_data_t *)client->data)->team);
-    if (!team)
-        return (ERROR);
-    sprintf(buffer, "%d", z->data.nb_mates - team->nb);
-    add_data(&client->out, 1, buffer);
-    sprintf(buffer, "%d %d", ((c_data_t *)client->data)->pos.x,
-    ((c_data_t *)client->data)->pos.y);
-    add_data(&client->out, 1, buffer);
-    return (SUCCESS);
-}
-
+/**
+ * \fn bool new_client_welcome(server_t *server, void *data)
+ * \brief Ajoute un client si pas d'erreur et l'accueil
+ *
+ * \param server la variable principale du projet
+ * \param data la data à initialiser au nouveau client
+ * \return true en succès et false en cas d'erreur
+ */
 bool new_client_welcome(server_t *server, void *data)
 {
     int is_ok = SUCCESS;
@@ -69,6 +55,7 @@ bool add_client(server_t *server, void *data)
         return (NULL);
     }
     new->data = data;
+    new->type = NOTHING;
     SLIST_INSERT_HEAD(&server->clients, new, next);
     return (SUCCESS);
 }

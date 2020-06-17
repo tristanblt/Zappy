@@ -41,6 +41,7 @@ SRCS_FILES		=	main.c \
 					tools/network/command_tools.c \
 					tools/network/flux_tools.c \
 					tools/network/server_tools.c \
+					tools/network/connexion_tools.c \
 					tools/zappy_tools.c \
 					tools/display_usage.c \
 

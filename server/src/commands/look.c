@@ -18,6 +18,7 @@
  */
 bool start_look(zappy_data_t *z, client_t *client, char *command)
 {
+    printf("ok\n");
     (void)command;
     ((c_data_t *)client->data)->cool_down = 7.0 / z->data.f;
     return (SUCCESS);
@@ -34,6 +35,7 @@ bool start_look(zappy_data_t *z, client_t *client, char *command)
  */
 bool end_look(zappy_data_t *z, client_t *client, char *arg)
 {
+    printf("ok2\n");
     (void)arg;
     switch (((c_data_t *)client->data)->dir) {
     case 0:
@@ -49,5 +51,6 @@ bool end_look(zappy_data_t *z, client_t *client, char *arg)
         look_right_left(client, z, -1);
         break;
     }
+    printf("ok3\n");
     return (SUCCESS);
 }
