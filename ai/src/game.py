@@ -22,6 +22,7 @@ from ai.src.requestSelection import requestSelection
 def startGame(params, mainsock):
     resetGame()
     ai.src.requests.initGameRequest(params["name"])
+    ai.src.glob.gameState["teamName"] = params["name"]
 
     while ai.src.glob.AIRunning:
         selectHandler(mainsock)
@@ -30,6 +31,8 @@ def startGame(params, mainsock):
                 response = ai.src.glob.readQueue.get_nowait()
                 if not eventHandler(response):
                     command = ai.src.glob.currentCommand
+                    if command == None:
+                        break
                     ai.src.glob.currentCommand = None
                     if not command(response):
                         mainsock.close()

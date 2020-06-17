@@ -12,15 +12,23 @@ from ai.src.incant import *
 
 elevationFunctions = [
     elevationLevel2,
-    # elevationLevel3,
-    # elevationLevel4,
-    # elevationLevel5,
-    # elevationLevel6,
-    # elevationLevel7,
-    # elevationLevel8,
+    elevationLevel3,
+    elevationLevel4,
+    elevationLevel5,
+    elevationLevel6,
+    elevationLevel7,
+    elevationLevel8,
 ]
 
 def requestSelection(mainsock):
+    if ai.src.glob.gameState["needLook"]:
+        lookRequest()
+        ai.src.glob.gameState["needLook"] = False
+        return
+    if ai.src.glob.gameState["needInventory"]:
+        inventoryRequest()
+        ai.src.glob.gameState["needInventory"] = False
+        return
     if updateFood():
         return
     if ai.src.glob.gameState["starving"] or ai.src.glob.gameState["level"] == 8:
@@ -34,8 +42,50 @@ def requestSelection(mainsock):
             print("explore")
             explore()
     else:
-        if ai.src.glob.gameState["level"] < 8:
+        if ai.src.glob.gameState['joinPlayer']:
+            if ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
+                ai.src.glob.gameState['joinPlayer'] = False
+                return
+            if ai.src.glob.gameState['incantationBroadcast'] == 0:
+                print("---> direction : 0")
+                return
+            if ai.src.glob.gameState['incantationBroadcast'] != -1:
+                print("---> direction : "+str(ai.src.glob.gameState['incantationBroadcast']))
+                if (ai.src.glob.gameState['incantationBroadcast'] % 2 == 0
+                or  ai.src.glob.gameState['incantationBroadcast'] == 1):
+                    forwardRequest()
+                elif ai.src.glob.gameState['incantationBroadcast'] in [3, 5]:
+                    rightRequest()
+                else:
+                    leftRequest()
+                
+                #pas bouger le chien
+
+            # phase rejoindre poto
+        else:
+            print(ai.src.glob.gameState["level"])
             elevationFunctions[ai.src.glob.gameState["level"] - 1]()
+
+
+
+
+        #if ai.src.glob.gameState["broadcastIncantationCheckTime"] > 30 and ai.src.glob.gameState["incantationBroadcast"] != 0:
+        #    ai.src.glob.gameState["incantationBroadcast"] = -1
+        #if ai.src.glob.gameState["incantationBroadcast"] == 0:
+        #    broadcastRequest("prout mdr")
+        #elif ai.src.glob.gameState["incantationBroadcast"] != -1 and ai.src.glob.gameState["bufferBroadcast"] == False:
+        #    if ai.src.glob.gameState["incantationBroadcast"] % 2 == 0 or ai.src.glob.gameState["incantationBroadcast"] == 1:
+        #        forwardRequest()
+        #    elif ai.src.glob.gameState["incantationBroadcast"] in [3, 5]:
+        #        rightRequest()
+        #    elif ai.src.glob.gameState["incantationBroadcast"] == 7:
+        #        leftRequest()
+        #    ai.src.glob.gameState["bufferBroadcast"] = True
+        #    print("--------------->elevation ritual direction : "+str(ai.src.glob.gameState["incantationBroadcast"]))
+        #
+        #elif ai.src.glob.gameState["bufferBroadcast"]:
+        #    inventoryRequest()
+        #    ai.src.glob.gameState["bufferBroadcast"] = False
 
 def updateFood():
     if ai.src.glob.gameState["starveCheckTime"] >= 100:
@@ -47,6 +97,7 @@ def updateFood():
             ai.src.glob.gameState["starving"] = False
     else:
         if ai.src.glob.gameState["nbFood"] < 3:
+            ai.src.glob.gameState["elevationReady"] = False
             ai.src.glob.gameState["starving"] = True
 
 def foodAtPlayerPosition():

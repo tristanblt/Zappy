@@ -63,7 +63,7 @@ def inventoryRequest():
 
 def broadcastRequest(text):
     addTime(7)
-    sendRequest(text)
+    sendRequest("Broadcast " + text)
     ai.src.glob.currentCommand = broadcastResponse
 
 def connectNbrRequest():
