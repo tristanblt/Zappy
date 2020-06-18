@@ -28,16 +28,15 @@ def swapDirection(direction):
 def eventHandler(response):
     # broadcast
     # eject
-    #print(response)
     if response.startswith("Current level: "):
-        print("megapute")
         ai.src.glob.gameState["level"] = int(response.split(" ")[2])
+        print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         # ai.src.glob.gameState["incantationBroadcast"] = -1
         # ai.src.glob.gameState["callBroadcast"] = 0
         # ai.src.glob.gameState["bufferBroadcast"] = False
         # ai.src.glob.gameState["elevationReady"] = False
         ai.src.glob.gameState["joinPlayer"] = False
-        return True
+        return False
     if response.startswith("dead"):
         ai.src.glob.AIRunning = False
         return True
@@ -55,7 +54,7 @@ def eventHandler(response):
             pass
         return True
     if response.startswith("eject"):
-        print("tu t fé tej gronul")
+        print("Ejected from tile")
         firstPlayer = True
         for item in ai.src.glob.gameMap:
             if (item["type"] == "player"

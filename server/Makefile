@@ -15,6 +15,7 @@ SRCS_FILES		=	main.c \
 					commands/connect_number.c \
 					commands/death.c \
 					commands/eject.c \
+					commands/fork.c \
 					commands/incantation.c \
 					commands/move.c \
 					commands/rotate.c \

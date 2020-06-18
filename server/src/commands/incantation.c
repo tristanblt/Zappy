@@ -110,8 +110,10 @@ void destruction_ressources(ressources_t inventory, ressources_t incantation)
 bool start_incantation(zappy_data_t *z, client_t *client, char *arg)
 {
     (void)arg;
+    printf("ok\n");
     ((c_data_t *)client->data)->cool_down = 300.0 / z->data.f;
     add_data(&client->out, 1, "Elevation underway");
+    pic(z->server, client);
     return (SUCCESS);
 }
 
@@ -134,6 +136,7 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     (void)arg;
     if (is_incantation_possible(data->inventory, recipes[data->level - 1],
     nb_player) == false) {
+        pie(z->server, client, false);
         add_data(&client->out, 1, "ko");
         return (SUCCESS);
     }
@@ -144,5 +147,6 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
         ((c_data_t *)client->data)->team)->victory_count++;
     sprintf(buff, "%d", data->level);
     add_data(&client->out, 2, "Current level: ", buff);
+    pie(z->server, client, true);
     return (SUCCESS);
 }

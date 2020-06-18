@@ -30,6 +30,7 @@ setResponses = {
 }
 
 def sendRequest(request):
+    print("\t\t\t\t\t\t\tAction: " + request)
     ai.src.glob.writeBuffer += request + "\n"
 
 def initGameRequest(teamName):
@@ -81,7 +82,6 @@ def ejectRequest():
     ai.src.glob.currentCommand = ejectResponse
 
 def takeObjectRequest(object):
-    print("Picking : "+object)
     addTime(7)
     sendRequest("Take "+object)
     ai.src.glob.currentCommand = takeResponses[object]

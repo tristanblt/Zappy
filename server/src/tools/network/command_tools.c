@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-#define NB_CMDS 13
+#define NB_CMDS 20
 
 const command_t cmds[NB_CMDS] = {
     {"Forward", 7, &start_move_cmd, &end_move_cmd, AI},
@@ -15,6 +15,13 @@ const command_t cmds[NB_CMDS] = {
     {"Incantation", 11, &start_incantation, &end_incantation, AI},
     {"Take ", 5, &start_take_cmd, &end_take_cmd, AI},
     {"Set ", 4, &start_set_cmd, &end_set_cmd, AI},
+    {"Right", 5, &start_rotate_cmd, &rotate_right_cmd, AI},
+    {"Left", 4, &start_rotate_cmd, &rotate_left_cmd, AI},
+    {"Inventory", 9, &start_inventory_cmd, &end_inventory_cmd, AI},
+    {"Broadcast ", 10, &start_broadcast_cmd, &end_broadcast_cmd, AI},
+    {"Connect_nbr", 11, &start_co_nbr_cmd, &end_co_nbr_cmd, AI},
+    {"Fork", 4, &start_fork_cmd, &end_fork_cmd, AI},
+    {"Eject", 5, &start_eject_cmd, &end_eject_cmd, AI},
     {"msz ", 4, &start_msz, &end_msz, GRAPHICAL},
     {"bct ", 4, &start_bct, &end_bct, GRAPHICAL},
     {"mct ", 4, &start_mct, &end_mct, GRAPHICAL},
@@ -23,7 +30,6 @@ const command_t cmds[NB_CMDS] = {
     {"plv ", 4, &start_plv, &end_plv, GRAPHICAL},
     {"pin ", 4, &start_pin, &end_pin, GRAPHICAL},
     {"sst ", 4, &start_sst, &end_sst, GRAPHICAL},
-
 };
 
 bool is_acceptable(client_t *client, char *command)
@@ -83,7 +89,6 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
  * \param client client actuel
  * \return rien
  */
-
 void search_command_in_client(client_t *client)
 {
     char *find_cmd;
@@ -110,7 +115,6 @@ void search_command_in_client(client_t *client)
  * \param server la variable principale du projet
  * \return true en succès et false en cas d'erreur
  */
-
 bool handle_commands(zappy_data_t *z)
 {
     client_t *tmp;

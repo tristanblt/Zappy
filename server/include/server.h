@@ -172,6 +172,11 @@ bool end_msz(zappy_data_t *z, client_t *client, char *arg);
 bool ebo(zappy_data_t *z, egg_t *egg);
 bool edi(zappy_data_t *z, egg_t *egg);
 
+void pic(server_t *server, client_t *client);
+void pie(server_t *server, client_t *client, bool result);
+void pdr(server_t *server, client_t *client, char *ressource);
+void pgt(server_t *server, client_t *client, char *ressource);
+
 
 bool start_bct(zappy_data_t *z, client_t *client, char *arg);
 bool end_bct(zappy_data_t *z, client_t *client, char *arg);
@@ -196,5 +201,24 @@ bool end_pin(zappy_data_t *z, client_t *client, char *arg);
 
 bool start_sst(zappy_data_t *z, client_t *client, char *arg);
 bool end_sst(zappy_data_t *z, client_t *client, char *arg);
+
+bool start_eject_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_eject_cmd(zappy_data_t *z, client_t *cli, char *command);
+
+bool start_fork_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_fork_cmd(zappy_data_t *z, client_t *client, char *command);
+
+bool start_co_nbr_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_co_nbr_cmd(zappy_data_t *z, client_t *client, char *command);
+
+bool start_broadcast_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_broadcast_cmd(zappy_data_t *z, client_t *client, char *command);
+
+bool start_inventory_cmd(zappy_data_t *z, client_t *client, char *command);
+bool end_inventory_cmd(zappy_data_t *z, client_t *client, char *command);
+
+bool start_rotate_cmd(zappy_data_t *z, client_t *client, char *command);
+bool rotate_right_cmd(zappy_data_t *z, client_t *client, char *command);
+bool rotate_left_cmd(zappy_data_t *z, client_t *client, char *command);
 
 #endif /* !SERVER_H_ */

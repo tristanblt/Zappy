@@ -9,7 +9,7 @@ import ai.src.glob
 
 from ai.src.requests import *
 from ai.src.incant import *
-
+'''
 elevationFunctions = [
     elevationLevel2,
     elevationLevel3,
@@ -18,6 +18,86 @@ elevationFunctions = [
     elevationLevel6,
     elevationLevel7,
     elevationLevel8,
+]'''
+
+elevationRequired = [
+    {
+        "requiredPlayers":1,
+        "elevationItems": {
+            "linemate": 1,
+            "deraumere": 0,
+            "sibur": 0,
+            "mendiane": 0,
+            "phiras": 0,
+            "thystame": 0
+        }
+    },
+    {
+        "requiredPlayers":2,
+        "elevationItems": {
+            "linemate": 1,
+            "deraumere": 1,
+            "sibur": 1,
+            "mendiane": 0,
+            "phiras": 0,
+            "thystame": 0
+        }
+    },
+    {
+        "requiredPlayers":2,
+        "elevationItems": {
+            "linemate": 2,
+            "deraumere": 0,
+            "sibur": 1,
+            "mendiane": 0,
+            "phiras": 2,
+            "thystame": 0
+        }
+    },
+    {
+        "requiredPlayers":4,
+        "elevationItems": {
+            "linemate": 1,
+            "deraumere": 1,
+            "sibur": 2,
+            "mendiane": 0,
+            "phiras": 1,
+            "thystame": 0
+        }
+    },
+    {
+        "requiredPlayers":4,
+        "elevationItems": {
+            "linemate": 1,
+            "deraumere": 2,
+            "sibur": 1,
+            "mendiane": 3,
+            "phiras": 0,
+            "thystame": 0
+        }
+    },
+    {
+        "requiredPlayers":6,
+        "elevationItems": {
+            "linemate": 1,
+            "deraumere": 2,
+            "sibur": 3,
+            "mendiane": 0,
+            "phiras": 1,
+            "thystame": 0
+        }
+    },
+    {
+        "requiredPlayers":6,
+        "elevationItems": {
+            "linemate": 2,
+            "deraumere": 2,
+            "sibur": 2,
+            "mendiane": 2,
+            "phiras": 2,
+            "thystame": 1
+        }
+    },
 ]
 
 def requestSelection(mainsock):
@@ -32,14 +112,12 @@ def requestSelection(mainsock):
     if updateFood():
         return
     if ai.src.glob.gameState["starving"] or ai.src.glob.gameState["level"] == 8:
+        print("Searching food because starving")
         if foodAtPlayerPosition():
-            print("food on player tile")
             takeObjectRequest("food")
         elif itemInMap("food"):
-            print("food in map")
             lookForItem("food")
-        else:
-            print("explore")
+        else: 
             explore()
     else:
         if ai.src.glob.gameState["needExplore"] > 0:
@@ -47,16 +125,14 @@ def requestSelection(mainsock):
             explore()
             return
         if ai.src.glob.gameState['joinPlayer']:
-            print("elapsed time since last broadcast : " + str(ai.src.glob.gameState['broadcastIncantationCheckTime']))
+            print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation")
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
                 inventoryRequest()
-                print("---> direction : 0")
                 return
             elif ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
                 ai.src.glob.gameState['joinPlayer'] = False
                 return
             if ai.src.glob.gameState['incantationBroadcast'] != -1:
-                print("---> direction : "+str(ai.src.glob.gameState['incantationBroadcast']))
                 if (ai.src.glob.gameState['incantationBroadcast'] % 2 == 0
                 or  ai.src.glob.gameState['incantationBroadcast'] == 1):
                     forwardRequest()
@@ -69,8 +145,8 @@ def requestSelection(mainsock):
                 inventoryRequest()
                 
         else:
-            print(ai.src.glob.gameState["level"])
-            elevationFunctions[ai.src.glob.gameState["level"] - 1]()
+            elevation(ai.src.glob.gameState["level"] + 1, elevationRequired[ai.src.glob.gameState["level"] - 1])
+            # elevationFunctions[ai.src.glob.gameState["level"] - 1]()
 
 def updateFood():
     if ai.src.glob.gameState["starveCheckTime"] >= 100:
