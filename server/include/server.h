@@ -20,6 +20,7 @@ void free_server_data(s_data_t *data);
 
 /* RESSOURCES TOOLS */
 void init_ressources(ressources_t *res);
+int get_ressource_number(char *ressource);
 
 /* TEAM TOOLS */
 team_t *get_team_by_name(team_t *teams, int nb, char *name);

@@ -78,21 +78,24 @@ void update_timeout(server_t *server)
 {
     client_t *tmp;
     float cd = -1;
+    bool graphical_cmd = false;
 
     SLIST_FOREACH(tmp, &server->clients, next)
     {
-        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down) &&
+        if (tmp->type == AI && (cd == -1 || cd > ((c_data_t *)tmp->data)->cool_down) &&
         ((c_data_t *)tmp->data)->cool_down) {
             cd = ((c_data_t *)tmp->data)->cool_down;
         }
-        if ((cd == -1 || cd > ((c_data_t *)tmp->data)->inventory.food) &&
+        if (tmp->type == AI && (cd == -1 || cd > ((c_data_t *)tmp->data)->inventory.food) &&
         ((c_data_t *)tmp->data)->team) {
             cd = ((c_data_t *)tmp->data)->inventory.food;
         }
+        if (tmp->type == GRAPHICAL && ((c_data_t *)tmp->data)->req_cntx == START)
+            graphical_cmd = true;
     }
-    server->t.is_needed = (cd <= 0) ? false : true;
-    server->t.timeout.tv_sec = (long)cd;
-    server->t.timeout.tv_usec = 1000000 * (cd - (int)cd);
+    server->t.is_needed = (cd <= 0 || !graphical_cmd) ? false : true;
+    server->t.timeout.tv_sec = (graphical_cmd)? 0 : (long)cd;
+    server->t.timeout.tv_usec = (graphical_cmd) ? 0 : 1000000 * (cd - (int)cd);
 }
 
 /**

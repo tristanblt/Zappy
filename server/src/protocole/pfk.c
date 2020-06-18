@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2020
 ** Zappy
 ** File description:
-** pbc
+** pfk
 */
 
 #include "server.h"
 
-void pbc(server_t *server, client_t *client, char *message)
+void pfk(server_t *server, client_t *client)
 {
     client_t *tmp;
     char nb[12] = {0};
@@ -16,6 +16,6 @@ void pbc(server_t *server, client_t *client, char *message)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == GRAPHICAL)
-            add_data(&tmp->out, 3, "pbc", nb, message);
+            add_data(&tmp->out, 2 ,"pfk", nb);
     }
 }

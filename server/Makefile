@@ -22,6 +22,17 @@ SRCS_FILES		=	main.c \
 					commands/look.c \
 					commands/look_tools.c \
 					commands/set.c \
+					protocole/pbc.c \
+					protocole/pic.c \
+					protocole/pie.c \
+					protocole/pfk.c \
+					protocole/pdr.c \
+					protocole/pgt.c \
+					protocole/pdi.c \
+					protocole/enw.c \
+					protocole/eht.c \
+					protocole/lpi.c \
+					protocole/lei.c \
 					protocole/bct.c \
 					protocole/ebo.c \
 					protocole/edi.c \
