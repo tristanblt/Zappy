@@ -58,6 +58,25 @@ def prepareTile(items):
             return False
     return True
 
+def elevation(lvlToAttain, required):
+    requiredPlayers = required["requiredPlayers"]
+    elevationItems = required["elevationItems"]
+    for item in elevationItems:
+        if (not ai.src.glob.gameState["elevationReady"] and
+            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            if getNbItemOnPlayerTile(item) > 0:
+                takeObjectRequest(item)
+            else:
+                lookForItem(item)
+            return
+    ai.src.glob.gameState["elevationReady"] = True
+    if prepareTile(elevationItems):
+        if getNbItemOnPlayerTile("player") == requiredPlayers:
+            print("Incantation for level %d !" % lvlToAttain)
+            incantationRequest()
+        else:
+            ejectRequest()
+'''
 def elevationLevel2():
     requiredPlayers = 1
     elevationItems = {
@@ -288,7 +307,7 @@ def elevationLevel8():
                 ai.src.glob.gameState["callBroadcast"] = 0
     return
 
-'''
+
 def checkIncant():
     level = ai.src.glob.gameState['level']
     nbPlayers = getNbItemOnPlayerTile("player")
