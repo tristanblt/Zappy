@@ -10,9 +10,9 @@
 #define NB_CMDS 13
 
 const command_t cmds[NB_CMDS] = {
-    {"Forward ", 8, &start_move_cmd, &end_move_cmd, AI},
-    {"Look ", 5, &start_look, &end_look, AI},
-    {"Incantation ", 12, &start_incantation, &end_incantation, AI},
+    {"Forward", 7, &start_move_cmd, &end_move_cmd, AI},
+    {"Look", 4, &start_look, &end_look, AI},
+    {"Incantation", 11, &start_incantation, &end_incantation, AI},
     {"Take ", 5, &start_take_cmd, &end_take_cmd, AI},
     {"Set ", 4, &start_set_cmd, &end_set_cmd, AI},
     {"msz ", 4, &start_msz, &end_msz, GRAPHICAL},
@@ -59,10 +59,12 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         ((c_data_t *)client->data)->req_cntx == END) {
+            printf("doing START\n");
             ((c_data_t *)client->data)->req_cntx = START;
             return (cmds[i].start(z, client, command + cmds[i].token_len));
         } else if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         !((c_data_t *)client->data)->cool_down) {
+            printf("doing END\n");
             ((c_data_t *)client->data)->req_cntx = END;
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }
@@ -94,8 +96,10 @@ void search_command_in_client(client_t *client)
             break;
         size_cmd = find_cmd - client->in.buff + 2;
         *find_cmd = 0;
-        if (is_acceptable(client, client->in.buff))
+        if (is_acceptable(client, client->in.buff)) {
+            printf("added\n");
             add_to_requests(client->in.buff, client, size_cmd - 2);
+        }
         remove_data(&client->in, size_cmd);
     }
 }

@@ -16,7 +16,7 @@
  * \param pos sa position sur la map
  * \return true en succes et false en erreur
  */
-bool add_egg(zappy_data_t *z, char *team, position_t pos)
+bool add_egg(zappy_data_t *z, client_t *client, position_t pos)
 {
     egg_t *new = malloc(sizeof(egg_t));
     static int idx = 0;
@@ -26,10 +26,11 @@ bool add_egg(zappy_data_t *z, char *team, position_t pos)
     new->pos.x = pos.x;
     new->pos.y = pos.y;
     new->status = 600.0 / z->data.f;
-    new->team = team;
+    new->team = ((c_data_t *)client->data)->team;
     new->idx = idx;
     idx++;
     SLIST_INSERT_HEAD(&z->data.eggs, new, next);
+    enw(z->server, client, new);
     return (SUCCESS);
 }
 
@@ -68,6 +69,7 @@ void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
     ((c_data_t *)client->data)->pos.x = egg->pos.x;
     ((c_data_t *)client->data)->pos.y = egg->pos.y;
     ((c_data_t *)client->data)->team = egg->team;
+    ((c_data_t *)client->data)->inventory.food -= egg->status;
     SLIST_REMOVE(&z->data.eggs, egg, egg_s, next);
     free(egg);
 }
@@ -115,13 +117,20 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name)
 void update_egg_status(zappy_data_t *z)
 {
     egg_t *tmp;
+    egg_t *tmp2;
 
-    SLIST_FOREACH(tmp, &z->data.eggs, next)
-    {
-        if (tmp->status - z->server->t.delta_time > 0)
+    for (tmp = z->data.eggs.slh_first; tmp != NULL;
+    tmp = (tmp) ? tmp->next.sle_next : tmp2) {
+        tmp2 = tmp->next.sle_next;
+        if (tmp->status < 0 || tmp->status - z->server->t.delta_time > 0)
             tmp->status -= z->server->t.delta_time;
         else if (tmp->status != HATCHED) {
             tmp->status = HATCHED;
+            eht(z->server, tmp);
+        }
+        if (tmp->status < -1260.0 / z->data.f) {
+            SLIST_REMOVE(&z->data.eggs, tmp, egg_s, next);
+            tmp = tmp2;
         }
     }
 }

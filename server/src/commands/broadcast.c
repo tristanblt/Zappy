@@ -20,6 +20,7 @@ bool end_broadcast_cmd(zappy_data_t *z, client_t *client, char *command)
 
     (void)command;
     add_data(&client->out, 1, "ok");
+    pbc(z->server, client, command);
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp != client && tmp->type == AI) {

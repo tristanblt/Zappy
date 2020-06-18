@@ -95,7 +95,7 @@ void update_egg_status(zappy_data_t *z);
 bool init_client_context(zappy_data_t *z, client_t *client, char *name);
 void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg);
 egg_t *get_egg_by_team(zappy_data_t *z, char *team);
-bool add_egg(zappy_data_t *z, char *team, position_t pos);
+bool add_egg(zappy_data_t *z, client_t *client, position_t pos);
 
 /* SIGNAL TOOLS */
 void handle_sigint(int i);
@@ -157,6 +157,11 @@ bool sbp(zappy_data_t *z);
 bool seg(zappy_data_t *z, char *team_name);
 bool smg(zappy_data_t *z, char *arg);
 bool suc(zappy_data_t *z);
+void pbc(server_t *server, client_t *client, char *message);
+void pdi(server_t *server, client_t *client);
+void pfk(server_t *server, client_t *client);
+void enw(server_t *server, client_t *client, egg_t *egg);
+void eht(server_t *server, egg_t *egg);
 
 bool pex(zappy_data_t *z, char *arg);
 bool pnw(zappy_data_t *z, client_t *client);
