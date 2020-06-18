@@ -161,10 +161,10 @@ def updateFood():
         ai.src.glob.gameState["starveCheckTime"] = 0
         return True
     if ai.src.glob.gameState["starving"]:
-        if ai.src.glob.gameState["nbFood"] > ((ai.src.glob.gameState["mapSize"]["x"] + ai.src.glob.gameState["mapSize"]["y"]) / 2 * 3):
+        if ai.src.glob.gameState["nbFood"] > ((ai.src.glob.gameState["mapSize"]["x"] + ai.src.glob.gameState["mapSize"]["y"]) / 2 * 4):
             ai.src.glob.gameState["starving"] = False
     else:
-        if ai.src.glob.gameState["nbFood"] < 7:
+        if ai.src.glob.gameState["nbFood"] < 4:
             ai.src.glob.gameState["elevationReady"] = False
             ai.src.glob.gameState["starving"] = True
 
