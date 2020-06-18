@@ -23,3 +23,10 @@ team_t *get_team_by_name(team_t *teams, int nb, char *name)
             return (&teams[i]);
     return (NULL);
 }
+
+void init_team(team_t *team, char *name)
+{
+    team->name = name;
+    team->victory_count = 0;
+    team->nb = 0;
+}

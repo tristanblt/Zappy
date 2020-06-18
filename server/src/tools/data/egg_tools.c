@@ -71,6 +71,7 @@ void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
     ((c_data_t *)client->data)->team = egg->team;
     ((c_data_t *)client->data)->inventory.food -= egg->status;
     SLIST_REMOVE(&z->data.eggs, egg, egg_s, next);
+    ebo(z, egg);
     free(egg);
 }
 
@@ -129,8 +130,9 @@ void update_egg_status(zappy_data_t *z)
             eht(z->server, tmp);
         }
         if (tmp->status < -1260.0 / z->data.f) {
+            edi(z, tmp);
             SLIST_REMOVE(&z->data.eggs, tmp, egg_s, next);
-            tmp = tmp2;
+            tmp = NULL;
         }
     }
 }

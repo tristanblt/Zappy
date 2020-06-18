@@ -139,6 +139,9 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     }
     destruction_ressources(data->inventory, recipes[data->level - 1].needed);
     data->level += 1;
+    if (data->level == 8)
+        get_team_by_name(z->data.teams, z->data.nb_teams,
+        ((c_data_t *)client->data)->team)->victory_count++;
     sprintf(buff, "%d", data->level);
     add_data(&client->out, 2, "Current level: ", buff);
     return (SUCCESS);

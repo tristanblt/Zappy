@@ -59,10 +59,8 @@ bool init_server_data(s_data_t *data, param_t params)
     for (nb = 0; params.name[nb]; nb++);
     if ((data->teams = malloc(sizeof(team_t) * nb)) == NULL)
         return (ERROR);
-    for (int i = 0; i < nb; i++) {
-        data->teams[i].name = params.name[i];
-        data->teams[i].nb = 0;
-    }
+    for (int i = 0; i < nb; i++)
+        init_team(&data->teams[i], params.name[i]);
     data->nb_teams = nb;
     if (!(data->map = create_map((position_t){params.width, params.height}))) {
         free(data->teams);

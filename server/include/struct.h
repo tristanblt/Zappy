@@ -53,6 +53,7 @@ typedef struct team_s team_t;
 struct team_s {
     char *name;
     int nb;
+    int victory_count;
 };
 
 
@@ -106,6 +107,7 @@ struct s_data_s {
     SLIST_HEAD(, egg_s) eggs;
     map_node_t *map;
     team_t *teams;
+    int end;
 };
 
 struct c_data_s {

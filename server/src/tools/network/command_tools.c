@@ -59,19 +59,18 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         ((c_data_t *)client->data)->req_cntx == END) {
-            printf("doing START\n");
             ((c_data_t *)client->data)->req_cntx = START;
             return (cmds[i].start(z, client, command + cmds[i].token_len));
         } else if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         !((c_data_t *)client->data)->cool_down) {
-            printf("doing END\n");
             ((c_data_t *)client->data)->req_cntx = END;
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }
     }
-    if (((c_data_t *)client->data)->cool_down == 0) {
+    if (ret == SUCCESS && ((c_data_t *)client->data)->cool_down == 0)
         rm_from_request(client);
-    }
+    if (client->type == GRAPHICAL)
+        suc(client);
     return (ret);
 }
 

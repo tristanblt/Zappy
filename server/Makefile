@@ -55,6 +55,7 @@ SRCS_FILES		=	main.c \
 					tools/data/data_tools.c \
 					tools/data/egg_tools.c \
 					tools/data/map_delete_tools.c \
+					tools/data/game_tools.c \
 					tools/data/map_setup_tools.c \
 					tools/data/map_spawn_tools.c \
 					tools/data/map_tools.c \

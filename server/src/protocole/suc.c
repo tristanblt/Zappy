@@ -7,14 +7,8 @@
 
 #include "server.h"
 
-bool suc(zappy_data_t *z)
+bool suc(client_t *client)
 {
-    client_t *tmp;
-    SLIST_FOREACH(tmp, &z->server->clients, next)
-    {
-        if (tmp->type == GRAPHICAL) {
-            add_data(&tmp->out, 1, "suc");
-        }
-    }
+    add_data(&client->out, 1, "suc");
     return (SUCCESS);
 }

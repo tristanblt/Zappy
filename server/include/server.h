@@ -24,6 +24,7 @@ int get_ressource_number(char *ressource);
 
 /* TEAM TOOLS */
 team_t *get_team_by_name(team_t *teams, int nb, char *name);
+void init_team(team_t *team, char *name);
 
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
@@ -156,7 +157,7 @@ bool msz(zappy_data_t *z, client_t *client, char *arg);
 bool sbp(zappy_data_t *z);
 bool seg(zappy_data_t *z, char *team_name);
 bool smg(zappy_data_t *z, char *arg);
-bool suc(zappy_data_t *z);
+bool suc(client_t *client);
 void pbc(server_t *server, client_t *client, char *message);
 void pdi(server_t *server, client_t *client);
 void pfk(server_t *server, client_t *client);
