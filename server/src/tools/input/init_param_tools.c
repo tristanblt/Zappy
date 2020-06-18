@@ -54,26 +54,6 @@ void reinit_param(int c, param_t *param)
 }
 
 /**
- * \fn int is_not_empty(char **av, int i);
- * \brief Check si le argument n'est pas vide
- *
- * \param av arguments entrés en execution du programme
- * \param i position du "-n"
- * \return int
- */
-
-int is_not_empty(char **av, int i)
-{
-    if (strncmp(av[i], " ", 1) == 0) {
-        return (0);
-    }
-    if (strncmp(av[i], "", 1) == 0) {
-        return (0);
-    }
-    return (-1);
-}
-
-/**
  * \fn int add_n(char **av, param_t *param, int i, int nbName);
  * \brief Initialise le/les element(s) name de la structure param_t
  *
@@ -87,7 +67,7 @@ int is_not_empty(char **av, int i)
 
 int add_n(char **av, param_t *param, int i, int nbName)
 {
-    if (is_not_empty(av, i) != 0) {
+    if (strchr(av[i], ' ') == NULL) {
         param->name = realloc(param->name, sizeof(char *) * (nbName + 2));
         if (param->name == NULL)
             return (-1);
