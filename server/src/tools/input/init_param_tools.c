@@ -47,9 +47,6 @@ void reinit_param(int c, param_t *param)
     case 'y':
         param->height = atoi(optarg);
         break;
-    case 'c':
-        param->clientNB = atoi(optarg);
-        break;
     case 'f':
         param->freq = atoi(optarg);
         break;

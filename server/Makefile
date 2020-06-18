@@ -33,6 +33,8 @@ SRCS_FILES		=	main.c \
 					protocole/eht.c \
 					protocole/lpi.c \
 					protocole/lei.c \
+					commands/set_down.c \
+					commands/take.c \
 					protocole/bct.c \
 					protocole/ebo.c \
 					protocole/edi.c \

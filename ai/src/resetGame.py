@@ -18,6 +18,7 @@ def resetGame():
 
     ai.src.glob.gameState = {}
     ai.src.glob.gameState["clientNum"] = 0
+    ai.src.glob.gameState["teamName"] = ""
     ai.src.glob.gameState["mapSize"] = {}
     ai.src.glob.gameState["mapSize"]["x"] = 0
     ai.src.glob.gameState["mapSize"]["y"] = 0
@@ -26,7 +27,19 @@ def resetGame():
     ai.src.glob.gameState["starving"] = False
     ai.src.glob.gameState["elevationReady"] = False
 
+    ai.src.glob.gameState["needLook"] = False
+    ai.src.glob.gameState["needInventory"] = False
+    # ai.src.glob.gameState["needForward"] = False
+
+    ai.src.glob.gameState["joinPlayer"] = False
+
+    ai.src.glob.gameState["incantationBroadcast"] = -1
+    ai.src.glob.gameState["callBroadcast"] = 0
+    ai.src.glob.gameState["bufferBroadcast"] = True
+    ai.src.glob.gameState["canMoveBroadcast"] = True
+
     ai.src.glob.gameState["starveCheckTime"] = 0
+    ai.src.glob.gameState["broadcastIncantationCheckTime"] = 0
 
     ai.src.glob.gameState["directionFood"] = -1
     ai.src.glob.gameState["directionLinemate"] = -1

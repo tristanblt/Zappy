@@ -98,23 +98,6 @@ bool set_obj2(client_t *c, char *arg, extracted_content_t content)
  */
 bool set_obj(client_t *c, char *arg, extracted_content_t content)
 {
-    printf("food = %d\n", content.ressources->food);
-    printf("linemate = %d\n", content.ressources->linemate);
-    printf("sibur = %d\n", content.ressources->sibur);
-    printf("mendiane = %d\n", content.ressources->mendiane);
-    printf("phiras = %d\n", content.ressources->phiras);
-    printf("deraumere = %d\n", content.ressources->deraumere);
-    printf("thystame = %d\n", content.ressources->thystame);
-    printf("------------------------------------\n");
-
-    printf("food = %d\n", ((c_data_t *)c->data)->inventory.food);
-    printf("linemate = %d\n", ((c_data_t *)c->data)->inventory.linemate);
-    printf("sibur = %d\n", ((c_data_t *)c->data)->inventory.sibur);
-    printf("mendiane = %d\n", ((c_data_t *)c->data)->inventory.mendiane);
-    printf("phiras = %d\n", ((c_data_t *)c->data)->inventory.phiras);
-    printf("deraumere = %d\n", ((c_data_t *)c->data)->inventory.deraumere);
-    printf("thystame = %d\n", ((c_data_t *)c->data)->inventory.thystame);
-    printf("------------------------------------\n");
     if (strcmp("food", arg) == 0 &&
     ((c_data_t *)c->data)->inventory.food > 0) {
         content.ressources->food += 126;
@@ -149,8 +132,7 @@ bool end_set_cmd(zappy_data_t *z, client_t *c, char *arg)
     int x = ((c_data_t *)c->data)->pos.x;
 
     printf("ok2\n");
-    content = get_tile_content(((c_data_t *)c->data), z->server, x, y);
-    printf("ok3\n");
+    content = get_tile_content(&z->data, z->server, x, y);
     if (set_obj(c, arg, content) == true) {
         printf("end = ok\n");
         add_data(&c->out, 1, "ok");
@@ -161,27 +143,3 @@ bool end_set_cmd(zappy_data_t *z, client_t *c, char *arg)
         return (ERROR);
     }
 }
-
-    // printf("befor = inventory.linemate = %d\n", ((c_data_t *)c->data)->inventory.linemate);
-    // printf("before = content.ressources->linemate = %d\n", content.ressources->linemate);
-
-    // printf("after -> inventory.linemate = %d\n", ((c_data_t *)c->data)->inventory.linemate);
-    //     printf("after -> content.ressources->linemate = %d\n", content.ressources->linemate);
-
-    // printf("food = %d\n", content.ressources->food);
-    // printf("linemate = %d\n", content.ressources->linemate);
-    // printf("sibur = %d\n", content.ressources->sibur);
-    // printf("mendiane = %d\n", content.ressources->mendiane);
-    // printf("phiras = %d\n", content.ressources->phiras);
-    // printf("deraumere = %d\n", content.ressources->deraumere);
-    // printf("thystame = %d\n", content.ressources->thystame);
-    // printf("------------------------------------\n");
-
-    // printf("food = %d\n", ((c_data_t *)c->data)->inventory.food);
-    // printf("linemate = %d\n", ((c_data_t *)c->data)->inventory.linemate);
-    // printf("sibur = %d\n", ((c_data_t *)c->data)->inventory.sibur);
-    // printf("mendiane = %d\n", ((c_data_t *)c->data)->inventory.mendiane);
-    // printf("phiras = %d\n", ((c_data_t *)c->data)->inventory.phiras);
-    // printf("deraumere = %d\n", ((c_data_t *)c->data)->inventory.deraumere);
-    // printf("thystame = %d\n", ((c_data_t *)c->data)->inventory.thystame);
-    // printf("------------------------------------\n");

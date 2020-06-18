@@ -18,15 +18,10 @@
  */
 bool take_obj3(client_t *c, char *arg, extracted_content_t content)
 {
-    printf("thystame = %d\n", content.ressources->thystame);
-    printf("thystame inventaire = %d\n", ((c_data_t *)c->data)->inventory.thystame);
     content.ressources->thystame += 1;
-    printf("thystame = %d\n", content.ressources->thystame);
     if (strcmp("thystame", arg) == 0 && content.ressources->thystame > 0) {
         ((c_data_t *)c->data)->inventory.thystame += 1;
         content.ressources->thystame -= 1;
-        printf("thystame = %d\n", content.ressources->thystame);
-        printf("thystame inventaire = %d\n", ((c_data_t *)c->data)->inventory.thystame);
         return (true);
     } else {
         return (false);
@@ -76,23 +71,6 @@ bool take_obj2(client_t *c, char *arg, extracted_content_t content)
  */
 bool take_obj(client_t *c, char *arg, extracted_content_t content)
 {
-    printf("food = %d\n", content.ressources->food);
-    printf("linemate = %d\n", content.ressources->linemate);
-    printf("sibur = %d\n", content.ressources->sibur);
-    printf("mendiane = %d\n", content.ressources->mendiane);
-    printf("phiras = %d\n", content.ressources->phiras);
-    printf("deraumere = %d\n", content.ressources->deraumere);
-    printf("thystame = %d\n", content.ressources->thystame);
-    printf("------------------------------------\n");
-
-    printf("food = %d\n", ((c_data_t *)c->data)->inventory.food);
-    printf("linemate = %d\n", ((c_data_t *)c->data)->inventory.linemate);
-    printf("sibur = %d\n", ((c_data_t *)c->data)->inventory.sibur);
-    printf("mendiane = %d\n", ((c_data_t *)c->data)->inventory.mendiane);
-    printf("phiras = %d\n", ((c_data_t *)c->data)->inventory.phiras);
-    printf("deraumere = %d\n", ((c_data_t *)c->data)->inventory.deraumere);
-    printf("thystame = %d\n", ((c_data_t *)c->data)->inventory.thystame);
-    printf("------------------------------------\n");
     if (strcmp("food", arg) == 0 && content.ressources->food > 0) {
         ((c_data_t *)c->data)->inventory.food += 126;
         content.ressources->food -= 126;

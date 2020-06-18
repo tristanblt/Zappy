@@ -47,9 +47,15 @@ def getNbItemOnPlayerTile(itemName):
 def prepareTile(items):
     for item in items:
         nbItemOnTile = getNbItemOnPlayerTile(item)
+        print(item+" :: "+str(nbItemOnTile))
         if nbItemOnTile < items[item]:
-            print("<---"+item)
-            setObjectRequest(item)
+            if ai.src.glob.gameState["nb"+item.capitalize()] < 1:
+                print("exploring from tile preparation")
+                # ai.src.glob.gameState['elevationReady'] = False
+                explore()
+            else:
+                print("<---"+item)
+                setObjectRequest(item)
             return False
         elif nbItemOnTile > items[item]:
             print("--->"+item)
@@ -61,6 +67,7 @@ def prepareTile(items):
     return True
 
 def elevationLevel2():
+    requiredPlayers = 1
     elevationItems = {
         "linemate": 1,
         "deraumere": 0,
@@ -69,32 +76,190 @@ def elevationLevel2():
         "phiras": 0,
         "thystame": 0
     }
-    if not ai.src.glob.gameState["elevationReady"] and getNbItemOnPlayerTile("linemate") > 0:
-        takeObjectRequest("linemate")
-    elif (not ai.src.glob.gameState["elevationReady"] and
-        ai.src.glob.gameState["nbLinemate"] < 1 and
-        getNbItemOnPlayerTile("linemate") < 1):
-        lookForItem("linemate")
-    else:
-        ai.src.glob.gameState["elevationReady"] = True
-        if (prepareTile(elevationItems)):
+    for item in elevationItems:
+        if (not ai.src.glob.gameState["elevationReady"] and
+            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            if getNbItemOnPlayerTile(item) > 0:
+                takeObjectRequest(item)
+            else:
+                lookForItem(item)
+            return
+    ai.src.glob.gameState["elevationReady"] = True
+    if prepareTile(elevationItems):
+        if getNbItemOnPlayerTile("player") == requiredPlayers:
+            print("Incantation for level 2 !")
             incantationRequest()
-            print("UP LEVEL 2 !!!!!!!!!!!!!!!!!!!!!")
-    return
+        else:
+            ejectRequest()
 
 def elevationLevel3():
-    return
+    requiredPlayers = 2
+    elevationItems = {
+        "linemate": 1,
+        "deraumere": 1,
+        "sibur": 1,
+        "mendiane": 0,
+        "phiras": 0,
+        "thystame": 0
+    }
+    for item in elevationItems:
+        if (not ai.src.glob.gameState["elevationReady"] and
+            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            if getNbItemOnPlayerTile(item) > 0:
+                takeObjectRequest(item)
+            else:
+                lookForItem(item)
+            return
+    ai.src.glob.gameState["elevationReady"] = True
+    if (prepareTile(elevationItems)):
+        if getNbItemOnPlayerTile("player") == requiredPlayers:
+            incantationRequest()
+            print("Incantation for level 3 !")
+        elif getNbItemOnPlayerTile("player") > requiredPlayers:
+            ejectRequest()
+        else:
+            if ai.src.glob.gameState["callBroadcast"] == True:
+                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+                ai.src.glob.gameState["callBroadcast"] = False
+            else:
+                lookRequest()
+                ai.src.glob.gameState["callBroadcast"] = True
+
+
 
 def elevationLevel4():
-    return
+    requiredPlayers = 2
+    elevationItems = {
+        "linemate": 2,
+        "deraumere": 0,
+        "sibur": 1,
+        "mendiane": 0,
+        "phiras": 2,
+        "thystame": 0
+    }
+    for item in elevationItems:
+        if (not ai.src.glob.gameState["elevationReady"] and
+            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            if getNbItemOnPlayerTile(item) > 0:
+                takeObjectRequest(item)
+            else:
+                lookForItem(item)
+            return
+    ai.src.glob.gameState["elevationReady"] = True
+    if (prepareTile(elevationItems)):
+        if getNbItemOnPlayerTile("player") == requiredPlayers:
+            incantationRequest()
+            print("Incantation for level 4 !")
+        elif getNbItemOnPlayerTile("player") > requiredPlayers:
+            ejectRequest()
+        else:
+            if ai.src.glob.gameState["callBroadcast"] < 1:
+                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+                ai.src.glob.gameState["callBroadcast"] += 1
+            else:
+                lookRequest()
+                ai.src.glob.gameState["callBroadcast"] = 0
 
 def elevationLevel5():
+    requiredPlayers = 4
+    elevationItems = {
+        "linemate": 1,
+        "deraumere": 1,
+        "sibur": 2,
+        "mendiane": 0,
+        "phiras": 1,
+        "thystame": 0
+    }
+    for item in elevationItems:
+        if (not ai.src.glob.gameState["elevationReady"] and
+            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            if getNbItemOnPlayerTile(item) > 0:
+                takeObjectRequest(item)
+            else:
+                lookForItem(item)
+            return
+    ai.src.glob.gameState["elevationReady"] = True
+    if (prepareTile(elevationItems)):
+        if getNbItemOnPlayerTile("player") == requiredPlayers:
+            incantationRequest()
+            print("Incantation for level 4 !")
+        elif getNbItemOnPlayerTile("player") > requiredPlayers:
+            ejectRequest()
+        else:
+            if ai.src.glob.gameState["callBroadcast"] < 1:
+                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+                ai.src.glob.gameState["callBroadcast"] += 1
+            else:
+                lookRequest()
+                ai.src.glob.gameState["callBroadcast"] = 0
     return
 
 def elevationLevel6():
+    requiredPlayers = 4
+    elevationItems = {
+        "linemate": 1,
+        "deraumere": 2,
+        "sibur": 1,
+        "mendiane": 3,
+        "phiras": 0,
+        "thystame": 0
+    }
+    for item in elevationItems:
+        if (not ai.src.glob.gameState["elevationReady"] and
+            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            if getNbItemOnPlayerTile(item) > 0:
+                takeObjectRequest(item)
+            else:
+                lookForItem(item)
+            return
+    ai.src.glob.gameState["elevationReady"] = True
+    if (prepareTile(elevationItems)):
+        if getNbItemOnPlayerTile("player") == requiredPlayers:
+            incantationRequest()
+            print("Incantation for level 4 !")
+        elif getNbItemOnPlayerTile("player") > requiredPlayers:
+            ejectRequest()
+        else:
+            if ai.src.glob.gameState["callBroadcast"] < 1:
+                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+                ai.src.glob.gameState["callBroadcast"] += 1
+            else:
+                lookRequest()
+                ai.src.glob.gameState["callBroadcast"] = 0
     return
 
 def elevationLevel7():
+    # requiredPlayers = 6
+    # elevationItems = {
+    #     "linemate": 2,
+    #     "deraumere": 0,
+    #     "sibur": 1,
+    #     "mendiane": 0,
+    #     "phiras": 2,
+    #     "thystame": 0
+    # }
+    # for item in elevationItems:
+    #     if (not ai.src.glob.gameState["elevationReady"] and
+    #         ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+    #         if getNbItemOnPlayerTile(item) > 0:
+    #             takeObjectRequest(item)
+    #         else:
+    #             lookForItem(item)
+    #         return
+    # ai.src.glob.gameState["elevationReady"] = True
+    # if (prepareTile(elevationItems)):
+    #     if getNbItemOnPlayerTile("player") == requiredPlayers:
+    #         incantationRequest()
+    #         print("Incantation for level 4 !")
+    #     elif getNbItemOnPlayerTile("player") > requiredPlayers:
+    #         ejectRequest()
+    #     else:
+    #         if ai.src.glob.gameState["callBroadcast"] < 1:
+    #             broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+    #             ai.src.glob.gameState["callBroadcast"] += 1
+    #         else:
+    #             lookRequest()
+    #             ai.src.glob.gameState["callBroadcast"] = 0
     return
 
 def elevationLevel8():
