@@ -306,4 +306,5 @@ def incantationResponse(response):
 
 def incantationResponseKo(response):    
     ai.src.glob.gameState["needLook"] = True
+    # ai.src.glob.gameState["needForward"] = True
     return True

@@ -61,6 +61,8 @@ def requestSelection(mainsock):
                 else:
                     leftRequest()
                 ai.src.glob.gameState['incantationBroadcast'] = -1
+            else:
+                inventoryRequest()
                 
         else:
             print(ai.src.glob.gameState["level"])

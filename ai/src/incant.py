@@ -50,6 +50,8 @@ def prepareTile(items):
         print(item+" :: "+str(nbItemOnTile))
         if nbItemOnTile < items[item]:
             if ai.src.glob.gameState["nb"+item.capitalize()] < 1:
+                print("exploring from tile preparation")
+                # ai.src.glob.gameState['elevationReady'] = False
                 explore()
             else:
                 print("<---"+item)
