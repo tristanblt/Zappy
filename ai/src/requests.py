@@ -81,7 +81,6 @@ def ejectRequest():
     ai.src.glob.currentCommand = ejectResponse
 
 def takeObjectRequest(object):
-    print("Picking : "+object)
     addTime(7)
     sendRequest("Take "+object)
     ai.src.glob.currentCommand = takeResponses[object]

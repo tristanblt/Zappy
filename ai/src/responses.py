@@ -299,17 +299,13 @@ def setThystameResponse(response):
     return True
 
 def incantationResponse(response):
-    ai.src.glob.gameState["elevationReady"] = False
-    if response.startswith("ko"):
-        ai.src.glob.currentCommand = incantationResponseKo
-
+    #ai.src.glob.gameState["elevationReady"] = False
+    ai.src.glob.currentCommand = incantationResponseKo
     return True
 
 def incantationResponseKo(response):
-    print("incantation failed !!!")
-
-    ai.src.glob.gameState["needExplore"] = 5
-    # ai.src.glob.gameState["needLook"] = True
-    ai.src.glob.gameState["elevationReady"] = False
-    # ai.src.glob.gameState["needForward"] = True
+    if response.startswith("ko"):
+        print("Incantation to level " + str(ai.src.glob.gameState["level"] + 1) + " failed")
+        ai.src.glob.gameState["needExplore"] = 10
+        ai.src.glob.gameState["elevationReady"] = False
     return True
