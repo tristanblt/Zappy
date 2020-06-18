@@ -59,10 +59,12 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         ((c_data_t *)client->data)->req_cntx == END) {
+            printf("doing START\n");
             ((c_data_t *)client->data)->req_cntx = START;
             return (cmds[i].start(z, client, command + cmds[i].token_len));
         } else if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         !((c_data_t *)client->data)->cool_down) {
+            printf("doing END\n");
             ((c_data_t *)client->data)->req_cntx = END;
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }
@@ -94,8 +96,10 @@ void search_command_in_client(client_t *client)
             break;
         size_cmd = find_cmd - client->in.buff + 2;
         *find_cmd = 0;
-        if (is_acceptable(client, client->in.buff))
+        if (is_acceptable(client, client->in.buff)) {
+            printf("added\n");
             add_to_requests(client->in.buff, client, size_cmd - 2);
+        }
         remove_data(&client->in, size_cmd);
     }
 }
