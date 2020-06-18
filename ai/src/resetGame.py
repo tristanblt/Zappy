@@ -30,7 +30,7 @@ def resetGame():
     ai.src.glob.gameState["needLook"] = False
     ai.src.glob.gameState["needInventory"] = False
     ai.src.glob.gameState["needExplore"] = 0
-    # ai.src.glob.gameState["needForward"] = False
+    ai.src.glob.gameState["validIncant"] = False
 
     ai.src.glob.gameState["joinPlayer"] = False
 

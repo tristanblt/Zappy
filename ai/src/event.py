@@ -44,12 +44,16 @@ def eventHandler(response):
         direction = response.split(" ")[1][0]
         message = response.split(" ")[2:]
         try:
-            if message[0] == ai.src.glob.gameState["teamName"]:
-                if message[1] == "nhi":
+            if (message[0] == ai.src.glob.gameState["teamName"]):
+                if (message[1] == "nhi"):
                     if int(message[2]) == ai.src.glob.gameState["level"]:
                         ai.src.glob.gameState["incantationBroadcast"] = swapDirection(direction)
                         ai.src.glob.gameState["joinPlayer"] = True
                         ai.src.glob.gameState["broadcastIncantationCheckTime"] = 0
+                elif (message[1] == "gfi"):
+                    if int(message[2]) == ai.src.glob.gameState["level"] and ai.src.glob.gameState["incantationBroadcast"] != 0:
+                        ai.src.glob.gameState["incantationBroadcast"] = -1
+                        ai.src.glob.gameState["joinPlayer"] = False
         except:
             pass
         return True

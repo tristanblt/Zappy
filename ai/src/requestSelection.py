@@ -113,6 +113,8 @@ def requestSelection(mainsock):
         return
     if ai.src.glob.gameState["starving"] or ai.src.glob.gameState["level"] == 8:
         print("Searching food because starving")
+        ai.src.glob.gameState["incantationBroadcast"] = -1
+        ai.src.glob.gameState["joinPlayer"] = False
         if foodAtPlayerPosition():
             takeObjectRequest("food")
         elif itemInMap("food"):
@@ -125,7 +127,7 @@ def requestSelection(mainsock):
             explore()
             return
         if ai.src.glob.gameState['joinPlayer']:
-            print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation")
+            print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation", end="")
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
                 inventoryRequest()
                 return
