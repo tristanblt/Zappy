@@ -93,7 +93,7 @@ void update_timeout(server_t *server)
         if (tmp->type == GRAPHICAL && ((c_data_t *)tmp->data)->req_cntx == START)
             graphical_cmd = true;
     }
-    server->t.is_needed = (cd <= 0 || !graphical_cmd) ? false : true;
+    server->t.is_needed = (cd > 0 || graphical_cmd) ? true : false;
     server->t.timeout.tv_sec = (graphical_cmd)? 0 : (long)cd;
     server->t.timeout.tv_usec = (graphical_cmd) ? 0 : 1000000 * (cd - (int)cd);
 }
