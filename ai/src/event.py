@@ -54,7 +54,7 @@ def eventHandler(response):
             pass
         return True
     if response.startswith("eject"):
-        print("You've been ejected from your tile")
+        print("Ejected from tile")
         firstPlayer = True
         for item in ai.src.glob.gameMap:
             if (item["type"] == "player"
