@@ -127,13 +127,17 @@ def requestSelection(mainsock):
             explore()
             return
         if ai.src.glob.gameState['joinPlayer']:
-            print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation", end="")
+            print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation --", end="")
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
                 print("On the tile, ready for incantation")
                 inventoryRequest()
+                # if ai.src.glob.gameState['broadcastIncantationCheckTime'] > 450:
+                #     ai.src.glob.gameState['incantationBroadcast'] = -1
+                #     ai.src.glob.gameState['joinPlayer'] = False
                 return
             elif ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
                 ai.src.glob.gameState['joinPlayer'] = False
+                ai.src.glob.gameState['incantationBroadcast'] = -1
                 return
             if ai.src.glob.gameState['incantationBroadcast'] != -1:
                 if (ai.src.glob.gameState['incantationBroadcast'] % 2 == 0

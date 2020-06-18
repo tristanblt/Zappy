@@ -82,8 +82,12 @@ def elevation(lvlToAttain, required):
                 incantationRequest()
                 ai.src.glob.gameState["validIncant"] = True
         elif nbPlayersOnTile > requiredPlayers:
-            ejectRequest()
-        else:
+            print("too much player on tile")
+            if random.randrange(0, 5) == 1:
+                ejectRequest()
+            else:
+                lookRequest()
+        elif lvlToAttain != 2:
             if ai.src.glob.gameState["callBroadcast"] == True:
                 broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
                 ai.src.glob.gameState["callBroadcast"] = False
