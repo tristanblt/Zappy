@@ -16,12 +16,25 @@
  * \param arg les arguments
  * \return true ou false
  */
-bool take_obj3(client_t *c, char *arg, extracted_content_t content)
+bool take_obj3(server_t *server, client_t *c, char *arg,
+extracted_content_t content)
 {
-    content.ressources->thystame += 1;
+    if (strcmp("mendiane", arg) == 0 && content.ressources->mendiane > 0) {
+        ((c_data_t *)c->data)->inventory.mendiane += 1;
+        content.ressources->mendiane -= 1;
+        pgt(server, c, "mendiane");
+        return (true);
+    }
+    if (strcmp("phiras", arg) == 0 && content.ressources->phiras > 0) {
+        ((c_data_t *)c->data)->inventory.phiras += 1;
+        content.ressources->phiras -= 1;
+        pgt(server, c, "phiras");
+        return (true);
+    }
     if (strcmp("thystame", arg) == 0 && content.ressources->thystame > 0) {
         ((c_data_t *)c->data)->inventory.thystame += 1;
         content.ressources->thystame -= 1;
+        pgt(server, c, "thystame");
         return (true);
     } else {
         return (false);
@@ -37,24 +50,22 @@ bool take_obj3(client_t *c, char *arg, extracted_content_t content)
  * \param arg les arguments
  * \return true ou false
  */
-bool take_obj2(client_t *c, char *arg, extracted_content_t content)
+bool take_obj2(server_t *server, client_t *c, char *arg,
+extracted_content_t content)
 {
+    if (strcmp("deraumere", arg) == 0 && content.ressources->deraumere > 0) {
+        ((c_data_t *)c->data)->inventory.deraumere += 1;
+        content.ressources->deraumere -= 1;
+        pgt(server, c, "deraumere");
+        return (true);
+    }
     if (strcmp("sibur", arg) == 0 && content.ressources->sibur > 0) {
         ((c_data_t *)c->data)->inventory.sibur += 1;
         content.ressources->sibur -= 1;
+        pgt(server, c, "sibur");
         return (true);
     }
-    if (strcmp("mendiane", arg) == 0 && content.ressources->mendiane > 0) {
-        ((c_data_t *)c->data)->inventory.mendiane += 1;
-        content.ressources->mendiane -= 1;
-        return (true);
-    }
-    if (strcmp("phiras", arg) == 0 && content.ressources->phiras > 0) {
-        ((c_data_t *)c->data)->inventory.phiras += 1;
-        content.ressources->phiras -= 1;
-        return (true);
-    }
-    if (take_obj3(c, arg, content) == true)
+    if (take_obj3(server, c, arg, content) == true)
         return (true);
     else
         return (false);
@@ -69,24 +80,22 @@ bool take_obj2(client_t *c, char *arg, extracted_content_t content)
  * \param arg les arguments
  * \return true ou false
  */
-bool take_obj(client_t *c, char *arg, extracted_content_t content)
+bool take_obj(server_t *server, client_t *c, char *arg,
+extracted_content_t content)
 {
     if (strcmp("food", arg) == 0 && content.ressources->food > 0) {
         ((c_data_t *)c->data)->inventory.food += 126;
         content.ressources->food -= 126;
+        pgt(server, c, "food");
         return (true);
     }
     if (strcmp("linemate", arg) == 0 && content.ressources->linemate > 0) {
         ((c_data_t *)c->data)->inventory.linemate += 1;
         content.ressources->linemate -= 1;
+        pgt(server, c, "linemate");
         return (true);
     }
-    if (strcmp("deraumere", arg) == 0 && content.ressources->deraumere > 0) {
-        ((c_data_t *)c->data)->inventory.deraumere += 1;
-        content.ressources->deraumere -= 1;
-        return (true);
-    }
-    if (take_obj2(c, arg, content) == true)
+    if (take_obj2(server, c, arg, content) == true)
         return (true);
     else
         return (false);
@@ -108,7 +117,7 @@ bool end_take_cmd(zappy_data_t *z, client_t *c, char *arg)
 
     printf("ok2\n");
     content = get_tile_content(&z->data, z->server, x, y);
-    if (take_obj(c, arg, content) == true) {
+    if (take_obj(z->server, c, arg, content) == true) {
         printf("end = ok\n");
         add_data(&c->out, 1, "ok");
         return (SUCCESS);

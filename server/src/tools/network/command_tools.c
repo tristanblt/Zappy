@@ -70,6 +70,7 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
         }
     }
     if (((c_data_t *)client->data)->cool_down == 0) {
+        printf("chat3\n");
         rm_from_request(client);
     }
     return (ret);

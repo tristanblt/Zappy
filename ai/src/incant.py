@@ -10,6 +10,7 @@ import ai.src.glob
 from ai.src.requests import *
 
 def explore():
+    print("\tExploration")
     decision = random.randrange(0, 6)
     if decision in [0, 1]:
         lookRequest()
@@ -41,6 +42,7 @@ def getNbItemOnPlayerTile(itemName):
     return nbItem
 
 def prepareTile(items):
+    print("Preparing tile for incantation")
     for item in items:
         nbItemOnTile = getNbItemOnPlayerTile(item)
         if nbItemOnTile < items[item]:
@@ -56,6 +58,7 @@ def prepareTile(items):
         elif getNbItemOnPlayerTile("food") > 0:
             takeObjectRequest("food")
             return False
+    print("\tTile is prepared")
     return True
 
 def elevation(lvlToAttain, required):
