@@ -127,6 +127,7 @@ def requestSelection(mainsock):
         if ai.src.glob.gameState['joinPlayer']:
             print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation")
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
+                print("On the tile, ready for incantation")
                 inventoryRequest()
                 return
             elif ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
@@ -154,7 +155,7 @@ def updateFood():
         ai.src.glob.gameState["starveCheckTime"] = 0
         return True
     if ai.src.glob.gameState["starving"]:
-        if ai.src.glob.gameState["nbFood"] > 15:
+        if ai.src.glob.gameState["nbFood"] > ((ai.src.glob.gameState["mapSize"]["x"] + ai.src.glob.gameState["mapSize"]["y"]) / 2 * 3):
             ai.src.glob.gameState["starving"] = False
     else:
         if ai.src.glob.gameState["nbFood"] < 7:
