@@ -171,6 +171,11 @@ bool end_msz(zappy_data_t *z, client_t *client, char *arg);
 bool ebo(zappy_data_t *z, egg_t *egg);
 bool edi(zappy_data_t *z, egg_t *egg);
 
+void pic(server_t *server, client_t *client);
+void pie(server_t *server, client_t *client, bool result);
+void pdr(server_t *server, client_t *client, char *ressource);
+void pgt(server_t *server, client_t *client, char *ressource);
+
 
 bool start_bct(zappy_data_t *z, client_t *client, char *arg);
 bool end_bct(zappy_data_t *z, client_t *client, char *arg);
