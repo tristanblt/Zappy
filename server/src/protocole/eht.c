@@ -2,20 +2,20 @@
 ** EPITECH PROJECT, 2020
 ** Zappy
 ** File description:
-** pbc
+** eht
 */
 
 #include "server.h"
 
-void pbc(server_t *server, client_t *client, char *message)
+void eht(server_t *server, egg_t *egg)
 {
     client_t *tmp;
     char nb[12] = {0};
 
-    sprintf(nb, "%i", ((c_data_t *)client->data)->idx);
+    sprintf(nb, "%i", egg->idx);
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == GRAPHICAL)
-            add_data(&tmp->out, 3, "pbc", nb, message);
+            add_data(&tmp->out, 2 ,"eht", nb);
     }
 }
