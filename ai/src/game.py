@@ -40,5 +40,5 @@ def startGame(params, mainsock):
             except queue.Empty:
                 break
         if ai.src.glob.currentCommand is None:
-            print("(" + str(ai.src.glob.gameState["level"]) + ") ", end="")
+            print("(" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] ", end="")
             requestSelection(mainsock)

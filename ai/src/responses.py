@@ -307,4 +307,5 @@ def incantationResponseKo(response):
         print("Incantation to level " + str(ai.src.glob.gameState["level"] + 1) + " failed")
         ai.src.glob.gameState["needExplore"] = 10
         ai.src.glob.gameState["elevationReady"] = False
+    ai.src.glob.gameState["incantationBroadcast"] = -1
     return True
