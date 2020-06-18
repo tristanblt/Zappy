@@ -10,9 +10,9 @@
 #define NB_CMDS 13
 
 const command_t cmds[NB_CMDS] = {
-    {"Forward ", 8, &start_move_cmd, &end_move_cmd, AI},
-    {"Look ", 5, &start_look, &end_look, AI},
-    {"Incantation ", 12, &start_incantation, &end_incantation, AI},
+    {"Forward", 7, &start_move_cmd, &end_move_cmd, AI},
+    {"Look", 4, &start_look, &end_look, AI},
+    {"Incantation", 11, &start_incantation, &end_incantation, AI},
     {"Take ", 5, &start_take_cmd, &end_take_cmd, AI},
     {"Set ", 4, &start_set_cmd, &end_set_cmd, AI},
     {"msz ", 4, &start_msz, &end_msz, GRAPHICAL},
