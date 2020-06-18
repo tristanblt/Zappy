@@ -15,18 +15,18 @@ from ai.src.game import startGame
 def main():
     params = parseArgs()
 
-    # while True:
-    #     pid = os.fork()
-    #     if pid == 0:
-    #         mainsock = initSocket(params)
-    #         if mainsock is None:
-    #             break
-    #         startGame(params, mainsock)
-    #         mainsock.close()
-    #     else:
-    #         time.sleep(5)
+    while True:
+        pid = os.fork()
+        if pid == 0:
+            mainsock = initSocket(params)
+            if mainsock is None:
+                break
+            startGame(params, mainsock)
+            mainsock.close()
+        else:
+            time.sleep(5)
     
     # caca
-    mainsock = initSocket(params)
-    startGame(params, mainsock)
-    mainsock.close()
+    # mainsock = initSocket(params)
+    # startGame(params, mainsock)
+    # mainsock.close()

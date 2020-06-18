@@ -41,6 +41,9 @@ def resetGame():
 
     ai.src.glob.gameState["starveCheckTime"] = 0
     ai.src.glob.gameState["broadcastIncantationCheckTime"] = 0
+    ai.src.glob.gameState["connectNbrCheckTime"] = 0
+
+    ai.src.glob.gameState["alreadyFork"] = False
 
     ai.src.glob.gameState["directionFood"] = -1
     ai.src.glob.gameState["directionLinemate"] = -1

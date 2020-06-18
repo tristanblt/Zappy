@@ -11,8 +11,4 @@ def addTime(value):
 
     ai.src.glob.gameState["starveCheckTime"] += value
     ai.src.glob.gameState["broadcastIncantationCheckTime"] += value
-
-    """
-        add other time values
-        prout
-    """
+    ai.src.glob.gameState["connectNbrCheckTime"] += value

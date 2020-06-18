@@ -109,11 +109,18 @@ def requestSelection(mainsock):
         inventoryRequest()
         ai.src.glob.gameState["needInventory"] = False
         return
+    if ai.src.glob.gameState["connectNbrCheckTime"] > 300:
+        ai.src.glob.gameState["connectNbrCheckTime"] = 0
+        connectNbrRequest()
+        return
     if updateFood():
         return
     if ai.src.glob.gameState["starving"] or ai.src.glob.gameState["level"] == 8:
         print("Searching food because starving")
-        if foodAtPlayerPosition():
+        if ai.src.glob.gameState["clientNum"] == 0 and not ai.src.glob.gameState["alreadyFork"] and ai.src.glob.gameState["level"] > 2:
+            forkRequest()
+            ai.src.glob.gameState["alreadyFork"] = True
+        elif foodAtPlayerPosition():
             takeObjectRequest("food")
         elif itemInMap("food"):
             lookForItem("food")
@@ -127,7 +134,7 @@ def requestSelection(mainsock):
         if ai.src.glob.gameState['joinPlayer']:
             print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation")
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
-                print("On the tile, ready for incantation")
+                print("\tOn the tile, ready for incantation")
                 inventoryRequest()
                 return
             elif ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
