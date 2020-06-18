@@ -10,7 +10,6 @@ import ai.src.glob
 from ai.src.requests import *
 
 def explore():
-    print("\tExploration")
     decision = random.randrange(0, 6)
     if decision in [0, 1]:
         lookRequest()
@@ -42,7 +41,6 @@ def getNbItemOnPlayerTile(itemName):
     return nbItem
 
 def prepareTile(items):
-    print("Preparing tile for incantation")
     for item in items:
         nbItemOnTile = getNbItemOnPlayerTile(item)
         if nbItemOnTile < items[item]:
@@ -58,12 +56,12 @@ def prepareTile(items):
         elif getNbItemOnPlayerTile("food") > 0:
             takeObjectRequest("food")
             return False
-    print("\tTile is prepared")
     return True
 
 def elevation(lvlToAttain, required):
     requiredPlayers = required["requiredPlayers"]
     elevationItems = required["elevationItems"]
+    nbPlayersOnTile = getNbItemOnPlayerTile("player")
     for item in elevationItems:
         if (not ai.src.glob.gameState["elevationReady"] and
             ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
@@ -74,11 +72,19 @@ def elevation(lvlToAttain, required):
             return
     ai.src.glob.gameState["elevationReady"] = True
     if prepareTile(elevationItems):
-        if getNbItemOnPlayerTile("player") == requiredPlayers:
+        if nbPlayersOnTile == requiredPlayers:
             print("Incantation for level %d !" % lvlToAttain)
             incantationRequest()
-        else:
+        elif nbPlayersOnTile > requiredPlayers:
             ejectRequest()
+        else:
+            if ai.src.glob.gameState["callBroadcast"] == True:
+                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+                ai.src.glob.gameState["callBroadcast"] = False
+            else:
+                lookRequest()
+                ai.src.glob.gameState["callBroadcast"] = True
+
 '''
 def elevationLevel2():
     requiredPlayers = 1
