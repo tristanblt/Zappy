@@ -66,5 +66,6 @@ def eventHandler(response):
             else:
                 item["pos"]["y"] -= 1
         computePlayerDistances()
+        ai.src.glob.gameState["elevationReady"] = False
         return True
     return False

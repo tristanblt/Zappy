@@ -55,6 +55,7 @@ def forwardResponse(response):
         else:
             item["pos"]["y"] -= 1
     computePlayerDistances()
+    ai.src.glob.gameState["elevationReady"] = False
     return True
 
 def rightResponse(response):
@@ -304,7 +305,11 @@ def incantationResponse(response):
 
     return True
 
-def incantationResponseKo(response):    
-    ai.src.glob.gameState["needLook"] = True
+def incantationResponseKo(response):
+    print("incantation failed !!!")
+
+    ai.src.glob.gameState["needExplore"] = 5
+    # ai.src.glob.gameState["needLook"] = True
+    ai.src.glob.gameState["elevationReady"] = False
     # ai.src.glob.gameState["needForward"] = True
     return True

@@ -42,6 +42,10 @@ def requestSelection(mainsock):
             print("explore")
             explore()
     else:
+        if ai.src.glob.gameState["needExplore"] > 0:
+            ai.src.glob.gameState["needExplore"] -= 1
+            explore()
+            return
         if ai.src.glob.gameState['joinPlayer']:
             print("elapsed time since last broadcast : " + str(ai.src.glob.gameState['broadcastIncantationCheckTime']))
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
@@ -68,37 +72,16 @@ def requestSelection(mainsock):
             print(ai.src.glob.gameState["level"])
             elevationFunctions[ai.src.glob.gameState["level"] - 1]()
 
-
-
-
-        #if ai.src.glob.gameState["broadcastIncantationCheckTime"] > 30 and ai.src.glob.gameState["incantationBroadcast"] != 0:
-        #    ai.src.glob.gameState["incantationBroadcast"] = -1
-        #if ai.src.glob.gameState["incantationBroadcast"] == 0:
-        #    broadcastRequest("prout mdr")
-        #elif ai.src.glob.gameState["incantationBroadcast"] != -1 and ai.src.glob.gameState["bufferBroadcast"] == False:
-        #    if ai.src.glob.gameState["incantationBroadcast"] % 2 == 0 or ai.src.glob.gameState["incantationBroadcast"] == 1:
-        #        forwardRequest()
-        #    elif ai.src.glob.gameState["incantationBroadcast"] in [3, 5]:
-        #        rightRequest()
-        #    elif ai.src.glob.gameState["incantationBroadcast"] == 7:
-        #        leftRequest()
-        #    ai.src.glob.gameState["bufferBroadcast"] = True
-        #    print("--------------->elevation ritual direction : "+str(ai.src.glob.gameState["incantationBroadcast"]))
-        #
-        #elif ai.src.glob.gameState["bufferBroadcast"]:
-        #    inventoryRequest()
-        #    ai.src.glob.gameState["bufferBroadcast"] = False
-
 def updateFood():
     if ai.src.glob.gameState["starveCheckTime"] >= 100:
         inventoryRequest()
         ai.src.glob.gameState["starveCheckTime"] = 0
         return True
     if ai.src.glob.gameState["starving"]:
-        if ai.src.glob.gameState["nbFood"] > 10:
+        if ai.src.glob.gameState["nbFood"] > 15:
             ai.src.glob.gameState["starving"] = False
     else:
-        if ai.src.glob.gameState["nbFood"] < 3:
+        if ai.src.glob.gameState["nbFood"] < 7:
             ai.src.glob.gameState["elevationReady"] = False
             ai.src.glob.gameState["starving"] = True
 

@@ -10,6 +10,7 @@ import ai.src.glob
 from ai.src.requests import *
 
 def explore():
+    print("EXPLORING ...")
     decision = random.randrange(0, 6)
     if decision in [0, 1]:
         lookRequest()
@@ -47,7 +48,7 @@ def getNbItemOnPlayerTile(itemName):
 def prepareTile(items):
     for item in items:
         nbItemOnTile = getNbItemOnPlayerTile(item)
-        print(item+" :: "+str(nbItemOnTile))
+        print(item+" on ground "+str(nbItemOnTile) + " | in inventory :"+str(ai.src.glob.gameState['nb'+item.capitalize()]))
         if nbItemOnTile < items[item]:
             if ai.src.glob.gameState["nb"+item.capitalize()] < 1:
                 print("exploring from tile preparation")
@@ -76,6 +77,7 @@ def elevationLevel2():
         "phiras": 0,
         "thystame": 0
     }
+    print("elevation")
     for item in elevationItems:
         if (not ai.src.glob.gameState["elevationReady"] and
             ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
@@ -182,7 +184,7 @@ def elevationLevel5():
     if (prepareTile(elevationItems)):
         if getNbItemOnPlayerTile("player") == requiredPlayers:
             incantationRequest()
-            print("Incantation for level 4 !")
+            print("Incantation for level 5 !")
         elif getNbItemOnPlayerTile("player") > requiredPlayers:
             ejectRequest()
         else:
@@ -216,7 +218,7 @@ def elevationLevel6():
     if (prepareTile(elevationItems)):
         if getNbItemOnPlayerTile("player") == requiredPlayers:
             incantationRequest()
-            print("Incantation for level 4 !")
+            print("Incantation for level 6 !")
         elif getNbItemOnPlayerTile("player") > requiredPlayers:
             ejectRequest()
         else:
