@@ -3,3 +3,4 @@ ai/src/__pycache__/*
 zappy_server
 .vscode/*
 *.o
+new_ai

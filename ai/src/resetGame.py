@@ -19,15 +19,10 @@ def resetGame():
     ai.src.glob.gameState = {}
     ai.src.glob.gameState["clientNum"] = 0
     ai.src.glob.gameState["teamName"] = ""
-    ai.src.glob.gameState["level"] = 1
-
     ai.src.glob.gameState["mapSize"] = {}
     ai.src.glob.gameState["mapSize"]["x"] = 0
     ai.src.glob.gameState["mapSize"]["y"] = 0
-    ai.src.glob.gameState["playerPos"] = {}
-    ai.src.glob.gameState["playerPos"]["x"] = 0
-    ai.src.glob.gameState["playerPos"]["y"] = 0
-    ai.src.glob.gameState["playerRot"] = 0
+    ai.src.glob.gameState["level"] = 1
 
     ai.src.glob.gameState["starving"] = False
     ai.src.glob.gameState["elevationReady"] = False
@@ -50,20 +45,19 @@ def resetGame():
 
     ai.src.glob.gameState["alreadyFork"] = False
 
-    ai.src.glob.gameState["direction"] = {}
-    ai.src.glob.gameState["direction"]["food"] = -1
-    ai.src.glob.gameState["direction"]["linemate"] = -1
-    ai.src.glob.gameState["direction"]["deraumere"] = -1
-    ai.src.glob.gameState["direction"]["sibur"] = -1
-    ai.src.glob.gameState["direction"]["mendiane"] = -1
-    ai.src.glob.gameState["direction"]["phiras"] = -1
-    ai.src.glob.gameState["direction"]["thystame"] = -1
-
-    ai.src.glob.gameState["inventory"] = {}
-    ai.src.glob.gameState["inventory"]["food"] = 0
-    ai.src.glob.gameState["inventory"]["linemate"] = 0
-    ai.src.glob.gameState["inventory"]["deraumere"] = 0
-    ai.src.glob.gameState["inventory"]["sibur"] = 0
-    ai.src.glob.gameState["inventory"]["mendiane"] = 0
-    ai.src.glob.gameState["inventory"]["phiras"] = 0
-    ai.src.glob.gameState["inventory"]["thystame"] = 0
+    ai.src.glob.gameState["directionFood"] = -1
+    ai.src.glob.gameState["directionLinemate"] = -1
+    ai.src.glob.gameState["directionDeraumere"] = -1
+    ai.src.glob.gameState["directionSibur"] = -1
+    ai.src.glob.gameState["directionMendiane"] = -1
+    ai.src.glob.gameState["directionPhiras"] = -1
+    ai.src.glob.gameState["directionThystame"] = -1
+    ai.src.glob.gameState["nbFood"] = 0
+    ai.src.glob.gameState["nbLinemate"] = 0
+    ai.src.glob.gameState["nbDeraumere"] = 0
+    ai.src.glob.gameState["nbSibur"] = 0
+    ai.src.glob.gameState["nbMendiane"] = 0
+    ai.src.glob.gameState["nbPhiras"] = 0
+    ai.src.glob.gameState["nbThystame"] = 0
+    ai.src.glob.gameState["canFork"] = True
+    ai.src.glob.gameState["canIncant"] = False

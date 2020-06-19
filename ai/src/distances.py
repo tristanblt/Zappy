@@ -10,67 +10,61 @@ import sys
 import math
 
 def computePlayerDistances():
-    computePlayerDistanceResource("food")
-    computePlayerDistanceResource("linemate")
-    computePlayerDistanceResource("deraumere")
-    computePlayerDistanceResource("sibur")
-    computePlayerDistanceResource("mendiane")
-    computePlayerDistanceResource("phiras")
-    computePlayerDistanceResource("thystame")
+    computePlayerDistanceResource("food", "directionFood")
+    computePlayerDistanceResource("linemate", "directionLinemate")
+    computePlayerDistanceResource("deraumere", "directionDeraumere")
+    computePlayerDistanceResource("sibur", "directionSibur")
+    computePlayerDistanceResource("mendiane", "directionMendiane")
+    computePlayerDistanceResource("phiras", "directionPhiras")
+    computePlayerDistanceResource("thystame", "directionThystame")
 
-def computePlayerDistanceResource(resource):
+def computePlayerDistanceResource(resource, gameMapField):
     x = sys.maxsize
     y = sys.maxsize
     distance = sys.maxsize
     exist = False
 
     #find nearest item
-    for elemX in range(len(ai.src.glob.gameMap)):
-        for elemY in range(len(ai.src.glob.gameMap[elemX])):
-            for elem in ai.src.glob.gameMap[elemX][elemY]:
-                if elem != resource:
-                    continue
-                tmpDistance = math.sqrt(math.pow(elemX - ai.src.glob.gameState["playerPos"]["x"], 2) + math.pow(elemY - ai.src.glob.gameState["playerPos"]["y"], 2))
-                if distance > tmpDistance:
-                    exist = True
-                    distance = tmpDistance
-                    x = elemX
-                    y = elemY
-
-    x = x - ai.src.glob.gameState["playerPos"]["x"]
-    y = y - ai.src.glob.gameState["playerPos"]["y"]
-
+    for item in ai.src.glob.gameMap:
+        if item["type"] != resource:
+            continue
+        tmpDistance = math.sqrt(math.pow(item["pos"]["x"], 2) + math.pow(item["pos"]["y"], 2))
+        if distance > tmpDistance:
+            exist = True
+            distance = tmpDistance
+            x = item["pos"]["x"]
+            y = item["pos"]["y"]
     #compute direction of the object
     if exist == False:
-        ai.src.glob.gameState["direction"][resource] = -1
+        ai.src.glob.gameState[gameMapField] = -1
     elif x == 0 and y == 0:
-        ai.src.glob.gameState["direction"][resource] = 0
+        ai.src.glob.gameState[gameMapField] = 0
     elif x == 0 and y > 0:
-        ai.src.glob.gameState["direction"][resource] = 1
+        ai.src.glob.gameState[gameMapField] = 1
     elif x > 0 and y > 0:
-        ai.src.glob.gameState["direction"][resource] = 2
+        ai.src.glob.gameState[gameMapField] = 2
     elif x > 0 and y == 0:
-        ai.src.glob.gameState["direction"][resource] = 3
+        ai.src.glob.gameState[gameMapField] = 3
     elif x > 0 and y < 0:
-        ai.src.glob.gameState["direction"][resource] = 4
+        ai.src.glob.gameState[gameMapField] = 4
     elif x == 0 and y < 0:
-        ai.src.glob.gameState["direction"][resource] = 5
+        ai.src.glob.gameState[gameMapField] = 5
     elif x < 0 and y < 0:
-        ai.src.glob.gameState["direction"][resource] = 6
+        ai.src.glob.gameState[gameMapField] = 6
     elif x < 0 and y == 0:
-        ai.src.glob.gameState["direction"][resource] = 7
+        ai.src.glob.gameState[gameMapField] = 7
     elif x < 0 and y > 0:
-        ai.src.glob.gameState["direction"][resource] = 8
+        ai.src.glob.gameState[gameMapField] = 8
 
     #change direction with local rotation
-    if ai.src.glob.gameState["direction"][resource] > 0:
+    if ai.src.glob.gameState[gameMapField] > 0:
         lookAt = ai.src.glob.lookAt * 2 + 1
         lookAt = 8 - lookAt
-        a = (int((ai.src.glob.gameState["direction"][resource] - 1) / 2) + 1)
+        a = (int((ai.src.glob.gameState[gameMapField] - 1) / 2) + 1)
         if a > 3:
             a = 0
-        a = a * 2 + (ai.src.glob.gameState["direction"][resource] % 2 == 0)
-        ai.src.glob.gameState["direction"][resource] = lookAt + a
-        if ai.src.glob.gameState["direction"][resource] > 8:
-            ai.src.glob.gameState["direction"][resource] = ai.src.glob.gameState["direction"][resource] - 8
+        a = a * 2 + (ai.src.glob.gameState[gameMapField] % 2 == 0)
+        ai.src.glob.gameState[gameMapField] = lookAt + a
+        if ai.src.glob.gameState[gameMapField] > 8:
+            ai.src.glob.gameState[gameMapField] = ai.src.glob.gameState[gameMapField] - 8
 
