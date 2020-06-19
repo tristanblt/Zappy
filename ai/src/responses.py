@@ -59,20 +59,14 @@ def forwardResponse(response):
     return True
 
 def rightResponse(response):
-    tmp = None
     for item in ai.src.glob.gameMap:
-        tmp = item["pos"]["x"]
-        item["pos"]["x"] = -item["pos"]["y"]
-        item["pos"]["y"] = tmp
+        item["pos"]["x"], item["pos"]["y"] = -item["pos"]["y"], item["pos"]["x"]
     computePlayerDistances()
     return True
 
 def leftResponse(response):
-    tmp = None
     for item in ai.src.glob.gameMap:
-        tmp = -item["pos"]["x"]
-        item["pos"]["x"] = item["pos"]["y"]
-        item["pos"]["y"] = tmp
+        item["pos"]["x"], item["pos"]["y"] = item["pos"]["y"], -item["pos"]["x"]
     computePlayerDistances()
     return True
 
@@ -83,6 +77,8 @@ def lookResponse(response):
         i = 0
         pal = 1
         offset = 1
+        print("a")
+        print(response)
         response = response.replace('[', '').replace(']', '').replace('\n', '')
         tiles = response.split(",")
         for tile in tiles:
