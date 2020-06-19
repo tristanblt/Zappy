@@ -7,9 +7,9 @@
 
 #include "server.h"
 
-const float angles[8][2] = {{19.47, 340.53}, {340.53, 289.47},
-    {289.47, 250.53}, {250.53, 199.47}, {199.47, 160.53},
-    {160.53, 109.47}, {109.47, 70.53}, {70.43, 19.47}};
+const float angles[8][2] = {{16.1, 343.9}, {343.9, 286.1},
+    {286.1, 253.9}, {253.6, 196.1}, {196.1, 163.9},
+    {163.9, 106.1}, {106.1, 73.9}, {73.9, 16.1}};
 
 const int cases[8][4] = {{1, 3, 5, 7}, {2, 4, 6, 8}, {3, 5, 7, 1},
     {4, 6, 8, 2}, {5, 7, 1, 3}, {6, 8, 2, 4}, {7, 1, 3, 5}, {8, 2, 4, 6}};
@@ -57,6 +57,8 @@ int dir)
     position_t dist = get_smallest_distance(sender, reciever, map.x, map.y);
     float angle = atan2f((float)dist.x, (float)dist.y) * (180 / 3.14159265);
 
+    if (dist.x == 0 && dist.y == 0)
+        return (0);
     for (int i = 0; i < 8; i++) {
         if ((i == 0 && (angles[i][0] >= angle || angles[i][1] <= angle)) ||
             (angles[i][0] >= angle && angles[i][1] <= angle))
