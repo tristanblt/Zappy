@@ -28,6 +28,7 @@ int is_ai_client_connexion(zappy_data_t *z, client_t *client, char *command)
     ((c_data_t *)client->data)->team);
     if (!team)
         return (ERROR);
+    ((c_data_t *)client->data)->nb = &team->nb;
     sprintf(buffer, "%d", z->data.nb_mates - team->nb);
     add_data(&client->out, 1, buffer);
     sprintf(buffer, "%d %d", ((c_data_t *)client->data)->pos.x,

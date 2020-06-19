@@ -116,6 +116,7 @@ struct c_data_s {
     bool req_cntx;
     int idx;
     char *team;
+    int *nb;
     int level;
     float cool_down;
     int dir;
