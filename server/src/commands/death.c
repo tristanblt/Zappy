@@ -29,7 +29,6 @@ void end_proceed_death(zappy_data_t *z, client_t *client)
 
 bool handle_life(zappy_data_t *z, client_t *client)
 {
-    printf("test %s\n", ((c_data_t *)client->data)->team);
     if (client->type == GRAPHICAL)
         return (SUCCESS);
     if (((c_data_t *)client->data)->is_alive == false &&

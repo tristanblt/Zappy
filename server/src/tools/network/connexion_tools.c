@@ -55,9 +55,7 @@ int check_client_connexion(zappy_data_t *z, client_t *client, char *command)
             client->type = GRAPHICAL;
         } else if (is_ai_client_connexion(z, client, command) == ERROR)
             return (2);
-        printf("test 1 %s\n", ((c_data_t *)client->data)->team);
         rm_from_request(client);
-        printf("test 3 %s\n", ((c_data_t *)client->data)->team);
         return (SUCCESS);
     }
     return (0);
