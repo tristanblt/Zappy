@@ -71,10 +71,8 @@ bool is_command_graphic(char *command)
 int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
     int ret = SUCCESS;
-    printf("a\n");
     if ((ret = check_client_connexion(z, client, command)) > 0)
         return (ret);
-    printf("b\n");
     ret = (ret == 0) ? SUCCESS : ret;
     for (int i = 0; i < NB_CMDS; i++) {
         if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
@@ -89,12 +87,10 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }
     }
-    printf("c\n");
     if (client->type == GRAPHICAL && is_command_graphic(command) == false)
         suc(client);
     if (ret == SUCCESS && ((c_data_t *)client->data)->cool_down == 0)
         rm_from_request(client);
-    printf("d\n");
     return (ret);
 }
 

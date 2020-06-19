@@ -23,7 +23,7 @@ c_data_t *init_client_data(int f)
     if (!new)
         return (NULL);
     new->team = NULL;
-    new->dir = rand() % 4;
+    new->dir = 1 + rand() % 4;
     new->cool_down = 0;
     new->level = 1;
     new->pos.x = 0;
