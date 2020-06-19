@@ -19,17 +19,12 @@
  * \param what une string nommant la ressource
  * \return rien
  */
-void print_type_content_tile(bool *first, client_t *client, int quantity,
+void print_type_content_tile(client_t *client, int quantity,
 char *what)
 {
     for (int i = quantity; i > 0; i--) {
-        if (*first == true) {
-            add_raw_data(&client->out, what);
-            *first = false;
-        } else {
-            add_raw_data(&client->out, " ");
-            add_raw_data(&client->out, what);
-        }
+        add_raw_data(&client->out, " ");
+        add_raw_data(&client->out, what);
     }
 }
 
@@ -48,24 +43,22 @@ char *what)
 void print_content_tile(client_t *client, extracted_content_t content, int x,
 int y)
 {
-    bool first = true;
-
-    if (x != ((c_data_t *)client->data)->pos.x && y
-    !=((c_data_t *)client->data)->pos.y) {
+    if (x != ((c_data_t *)client->data)->pos.x || y
+    != ((c_data_t *)client->data)->pos.y) {
         add_raw_data(&client->out, ",");
     }
-    print_type_content_tile(&first, client, content.nb_player, "player");
-    print_type_content_tile(&first, client, content.ressources->food, "food");
-    print_type_content_tile(&first, client, content.ressources->linemate,
+    print_type_content_tile(client, content.nb_player, "player");
+    print_type_content_tile(client, content.ressources->food, "food");
+    print_type_content_tile(client, content.ressources->linemate,
     "linemate");
-    print_type_content_tile(&first, client, content.ressources->deraumere,
+    print_type_content_tile(client, content.ressources->deraumere,
     "deraumere");
-    print_type_content_tile(&first, client, content.ressources->sibur, "sibur");
-    print_type_content_tile(&first, client, content.ressources->mendiane,
+    print_type_content_tile(client, content.ressources->sibur, "sibur");
+    print_type_content_tile(client, content.ressources->mendiane,
     "mendiane");
-    print_type_content_tile(&first, client, content.ressources->phiras,
+    print_type_content_tile(client, content.ressources->phiras,
     "phiras");
-    print_type_content_tile(&first, client, content.ressources->thystame,
+    print_type_content_tile(client, content.ressources->thystame,
     "thystame");
 }
 
@@ -96,7 +89,7 @@ void look_right_left(client_t *cli, zappy_data_t *z, int signe_x)
         for (int g = 0; g <= 1 + cpt_x * 2; g++)
             y--;
     }
-    add_raw_data(&cli->out, "]\r\n");
+    add_raw_data(&cli->out, " ]\r\n");
 }
 
 /**
@@ -126,5 +119,5 @@ void look_bottom_top(client_t *cli, zappy_data_t *z, int signe_y)
         for (int g = 0; g <= 1 + cpt_y * 2; g++)
             x--;
     }
-    add_raw_data(&cli->out, "]\r\n");
+    add_raw_data(&cli->out, " ]\r\n");
 }
