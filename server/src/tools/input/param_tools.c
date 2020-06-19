@@ -16,7 +16,6 @@
  * \param param_t structure qui contien les arguments passé en paramètres
  * \return void
  */
-
 int game_param(int ac, char **av, param_t *param)
 {
     if ((ac == 2) && (strcmp(av[1], "-help") == 0)) {
@@ -47,7 +46,6 @@ int game_param(int ac, char **av, param_t *param)
  * \param param_t structure qui contient les arguments passés en paramètres
  * \return int
  */
-
 int check_team_name(param_t *param)
 {
     for (int i = 0; param->name[i + 1] != NULL; i++) {
@@ -69,7 +67,6 @@ int check_team_name(param_t *param)
  * \param param_t structure qui contient les arguments passés en paramètres
  * \return void
  */
-
 int check_param(int ac, char **av, param_t *param)
 {
     char optstring[]="p:x:y:n:c:f:";
@@ -102,7 +99,6 @@ int check_param(int ac, char **av, param_t *param)
  * \param param_t : structure qui contien les arguments passé en paramètres
  * \return int
  */
-
 int check_param_n(int ac, char **av, param_t *param)
 {
     int found_n = -1;
@@ -127,7 +123,6 @@ int check_param_n(int ac, char **av, param_t *param)
  * \param param_t structure qui contient les arguments passé en paramètres
  * \return void
  */
-
 void free_param(param_t param)
 {
     if (param.port != NULL)

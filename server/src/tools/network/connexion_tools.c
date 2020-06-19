@@ -19,13 +19,10 @@
  */
 int is_ai_client_connexion(zappy_data_t *z, client_t *client, char *command)
 {
-    char **array = split_command(command);
     char buffer[12] = {0};
     team_t *team;
 
-    if (array == NULL)
-        return (ERROR);
-    if (init_client_context(z, client, array[0]) == ERROR)
+    if (init_client_context(z, client, command) == ERROR)
         return (ERROR);
     team = get_team_by_name(z->data.teams, z->data.nb_teams,
     ((c_data_t *)client->data)->team);
@@ -42,7 +39,7 @@ int is_ai_client_connexion(zappy_data_t *z, client_t *client, char *command)
 }
 
 /**
- * \fn int check_client_connexion(zappy_data_t *z, client_t *client,
+ * \fn int check_client_connexion(zappy_data_t *z, client_t *client,ma
  * char *command)
  * \brief Vérifie si le client est connecté et si son type est donnée
  *

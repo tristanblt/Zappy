@@ -65,8 +65,9 @@ void rm_from_request(client_t *client)
     memset(client->requests.bodies[client->requests.pos], '\0', BUFF_SIZE);
     client->requests.nb--;
     if (client->requests.pos != 9 &&
-        client->requests.bodies[client->requests.pos][0])
+    client->requests.bodies[client->requests.pos][0]) {
         client->requests.pos++;
-    else
+    } else {
         client->requests.pos = 0;
+    }
 }

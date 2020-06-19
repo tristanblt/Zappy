@@ -22,6 +22,6 @@ void enw(server_t *server, client_t *client, egg_t *egg)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == GRAPHICAL)
-            add_data(&tmp->out, 5 ,"enw", egg_idx, clt_idx, x, y);
+            add_data(&tmp->out, 5, "enw", egg_idx, clt_idx, x, y);
     }
 }

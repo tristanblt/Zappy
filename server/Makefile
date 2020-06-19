@@ -63,7 +63,6 @@ SRCS_FILES		=	main.c \
 					tools/data/ressources_tools.c \
 					tools/data/team_tools.c \
 					tools/data/vector_tools.c \
-					tools/input/args_tools.c \
 					tools/input/init_param_tools.c \
 					tools/input/param_tools.c \
 					tools/input/signal_tools.c \

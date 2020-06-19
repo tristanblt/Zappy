@@ -131,14 +131,16 @@ bool server_iteration(server_t *server)
 {
     update_fds(server);
     update_timeout(server);
-    if (((nb_graphical(server) && server->state == FINAL) || server->state == RUNNING) &&
-    select(FD_SETSIZE, &server->fds.read, &server->fds.write,
+    if (((nb_graphical(server) && server->state == FINAL) || server->state
+    == RUNNING) && select(FD_SETSIZE, &server->fds.read, &server->fds.write,
     &server->fds.error, server->t.is_needed? &server->t.timeout : NULL)
     == -1) {
-        return (sigint_catch? SUCCESS :  ERROR);
+        return (sigint_catch? SUCCESS : ERROR);
     }
-    if (((nb_graphical(server) && server->state == FINAL) || server->state == RUNNING) && !handle_fds(server))
+    if (((nb_graphical(server) && server->state == FINAL) ||
+    server->state== RUNNING) && !handle_fds(server)) {
         return (ERROR);
+    }
     handle_time(server);
     return (SUCCESS);
 }

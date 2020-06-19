@@ -97,10 +97,10 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name)
     if (team->nb == 0) {
         ((c_data_t *)client->data)->pos.x = rand() % z->data.map_sz.x;
         ((c_data_t *)client->data)->pos.y = rand() % z->data.map_sz.y;
-        ((c_data_t *)client->data)->team = name;
-    } else if (team->nb < z->data.nb_mates && egg)
+        ((c_data_t *)client->data)->team = strdup(name);
+    } else if (team->nb < z->data.nb_mates && egg) {
         assign_egg_to_client(z, client, egg);
-    else {
+    } else {
         rm_client(z->server, client);
         return (ERROR);
     }
