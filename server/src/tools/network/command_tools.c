@@ -57,7 +57,7 @@ bool is_acceptable(client_t *client, char *command)
  */
 int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
-    bool ret = SUCCESS;
+    int ret = SUCCESS;
 
     if ((ret = check_client_connexion(z, client, command)) > 0)
         return (ret);
@@ -101,7 +101,6 @@ void search_command_in_client(client_t *client)
         size_cmd = find_cmd - client->in.buff + 2;
         *find_cmd = 0;
         if (is_acceptable(client, client->in.buff)) {
-            printf("added\n");
             add_to_requests(client->in.buff, client, size_cmd - 2);
         }
         remove_data(&client->in, size_cmd);
@@ -121,6 +120,7 @@ bool handle_commands(zappy_data_t *z)
     client_t *tmp2;
     int s_ret;
 
+
     for (tmp = z->server->clients.slh_first; tmp != NULL;
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {
         tmp2 = tmp->next.sle_next;
@@ -128,7 +128,8 @@ bool handle_commands(zappy_data_t *z)
         if ((s_ret = handle_life(z, tmp)) && tmp->requests.nb && !(s_ret =
         switch_command(z, tmp, tmp->requests.bodies[tmp->requests.pos]))) {
             return (ERROR);
-        } else if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE) {
+        }
+        if (s_ret == SUPP_IN_SWITCH || s_ret == SUPP_IN_LIFE) {
             tmp = NULL;
         }
     }

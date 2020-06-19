@@ -142,14 +142,11 @@ bool end_set_cmd(zappy_data_t *z, client_t *c, char *arg)
     int y = ((c_data_t *)c->data)->pos.y;
     int x = ((c_data_t *)c->data)->pos.x;
 
-    printf("ok2\n");
     content = get_tile_content(&z->data, z->server, x, y);
     if (set_obj(z->server, c, arg, content) == true) {
-        printf("end = ok\n");
         add_data(&c->out, 1, "ok");
         return (SUCCESS);
     } else {
-        printf("end = ko\n");
         add_data(&c->out, 1, "ko");
         return (ERROR);
     }

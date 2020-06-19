@@ -26,7 +26,7 @@ server_t *init_server(char *port, int time_ratio)
         free(new);
         return (NULL);
     }
-    new->running = true;
+    new->state = RUNNING;
     new->sck.add.sin_addr.s_addr = INADDR_ANY;
     new->sck.add.sin_family = AF_INET;
     new->sck.add.sin_port = htons(atoi(port));
@@ -131,12 +131,13 @@ bool server_iteration(server_t *server)
 {
     update_fds(server);
     update_timeout(server);
-    if (select(FD_SETSIZE, &server->fds.read, &server->fds.write,
+    if (((nb_graphical(server) && server->state == FINAL) || server->state == RUNNING) &&
+    select(FD_SETSIZE, &server->fds.read, &server->fds.write,
     &server->fds.error, server->t.is_needed? &server->t.timeout : NULL)
     == -1) {
-        return (ERROR);
+        return (sigint_catch? SUCCESS :  ERROR);
     }
-    if (!handle_fds(server))
+    if (((nb_graphical(server) && server->state == FINAL) || server->state == RUNNING) && !handle_fds(server))
         return (ERROR);
     handle_time(server);
     return (SUCCESS);

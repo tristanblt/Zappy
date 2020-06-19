@@ -83,6 +83,9 @@ void end_server(server_t *server);
 void update_fds(server_t *server);
 bool handle_fds(server_t *server);
 bool server_iteration(server_t *server);
+bool every_end_messages_sent(zappy_data_t *z);
+char *determine_winner(zappy_data_t *z);
+int nb_graphical(server_t *server);
 
 /* ZAPPY TOOLS */
 zappy_data_t *init_zappy(param_t param);

@@ -48,4 +48,16 @@
 
 #define HATCHED 0
 
+enum type_e {
+    AI,
+    GRAPHICAL,
+    NOTHING
+};
+
+enum state_e {
+    RUNNING,
+    FINAL,
+    ENDED
+};
+
 #endif /* !INCLUDES_AND_DEFINES_H_ */

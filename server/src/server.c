@@ -7,6 +7,21 @@
 
 #include "server.h"
 
+void proceed_final(zappy_data_t *z)
+{
+    static int phase = 1;
+
+    if (phase == 1) {
+        seg(z, determine_winner(z));
+        phase = 2;
+        if (nb_graphical(z->server) == 0)
+            z->server->state = ENDED;
+    } else if (phase == 2) {
+        if (every_end_messages_sent(z))
+            z->server->state = ENDED;
+    }
+}
+
 /**
  * \fn int zappy_server(int ac, char **av)
  * \brief Fonction principale du projet, réunit réseau et applicatif
@@ -28,14 +43,22 @@ int zappy_server(int ac, char **av)
         return (EPI_EXIT_ERROR);
     if ((z = init_zappy(param)) == NULL)
         return (EPI_EXIT_ERROR);
-    while (z->server->running) {
-        is_ok = server_iteration(z->server);
-        if (is_ok)
+    while (z->server->state != ENDED) {
+        if (sigint_catch == true && z->server->state == RUNNING) {
+            z->server->state = FINAL;
+        } else
+            is_ok = server_iteration(z->server);
+        if (is_ok && z->server->state == RUNNING)
             is_ok = handle_commands(z);
-        if (!is_ok || sigint_catch == true)
-            z->server->running = false;
+        else if (is_ok && z->server->state == FINAL) {
+            proceed_final(z);
+        }
+        if (!is_ok) {
+            printf("BREAK DONE\n");
+            break;
+        }
         update_map(z);
     }
     end_zappy(z, param);
-    return (is_ok ? EPI_EXIT_ERROR : EPI_EXIT_SUCCESS);
+    return (!is_ok ? EPI_EXIT_ERROR : EPI_EXIT_SUCCESS);
 }

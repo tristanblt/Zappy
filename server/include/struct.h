@@ -149,12 +149,6 @@ typedef struct server_s server_t;
 typedef struct zappy_data_s zappy_data_t;
 typedef enum type_e type_e;
 
-enum type_e {
-    AI,
-    GRAPHICAL,
-    NOTHING
-};
-
 struct request_manager_s {
     char bodies[10][BUFF_SIZE];
     int pos;
@@ -176,7 +170,7 @@ struct server_s {
     socket_t sck;
     fd_lists_t fds;
     SLIST_HEAD(, client_s) clients;
-    bool running;
+    int state;
 };
 
 struct zappy_data_s {
