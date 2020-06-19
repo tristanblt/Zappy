@@ -46,19 +46,6 @@ zappy_data_t *init_zappy_server(int ac, char **av, param_t *param)
  * \return 0 en succès et 84 en cas d'erreur
  */
 
-void print_nb_graphical(server_t *s)
-{
-    int nb = 0;
-    client_t *tmp;
-
-    SLIST_FOREACH(tmp, &s->clients, next)
-    {
-        if (tmp->type == GRAPHICAL)
-            nb++;
-    }
-    printf("nb GRAPHICAL: %i\n", nb);
-}
-
 int zappy_server(int ac, char **av)
 {
     zappy_data_t *z;
@@ -68,7 +55,6 @@ int zappy_server(int ac, char **av)
     if ((z = init_zappy_server(ac, av, param)) == NULL)
         return (EPI_EXIT_ERROR);
     while (z->server->state != ENDED) {
-        print_nb_graphical(z->server);
         if (sigint_catch == true && z->server->state == RUNNING) {
             z->server->state = FINAL;
         } else

@@ -20,6 +20,7 @@ bool end_fork_cmd(zappy_data_t *z, client_t *client, char *command)
     (void)command;
     if (add_egg(z, client, ((c_data_t *)client->data)->pos) == ERROR)
         return (ERROR);
+    get_team_by_name(z->data.teams, z->data.nb_teams, ((c_data_t *)client->data)->team)->nb_eggs++;
     add_data(&client->out, 1, "ok");
     return (SUCCESS);
 }

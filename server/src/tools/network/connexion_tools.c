@@ -19,7 +19,6 @@
  */
 int is_ai_client_connexion(zappy_data_t *z, client_t *client, char *command)
 {
-    printf("AI just connected to server\n");
     char buffer[12] = {0};
     team_t *team;
 
@@ -53,7 +52,6 @@ int check_client_connexion(zappy_data_t *z, client_t *client, char *command)
 {
     if (((c_data_t *)client->data)->team == NULL && client->type == NOTHING) {
         if (strcmp(command, "") == 0) {
-            printf("GRAPHICAL just connected to server\n");
             client->type = GRAPHICAL;
         } else if (is_ai_client_connexion(z, client, command) == ERROR)
             return (2);
