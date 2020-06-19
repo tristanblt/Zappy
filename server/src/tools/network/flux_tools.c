@@ -45,7 +45,7 @@ bool read_flux(server_t *server, client_t *client)
 bool write_flux(client_t *client)
 {
     int wr = write(client->sck.fd, client->out.buff, client->out.nb);
-
+    printf("------\"%s\"", client->out.buff);
     if (wr == -1)
         return (ERROR);
     remove_data(&client->out, wr);
