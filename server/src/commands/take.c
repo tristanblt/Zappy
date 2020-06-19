@@ -121,8 +121,9 @@ bool end_take_cmd(zappy_data_t *z, client_t *c, char *arg)
         return (SUCCESS);
     } else {
         add_data(&c->out, 1, "ko");
-        return (ERROR);
+        return (SUCCESS);
     }
+    return (SUCCESS);
 }
 
 bool start_take_cmd(zappy_data_t *z, client_t *client, char *command)
