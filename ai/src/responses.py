@@ -22,7 +22,7 @@ def initGameResponseClientNum(response):
         return False
 
 def initGameResponseMapSize(response):
-    if (response == "ko\n"):
+    if response.startswith("ko"):
         return None
     lineSplit = response.split("\n")
     spaceSplit = lineSplit[0].split(" ")
