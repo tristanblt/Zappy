@@ -22,7 +22,8 @@ server_t *init_server(char *port, int time_ratio)
     if (new == NULL)
         return (NULL);
     SLIST_INIT(&new->clients);
-    if ((new->sck.fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((new->sck.fd = socket(AF_INET, SOCK_STREAM, 0)) < 0 || setsockopt
+    (new->sck.fd, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) < 0) {
         free(new);
         return (NULL);
     }
