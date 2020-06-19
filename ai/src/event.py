@@ -26,15 +26,11 @@ def swapDirection(direction):
     return int(direction)
 
 def eventHandler(response):
-    # broadcast
-    # eject
     if response.startswith("Current level: "):
         ai.src.glob.gameState["level"] = int(response.split(" ")[2])
-        print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
+        if ai.src.glob.debug:
+            print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         ai.src.glob.gameState["incantationBroadcast"] = -1
-        # ai.src.glob.gameState["callBroadcast"] = 0
-        # ai.src.glob.gameState["bufferBroadcast"] = False
-        # ai.src.glob.gameState["elevationReady"] = False
         ai.src.glob.gameState["joinPlayer"] = False
         return False
     if response.startswith("dead"):
@@ -50,16 +46,26 @@ def eventHandler(response):
                         ai.src.glob.gameState["incantationBroadcast"] = swapDirection(direction)
                         ai.src.glob.gameState["joinPlayer"] = True
                         ai.src.glob.gameState["broadcastIncantationCheckTime"] = 0
-                # elif (message[1] == "gfi"):
-                #     if int(message[2]) == ai.src.glob.gameState["level"] and ai.src.glob.gameState["incantationBroadcast"] != 0:
-                #         ai.src.glob.gameState["incantationBroadcast"] = -1
-                #         ai.src.glob.gameState["joinPlayer"] = False
         except:
             pass
         return True
     if response.startswith("eject"):
-        print("Ejected from tile")
+        if ai.src.glob.debug:
+            print("Ejected from tile")
+        direction = int(response.split(" ")[1])
         firstPlayer = True
+        x = 0
+        y = 0
+
+        if direction == 1:
+            y = -1
+        elif direction == 3:
+            x = 1
+        elif direction == 5:
+            y = 1
+        elif direction == 7:
+            x = -1
+
         for item in ai.src.glob.gameMap:
             if (item["type"] == "player"
             and item["pos"]["x"] == 0
@@ -67,7 +73,8 @@ def eventHandler(response):
             and firstPlayer):
                 firstPlayer = False
             else:
-                item["pos"]["y"] -= 1
+                item["pos"]["x"] += x
+                item["pos"]["y"] += y
         computePlayerDistances()
         ai.src.glob.gameState["elevationReady"] = False
         return True

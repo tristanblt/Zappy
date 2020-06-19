@@ -30,3 +30,9 @@ gameMap = []
 
 global lookAt
 lookAt = 0
+
+global socketSeparator
+socketSeparator = "\n"
+
+global debug
+debug = False

@@ -30,8 +30,9 @@ setResponses = {
 }
 
 def sendRequest(request):
-    print("\t\t\t\t\t\t\tAction: " + request)
-    ai.src.glob.writeBuffer += request + "\r\n"
+    if ai.src.glob.debug:
+        print("\t\t\t\t\t\t\tAction: " + request)
+    ai.src.glob.writeBuffer += request + ai.src.glob.socketSeparator
 
 def initGameRequest(teamName):
     sendRequest(teamName)

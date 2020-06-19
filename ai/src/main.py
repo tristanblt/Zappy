@@ -25,8 +25,3 @@ def main():
             mainsock.close()
         else:
             time.sleep(5)
-    
-    # caca
-    # mainsock = initSocket(params)
-    # startGame(params, mainsock)
-    # mainsock.close()

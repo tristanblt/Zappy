@@ -21,11 +21,12 @@ def parseArgs():
     params = {
         'port' : 4242,
         'name' : "",
-        'machine' : "localhost"
+        'machine' : "localhost",
+        'debug' : False,
     }
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'p:n:h:', ["help"])
+        opts, args = getopt.getopt(sys.argv[1:], 'p:n:h:d', ["help"])
         for o, a in opts:
             if o == "--help" or (o == "-h" and a == "elp"):
                 usage()
@@ -36,6 +37,8 @@ def parseArgs():
                 params['name'] = a
             if o == "-h":
                 params['machine'] = a
+            if o == "-d":
+                params['debug'] = True
     except Exception as e:
         exceptionError(e)
     
