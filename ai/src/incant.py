@@ -21,31 +21,20 @@ def explore():
         leftRequest()
 
 def lookForItem(item):
-    item = item.capitalize()
-    if ai.src.glob.gameState["direction"+item] in [1, 2, 8]:
+    if ai.src.glob.gameState["direction"][item] in [1, 2, 8]:
         forwardRequest()
-    elif ai.src.glob.gameState["direction"+item] in [3, 4, 5]:
+    elif ai.src.glob.gameState["direction"][item] in [3, 4, 5]:
         rightRequest()
-    elif ai.src.glob.gameState["direction"+item] in [6, 7]:
+    elif ai.src.glob.gameState["direction"][item] in [6, 7]:
         leftRequest()
     else:
         explore()
-
-def getNbItemOnPlayerTile(itemName):
-    nbItem = 0
-    for item in ai.src.glob.gameMap:
-        if (item['type'] == itemName
-        and item['pos']['x'] == 0
-        and item['pos']['y'] == 0):
-            nbItem += 1
-    return nbItem
 
 def prepareTile(items):
     for item in items:
         nbItemOnTile = getNbItemOnPlayerTile(item)
         if nbItemOnTile < items[item]:
-            if ai.src.glob.gameState["nb"+item.capitalize()] < 1:
-                # ai.src.glob.gameState['elevationReady'] = False
+            if ai.src.glob.gameState["inventory"][item] < 1:
                 explore()
             else:
                 setObjectRequest(item)
@@ -64,7 +53,7 @@ def elevation(lvlToAttain, required):
     nbPlayersOnTile = getNbItemOnPlayerTile("player")
     for item in elevationItems:
         if (not ai.src.glob.gameState["elevationReady"] and
-            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            ai.src.glob.gameState["inventory"][item] < elevationItems[item]):
             if getNbItemOnPlayerTile(item) > 0:
                 takeObjectRequest(item)
             else:

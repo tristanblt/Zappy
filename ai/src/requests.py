@@ -31,7 +31,7 @@ setResponses = {
 
 def sendRequest(request):
     print("\t\t\t\t\t\t\tAction: " + request)
-    ai.src.glob.writeBuffer += request + "\n"
+    ai.src.glob.writeBuffer += request + "\r\n"
 
 def initGameRequest(teamName):
     sendRequest(teamName)
