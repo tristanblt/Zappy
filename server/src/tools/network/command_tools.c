@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-#define NB_CMDS 21
+#define NB_CMDS 23
 
 const command_t cmds[NB_CMDS] = {
     {"Forward", 7, &start_move_cmd, &end_move_cmd, AI},
@@ -31,6 +31,8 @@ const command_t cmds[NB_CMDS] = {
     {"pin ", 4, &start_pin, &end_pin, GRAPHICAL},
     {"sgt", 3, &start_sgt, &end_sgt, GRAPHICAL},
     {"sst ", 4, &start_sst, &end_sst, GRAPHICAL},
+    {"lei", 3, &start_lei, &end_lei, GRAPHICAL},
+    {"lpi", 3, &start_lpi, &end_lpi, GRAPHICAL}
 };
 
 bool is_acceptable(client_t *client, char *command)

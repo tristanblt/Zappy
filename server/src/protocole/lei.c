@@ -35,14 +35,15 @@ void add_eggs_info(flux_t *flux, zappy_data_t *z)
     }
 }
 
-bool start_lei_cmd(zappy_data_t *z, client_t *client, char *command)
+bool end_lei(zappy_data_t *z, client_t *client, char *command)
 {
+    (void)z;
+    (void)client;
     (void)command;
-    ((c_data_t *)client->data)->cool_down = 0 / z->data.f;
     return (SUCCESS);
 }
 
-bool end_lei_cmd(zappy_data_t *z, client_t *client, char *arg)
+bool start_lei(zappy_data_t *z, client_t *client, char *arg)
 {
     (void)arg;
     add_raw_data(&client->out, "lei");
