@@ -34,10 +34,14 @@ def addToPlayerTile(item):
     return
 
 def getNbItemOnPlayerTile(itemName):
+    nbItems = 0
     playerX = ai.src.glob.gameState["playerPos"]["x"]
     playerY = ai.src.glob.gameState["playerPos"]["y"]
 
-    return len(ai.src.glob.gameMap[playerX][playerY])
+    for i in ai.src.glob.gameMap[playerX][playerY]:
+        nbItems += 1
+    return nbItems
+    
 
 def moveInDirection(direction):
     x = 0

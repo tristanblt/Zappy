@@ -50,6 +50,15 @@ bool is_acceptable(client_t *client, char *command)
     return (true);
 }
 
+bool is_command_graphic(char *command)
+{
+    for (int i = 0; i < NB_CMDS; i++) {
+        if (strncmp(cmds[i].token, command, cmds[i].token_len) == 0)
+            return (true);
+    }
+    return (false);
+}
+
 /**
  * \fn bool switch_command(server_t *server, client_t *client, char *command)
  * \brief Fonction qui va appeller la fct corespondant à la commande trouvée
@@ -62,7 +71,6 @@ bool is_acceptable(client_t *client, char *command)
 int switch_command(zappy_data_t *z, client_t *client, char *command)
 {
     int ret = SUCCESS;
-
     if ((ret = check_client_connexion(z, client, command)) > 0)
         return (ret);
     ret = (ret == 0) ? SUCCESS : ret;
@@ -77,10 +85,10 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
         }
     }
+    if (client->type == GRAPHICAL && is_command_graphic(command) == false)
+        suc(client);
     if (ret == SUCCESS && ((c_data_t *)client->data)->cool_down == 0)
         rm_from_request(client);
-    if (client->type == GRAPHICAL && ((c_data_t *)client->data)->req_cntx == END)
-        suc(client);
     return (ret);
 }
 
