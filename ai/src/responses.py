@@ -7,8 +7,19 @@
 
 import json
 import ai.src.glob
-from ai.src.map import *
 from ai.src.distances import computePlayerDistances
+
+def removeFromTile(item):
+    for it in ai.src.glob.gameMap:
+        if (it["type"] == item
+        and it["pos"]["x"] == 0
+        and it["pos"]["y"] == 0):
+            try:
+                ai.src.glob.gameMap.remove(it)
+            except:
+                pass
+            return
+    return
 
 def initGameResponseClientNum(response):
     if response.startswith("ko"):
@@ -22,29 +33,47 @@ def initGameResponseClientNum(response):
         return False
 
 def initGameResponseMapSize(response):
-    if response.startswith("ko"):
+    if (response == "ko\n"):
         return None
     lineSplit = response.split("\n")
-    spaceSplit = lineSplit[0].split(" ")
+    spaceSplit = lineSplit[0].split(" ")    
     try:
         ai.src.glob.gameState["mapSize"]["x"] = int(spaceSplit[0])
         ai.src.glob.gameState["mapSize"]["y"] = int(spaceSplit[1])
-        ai.src.glob.gameMap = [[[]] * ai.src.glob.gameState["mapSize"]["x"] for i in range(ai.src.glob.gameState["mapSize"]["y"])]
         return True
     except:
         return False
 
 def forwardResponse(response):
-    moveInDirection(-1)
+    firstPlayer = True
+    for item in ai.src.glob.gameMap:
+        if (item["type"] == "player"
+        and item["pos"]["x"] == 0
+        and item["pos"]["y"] == 0
+        and firstPlayer):
+            firstPlayer = False
+        else:
+            item["pos"]["y"] -= 1
+    computePlayerDistances()
     ai.src.glob.gameState["elevationReady"] = False
     return True
 
 def rightResponse(response):
-    rotatePlayer(1)
+    tmp = None
+    for item in ai.src.glob.gameMap:
+        tmp = item["pos"]["x"]
+        item["pos"]["x"] = -item["pos"]["y"]
+        item["pos"]["y"] = tmp
+    computePlayerDistances()
     return True
 
 def leftResponse(response):
-    rotatePlayer(-1)
+    tmp = None
+    for item in ai.src.glob.gameMap:
+        tmp = -item["pos"]["x"]
+        item["pos"]["x"] = item["pos"]["y"]
+        item["pos"]["y"] = tmp
+    computePlayerDistances()
     return True
 
 def lookResponse(response):
@@ -57,8 +86,12 @@ def lookResponse(response):
         response = response.replace('[', '').replace(']', '').replace('\n', '')
         tiles = response.split(",")
         for tile in tiles:
+            ai.src.glob.gameMap = [ elem for elem in ai.src.glob.gameMap if not (elem["pos"]["x"] == x and elem["pos"]["y"] == y)]
             items = tile.split(" ")
-            updateTileItems(items, x, y)
+            for item in items:
+                if (len(item) <= 0):
+                    continue
+                ai.src.glob.gameMap.append({"pos": {"x": x, "y": y}, "type": item})
             i += 1
             x += 1
             if i >= pal:
@@ -67,6 +100,7 @@ def lookResponse(response):
                 pal += 2
                 offset += 1
                 i = 0
+        computePlayerDistances()
     except:
         pass
     return True
@@ -81,13 +115,13 @@ def inventoryResponse(response):
         for it in response.split(', '):
             it = it.split()
             inventory[it[0]] = int(it[1])
-        ai.src.glob.gameState["inventory"]["food"] = inventory["food"]
-        ai.src.glob.gameState["inventory"]["linemate"] = inventory["linemate"]
-        ai.src.glob.gameState["inventory"]["deraumere"] = inventory["deraumere"]
-        ai.src.glob.gameState["inventory"]["sibur"] = inventory["sibur"]
-        ai.src.glob.gameState["inventory"]["mendiane"] = inventory["mendiane"]
-        ai.src.glob.gameState["inventory"]["phiras"] = inventory["phiras"]
-        ai.src.glob.gameState["inventory"]["thystame"] = inventory["thystame"]
+        ai.src.glob.gameState["nbFood"] = inventory["food"]
+        ai.src.glob.gameState["nbLinemate"] = inventory["linemate"]
+        ai.src.glob.gameState["nbDeraumere"] = inventory["deraumere"]
+        ai.src.glob.gameState["nbSibur"] = inventory["sibur"]
+        ai.src.glob.gameState["nbMendiane"] = inventory["mendiane"]
+        ai.src.glob.gameState["nbPhiras"] = inventory["phiras"]
+        ai.src.glob.gameState["nbThystame"] = inventory["thystame"]
     except:
         pass
     return True
@@ -111,112 +145,154 @@ def ejectResponse(response):
 
 def takeFoodResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["food"] += 1
-        removeFromPlayerTile("food")
+        ai.src.glob.gameState["nbFood"] += 1
+        removeFromTile("food")
     else:
         ai.src.glob.gameState["needLook"] = True
     return True
 
 def takeLinemateResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["linemate"] += 1
-        removeFromPlayerTile("linemate")
+        ai.src.glob.gameState["nbLinemate"] += 1
+        removeFromTile("linemate")
     else:
         ai.src.glob.gameState["needLook"] = True
     return True
 
 def takeDeraumereResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["deraumere"] += 1
-        removeFromPlayerTile("deraumere")
+        ai.src.glob.gameState["nbDeraumere"] += 1
+        removeFromTile("deraumere")
     else:
         ai.src.glob.gameState["needLook"] = True
     return True
 
 def takeSiburResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["sibur"] += 1
-        removeFromPlayerTile("sibur")
+        ai.src.glob.gameState["nbSibur"] += 1
+        removeFromTile("sibur")
     else:
         ai.src.glob.gameState["needLook"] = True
     return True
 
 def takeMendianeResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["mendiane"] += 1
-        removeFromPlayerTile("mendiane")
+        ai.src.glob.gameState["nbMendiane"] += 1
+        removeFromTile("mendiane")
     else:
         ai.src.glob.gameState["needLook"] = True
     return True
 
 def takePhirasResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["phiras"] += 1
-        removeFromPlayerTile("phiras")
+        ai.src.glob.gameState["nbPhiras"] += 1
+        removeFromTile("phiras")
     else:
         ai.src.glob.gameState["needLook"] = True
     return True
 
 def takeThystameResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["thystame"] += 1
-        removeFromPlayerTile("thystame")
+        ai.src.glob.gameState["nbThystame"] += 1
+        removeFromTile("thystame")
     else:
         ai.src.glob.gameState["needLook"] = True
     return True
 
 def setFoodResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["food"] -= 1
-        addToPlayerTile("food")
+        ai.src.glob.gameState["nbFood"] -= 1
+        ai.src.glob.gameMap.append({
+            "type": "food",
+            "pos": {
+                "x": 0,
+                "y": 0
+            }
+        })
     else:
         ai.src.glob.gameState["needInventory"] = True
     return True
 
 def setLinemateResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["linemate"] -= 1
-        addToPlayerTile("linemate")
+        ai.src.glob.gameState["nbLinemate"] -= 1
+        ai.src.glob.gameMap.append({
+            "type": "linemate",
+            "pos": {
+                "x": 0,
+                "y": 0
+            }
+        })
     else:
         ai.src.glob.gameState["needInventory"] = True
     return True
 
 def setDeraumereResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["deraumere"] -= 1
-        addToPlayerTile("deraumere")
+        ai.src.glob.gameState["nbDeraumere"] -= 1
+        ai.src.glob.gameMap.append({
+            "type": "deraumere",
+            "pos": {
+                "x": 0,
+                "y": 0
+            }
+        })
     else:
         ai.src.glob.gameState["needInventory"] = True
     return True
 
 def setSiburResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["sibur"] -= 1
-        addToPlayerTile("sibur")
+        ai.src.glob.gameState["nbSibur"] -= 1
+        ai.src.glob.gameMap.append({
+            "type": "sibur",
+            "pos": {
+                "x": 0,
+                "y": 0
+            }
+        })
     else:
         ai.src.glob.gameState["needInventory"] = True
     return True
 
 def setMendianeResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["mendiane"] -= 1
-        addToPlayerTile("mendiane")
+        ai.src.glob.gameState["nbMendiane"] -= 1
+        ai.src.glob.gameMap.append({
+            "type": "mendiane",
+            "pos": {
+                "x": 0,
+                "y": 0
+            }
+        })
     else:
         ai.src.glob.gameState["needInventory"] = True
     return True
 
 def setPhirasResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["phiras"] -= 1
-        addToPlayerTile("phiras")
+        ai.src.glob.gameState["nbPhiras"] -= 1
+        ai.src.glob.gameMap.append({
+            "type": "phiras",
+            "pos": {
+                "x": 0,
+                "y": 0
+            }
+        })
     else:
         ai.src.glob.gameState["needInventory"] = True
     return True
 
 def setThystameResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["inventory"]["thystame"] -= 1
-        addToPlayerTile("thystame")
+        ai.src.glob.gameState["nbThystame"] -= 1
+        ai.src.glob.gameMap.append({
+            "type": "thystame",
+            "pos": {
+                "x": 0,
+                "y": 0
+            }
+        })
     else:
         ai.src.glob.gameState["needInventory"] = True
     return True

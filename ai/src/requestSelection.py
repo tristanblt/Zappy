@@ -9,7 +9,16 @@ import ai.src.glob
 
 from ai.src.requests import *
 from ai.src.incant import *
-from ai.src.map import *
+'''
+elevationFunctions = [
+    elevationLevel2,
+    elevationLevel3,
+    elevationLevel4,
+    elevationLevel5,
+    elevationLevel6,
+    elevationLevel7,
+    elevationLevel8,
+]'''
 
 elevationRequired = [
     {
@@ -113,8 +122,9 @@ def requestSelection(mainsock):
         if ai.src.glob.gameState["clientNum"] == 0 and not ai.src.glob.gameState["alreadyFork"] and ai.src.glob.gameState["level"] > 2:
             forkRequest()
             ai.src.glob.gameState["alreadyFork"] = True
-        elif getNbItemOnPlayerTile("food") > 0:
+        elif foodAtPlayerPosition():
             takeObjectRequest("food")
+            
         elif itemInMap("food"):
             lookForItem("food")
         else: 
@@ -129,6 +139,9 @@ def requestSelection(mainsock):
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
                 print("\tOn the tile, ready for incantation")
                 inventoryRequest()
+                # if ai.src.glob.gameState['broadcastIncantationCheckTime'] > 450:
+                #     ai.src.glob.gameState['incantationBroadcast'] = -1
+                #     ai.src.glob.gameState['joinPlayer'] = False
                 return
             elif ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
                 ai.src.glob.gameState['joinPlayer'] = False
@@ -148,6 +161,7 @@ def requestSelection(mainsock):
                 
         else:
             elevation(ai.src.glob.gameState["level"] + 1, elevationRequired[ai.src.glob.gameState["level"] - 1])
+            # elevationFunctions[ai.src.glob.gameState["level"] - 1]()
 
 def updateFood():
     if ai.src.glob.gameState["starveCheckTime"] >= 100:
@@ -155,9 +169,24 @@ def updateFood():
         ai.src.glob.gameState["starveCheckTime"] = 0
         return True
     if ai.src.glob.gameState["starving"]:
-        if ai.src.glob.gameState["inventory"]["food"] > ((ai.src.glob.gameState["mapSize"]["x"] + ai.src.glob.gameState["mapSize"]["y"]) / 2 * 4):
+        if ai.src.glob.gameState["nbFood"] > ((ai.src.glob.gameState["mapSize"]["x"] + ai.src.glob.gameState["mapSize"]["y"]) / 2 * 4):
             ai.src.glob.gameState["starving"] = False
     else:
-        if ai.src.glob.gameState["inventory"]["food"] < 4:
+        if ai.src.glob.gameState["nbFood"] < 4:
             ai.src.glob.gameState["elevationReady"] = False
             ai.src.glob.gameState["starving"] = True
+
+def foodAtPlayerPosition():
+    if getNbItemOnPlayerTile("food") > 0:
+        return True
+    else:
+        return False
+
+def itemInMap(itemType):
+    for item in ai.src.glob.gameMap:
+        if item['type'] == itemType:
+            return True
+    return False
+
+
+

@@ -8,7 +8,6 @@
 import sys
 
 import ai.src.glob
-from ai.src.map import moveInDirection
 from ai.src.distances import computePlayerDistances
 
 def swapDirection(direction):
@@ -27,16 +26,21 @@ def swapDirection(direction):
     return int(direction)
 
 def eventHandler(response):
+    # broadcast
+    # eject
     if response.startswith("Current level: "):
         ai.src.glob.gameState["level"] = int(response.split(" ")[2])
         print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         ai.src.glob.gameState["incantationBroadcast"] = -1
+        # ai.src.glob.gameState["callBroadcast"] = 0
+        # ai.src.glob.gameState["bufferBroadcast"] = False
+        # ai.src.glob.gameState["elevationReady"] = False
         ai.src.glob.gameState["joinPlayer"] = False
         return False
-    elif response.startswith("dead"):
+    if response.startswith("dead"):
         ai.src.glob.AIRunning = False
         return True
-    elif response.startswith("message"):
+    if response.startswith("message"):
         direction = response.split(" ")[1][0]
         message = response.split(" ")[2:]
         try:
@@ -46,21 +50,25 @@ def eventHandler(response):
                         ai.src.glob.gameState["incantationBroadcast"] = swapDirection(direction)
                         ai.src.glob.gameState["joinPlayer"] = True
                         ai.src.glob.gameState["broadcastIncantationCheckTime"] = 0
+                # elif (message[1] == "gfi"):
+                #     if int(message[2]) == ai.src.glob.gameState["level"] and ai.src.glob.gameState["incantationBroadcast"] != 0:
+                #         ai.src.glob.gameState["incantationBroadcast"] = -1
+                #         ai.src.glob.gameState["joinPlayer"] = False
         except:
             pass
         return True
-    elif response.startswith("eject"):
+    if response.startswith("eject"):
         print("Ejected from tile")
-        direction = int(response.split(" ")[1])
-        if direction == 1:
-            direction = 0
-        elif direction == 7:
-            direction = 1
-        elif direction == 5:
-            direction = 2
-        elif direction == 3:
-            direction = 3
-        moveInDirection(direction)
+        firstPlayer = True
+        for item in ai.src.glob.gameMap:
+            if (item["type"] == "player"
+            and item["pos"]["x"] == 0
+            and item["pos"]["y"] == 0
+            and firstPlayer):
+                firstPlayer = False
+            else:
+                item["pos"]["y"] -= 1
+        computePlayerDistances()
         ai.src.glob.gameState["elevationReady"] = False
         return True
     return False
