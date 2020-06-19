@@ -25,7 +25,7 @@ def initGameResponseMapSize(response):
     if (response == "ko\n"):
         return None
     lineSplit = response.split("\n")
-    spaceSplit = lineSplit[0].split(" ")    
+    spaceSplit = lineSplit[0].split(" ")
     try:
         ai.src.glob.gameState["mapSize"]["x"] = int(spaceSplit[0])
         ai.src.glob.gameState["mapSize"]["y"] = int(spaceSplit[1])
