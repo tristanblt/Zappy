@@ -74,10 +74,10 @@ void update_cool_downs(server_t *server)
  * \param server
  * \return rien
  */
-void update_timeout(server_t *server)
+void update_timeout(server_t *server, float cd_init)
 {
     client_t *tmp;
-    float cd = -1;
+    float cd = cd_init;
     bool graphical_cmd = false;
     c_data_t *d;
 

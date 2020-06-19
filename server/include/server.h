@@ -51,7 +51,7 @@ void add_raw_data(flux_t *flux, char *str);
 /* TIME TOOLS */
 void handle_time(server_t *server);
 void init_time(time_manager_t *t, int time_ratio);
-void update_timeout(server_t *server);
+void update_timeout(server_t *server, float cd_init);
 
 
 /* LIFE TOOLS */
@@ -82,7 +82,7 @@ server_t *init_server(char *port, int time_ratio);
 void end_server(server_t *server);
 void update_fds(server_t *server);
 bool handle_fds(server_t *server);
-bool server_iteration(server_t *server);
+bool server_iteration(server_t *server, float timeout_init);
 bool every_end_messages_sent(zappy_data_t *z);
 char *determine_winner(zappy_data_t *z);
 int nb_graphical(server_t *server);
@@ -153,7 +153,7 @@ int split_nb_argument(char **array);
 
 /* EGG_TOOLS */
 bool init_client_context(zappy_data_t *z, client_t *client, char *name);
-
+float get_lowest_egg_cd(zappy_data_t *z);
 
 /* PROTOCOLE */
 bool msz(zappy_data_t *z, client_t *client, char *arg);

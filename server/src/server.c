@@ -58,7 +58,7 @@ int zappy_server(int ac, char **av)
         if (sigint_catch == true && z->server->state == RUNNING) {
             z->server->state = FINAL;
         } else
-            is_ok = server_iteration(z->server);
+            is_ok = server_iteration(z->server, get_lowest_egg_cd(z));
         if (is_ok && z->server->state == RUNNING)
             is_ok = handle_commands(z);
         else if (is_ok && z->server->state == FINAL)

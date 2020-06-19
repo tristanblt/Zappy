@@ -98,17 +98,21 @@ void update_fds(server_t *server)
 bool handle_fds(server_t *server)
 {
     bool is_ok = SUCCESS;
-    client_t *tmp;
-    SLIST_FOREACH(tmp, &server->clients, next)
-    {
+    client_t *tmp2;
+
+    for (client_t *tmp = server->clients.slh_first; tmp != NULL;
+    tmp = (tmp) ? tmp->next.sle_next : tmp2) {
+        tmp2 = tmp->next.sle_next;
         if (is_ok == ERROR)
             break;
         if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)
             is_ok = read_flux(server, tmp);
         if (FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
             is_ok = write_flux(tmp);
-        if (FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok)
+        if (FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok) {
             is_ok = rm_client(server, tmp);
+            tmp = NULL;
+        }
     }
     if (is_ok == ERROR || !server)
         return (ERROR);
@@ -127,10 +131,10 @@ bool handle_fds(server_t *server)
  * \return true en cas de succès et false en cas d'erreur
  */
 
-bool server_iteration(server_t *server)
+bool server_iteration(server_t *server, float timeout_init)
 {
     update_fds(server);
-    update_timeout(server);
+    update_timeout(server, timeout_init);
     if (((nb_graphical(server) && server->state == FINAL) || server->state
     == RUNNING) && select(FD_SETSIZE, &server->fds.read, &server->fds.write,
     &server->fds.error, server->t.is_needed? &server->t.timeout : NULL)
