@@ -33,7 +33,7 @@ void init_requests(request_manager_t *r);
 
 /* CLIENT TOOLS */
 client_t *get_graphical_client(server_t *server);
-bool add_client(server_t *server, void *data);
+client_t *add_client(server_t *server, void *data);
 bool rm_client(server_t *server, client_t *client);
 bool init_client(server_t *s, client_t *client);
 

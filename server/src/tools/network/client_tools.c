@@ -39,13 +39,9 @@ bool new_client_welcome(server_t *server, void *data)
     int is_ok = SUCCESS;
     client_t *tmp;
 
-    if (add_client(server, data) == ERROR)
+    if ((tmp = add_client(server, data)) == NULL)
         return (ERROR);
-    SLIST_FOREACH(tmp, &server->clients, next)
-    {
-        if (((c_data_t *)tmp->data)->team == NULL)
-            add_data(&tmp->out, 1, "WELCOME");
-    }
+    add_data(&tmp->out, 1, "WELCOME");
     return (is_ok);
 }
 
@@ -57,16 +53,16 @@ bool new_client_welcome(server_t *server, void *data)
  * \param data la data du client
  * \return true en success et false en error
  */
-bool add_client(server_t *server, void *data)
+client_t *add_client(server_t *server, void *data)
 {
     client_t *new = malloc(sizeof(client_t));
 
     if (new == NULL)
-        return (ERROR);
+        return (NULL);
     if (init_client(server, new) == ERROR) {
         free(new);
         end_server(server);
-        return (ERROR);
+        return (NULL);
     }
     init_requests(&new->requests);
     if (data == NULL) {
@@ -76,7 +72,7 @@ bool add_client(server_t *server, void *data)
     new->data = data;
     new->type = NOTHING;
     SLIST_INSERT_HEAD(&server->clients, new, next);
-    return (SUCCESS);
+    return (new);
 }
 
 /**

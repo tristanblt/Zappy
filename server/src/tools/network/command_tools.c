@@ -22,14 +22,14 @@ const command_t cmds[NB_CMDS] = {
     {"Connect_nbr", 11, &start_co_nbr_cmd, &end_co_nbr_cmd, AI},
     {"Fork", 4, &start_fork_cmd, &end_fork_cmd, AI},
     {"Eject", 5, &start_eject_cmd, &end_eject_cmd, AI},
-    {"msz ", 4, &start_msz, &end_msz, GRAPHICAL},
+    {"msz", 3, &start_msz, &end_msz, GRAPHICAL},
     {"bct ", 4, &start_bct, &end_bct, GRAPHICAL},
-    {"mct ", 4, &start_mct, &end_mct, GRAPHICAL},
-    {"tna ", 4, &start_tna, &end_tna, GRAPHICAL},
+    {"mct", 3, &start_mct, &end_mct, GRAPHICAL},
+    {"tna", 3, &start_tna, &end_tna, GRAPHICAL},
     {"ppo ", 4, &start_ppo, &end_ppo, GRAPHICAL},
     {"plv ", 4, &start_plv, &end_plv, GRAPHICAL},
     {"pin ", 4, &start_pin, &end_pin, GRAPHICAL},
-    {"sst ", 4, &start_sst, &end_sst, GRAPHICAL},
+    {"sgt", 3, &start_sst, &end_sst, GRAPHICAL},
 };
 
 bool is_acceptable(client_t *client, char *command)
@@ -38,8 +38,9 @@ bool is_acceptable(client_t *client, char *command)
 
     for (int i = 0; i < NB_CMDS; i++) {
         if (!(found = strncmp(cmds[i].token, command, cmds[i].token_len))
-        && client->type != cmds[i].client_type)
-        return (false);
+        && client->type != cmds[i].client_type) {
+            return (false);
+        }
         if (found == 0)
             break;
     }
@@ -119,7 +120,6 @@ bool handle_commands(zappy_data_t *z)
     client_t *tmp;
     client_t *tmp2;
     int s_ret;
-
 
     for (tmp = z->server->clients.slh_first; tmp != NULL;
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {

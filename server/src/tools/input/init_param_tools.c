@@ -14,7 +14,6 @@
  * \param param_t structure qui contien les arguments passé en paramètres
  * \return void
  */
-
 void init_param(param_t *param)
 {
     param->port = NULL;
@@ -33,7 +32,6 @@ void init_param(param_t *param)
  * \param param_t structure qui contient les arguments passés en paramètres
  * \return void
  */
-
 void reinit_param(int c, param_t *param)
 {
     switch (c) {
@@ -64,7 +62,6 @@ void reinit_param(int c, param_t *param)
  * \param nbName indice du nombre de name
  * \return int
  */
-
 int add_n(char **av, param_t *param, int i, int nbName)
 {
     if (strchr(av[i], ' ') == NULL) {
@@ -90,7 +87,6 @@ int add_n(char **av, param_t *param, int i, int nbName)
  * \param i position du "-n"
  * \return int
  */
-
 int init_param_n(int ac, char **av, param_t *param, int i)
 {
     i++;

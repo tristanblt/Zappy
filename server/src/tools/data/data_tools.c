@@ -30,7 +30,6 @@ c_data_t *init_client_data(int f)
     new->pos.y = 0;
     new->is_alive = true;
     new->req_cntx = END;
-    new->team = NULL;
     new->idx = idx;
     init_ressources(&new->inventory);
     new->inventory.food = 1260.0 / f;

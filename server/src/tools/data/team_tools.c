@@ -18,6 +18,7 @@
  */
 team_t *get_team_by_name(team_t *teams, int nb, char *name)
 {
+    printf("name: %s %p\n", name, name);
     for (int i = 0; i < nb; i++)
         if (!strcmp(teams[i].name, name))
             return (&teams[i]);

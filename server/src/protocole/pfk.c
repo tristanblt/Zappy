@@ -16,6 +16,6 @@ void pfk(server_t *server, client_t *client)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == GRAPHICAL)
-            add_data(&tmp->out, 2 ,"pfk", nb);
+            add_data(&tmp->out, 2, "pfk", nb);
     }
 }

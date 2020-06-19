@@ -18,6 +18,6 @@ void pdr(server_t *server, client_t *client, char *ressource)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == GRAPHICAL)
-            add_data(&tmp->out, 3 ,"pdr", idx, res);
+            add_data(&tmp->out, 3, "pdr", idx, res);
     }
 }

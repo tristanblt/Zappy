@@ -16,6 +16,6 @@ void eht(server_t *server, egg_t *egg)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == GRAPHICAL)
-            add_data(&tmp->out, 2 ,"eht", nb);
+            add_data(&tmp->out, 2, "eht", nb);
     }
 }
