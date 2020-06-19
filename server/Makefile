@@ -50,6 +50,7 @@ SRCS_FILES		=	main.c \
 					protocole/seg.c \
 					protocole/smg.c \
 					protocole/sst.c \
+					protocole/sgt.c \
 					protocole/suc.c \
 					protocole/tna.c \
 					tools/split.c \

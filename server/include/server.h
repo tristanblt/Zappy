@@ -224,4 +224,7 @@ bool start_rotate_cmd(zappy_data_t *z, client_t *client, char *command);
 bool rotate_right_cmd(zappy_data_t *z, client_t *client, char *command);
 bool rotate_left_cmd(zappy_data_t *z, client_t *client, char *command);
 
+
+bool start_sgt(zappy_data_t *z, client_t *client, char *arg);
+bool end_sgt(zappy_data_t *z, client_t *client, char *arg);
 #endif /* !SERVER_H_ */
