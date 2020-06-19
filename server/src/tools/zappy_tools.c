@@ -40,10 +40,11 @@ zappy_data_t *init_zappy(param_t param)
  * \param param à free
  * \return la nouvelle valeur de la coordonée
  */
-void end_zappy(zappy_data_t *z, param_t param)
+void end_zappy(zappy_data_t *z, param_t *param)
 {
     end_server(z->server);
     free_server_data(&z->data);
     free(z);
-    free_param(param);
+    free_param(*param);
+    free(param);
 }

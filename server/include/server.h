@@ -89,7 +89,7 @@ int nb_graphical(server_t *server);
 
 /* ZAPPY TOOLS */
 zappy_data_t *init_zappy(param_t param);
-void end_zappy(zappy_data_t *z, param_t param);
+void end_zappy(zappy_data_t *z, param_t *param);
 
 /* COMMANDS TOOLS */
 bool handle_commands(zappy_data_t *z);

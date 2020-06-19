@@ -22,6 +22,21 @@ void proceed_final(zappy_data_t *z)
     }
 }
 
+zappy_data_t *init_zappy_server(int ac, char **av, param_t *param)
+{
+    zappy_data_t *z;
+
+    if (param == NULL)
+        return (ERROR);
+    sigint_catch = false;
+    signal(SIGINT, handle_sigint);
+    if (game_param(ac, av, param) == -1)
+        return (NULL);
+    if ((z = init_zappy(*param)) == NULL)
+        return (NULL);
+    return (z);
+}
+
 /**
  * \fn int zappy_server(int ac, char **av)
  * \brief Fonction principale du projet, réunit réseau et applicatif
@@ -34,14 +49,10 @@ void proceed_final(zappy_data_t *z)
 int zappy_server(int ac, char **av)
 {
     zappy_data_t *z;
-    param_t param;
+    param_t *param = malloc(sizeof(param_t));
     bool is_ok = true;
 
-    sigint_catch = false;
-    signal(SIGINT, handle_sigint);
-    if (game_param(ac, av, &param) == -1)
-        return (EPI_EXIT_ERROR);
-    if ((z = init_zappy(param)) == NULL)
+    if ((z = init_zappy_server(ac, av, param)) == NULL)
         return (EPI_EXIT_ERROR);
     while (z->server->state != ENDED) {
         if (sigint_catch == true && z->server->state == RUNNING) {
@@ -50,13 +61,10 @@ int zappy_server(int ac, char **av)
             is_ok = server_iteration(z->server);
         if (is_ok && z->server->state == RUNNING)
             is_ok = handle_commands(z);
-        else if (is_ok && z->server->state == FINAL) {
+        else if (is_ok && z->server->state == FINAL)
             proceed_final(z);
-        }
-        if (!is_ok) {
-            printf("BREAK DONE\n");
+        if (!is_ok)
             break;
-        }
         update_map(z);
     }
     end_zappy(z, param);
