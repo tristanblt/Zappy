@@ -48,8 +48,9 @@ egg_t *get_egg_by_team(zappy_data_t *z, char *team)
 
     SLIST_FOREACH(tmp, &z->data.eggs, next)
     {
-        if (!strcmp(tmp->team, team) && tmp->status == HATCHED)
+        if (!strcmp(tmp->team, team) && tmp->status <= HATCHED) {
             return (tmp);
+        }
     }
     return (NULL);
 }
@@ -70,6 +71,7 @@ void assign_egg_to_client(zappy_data_t *z, client_t *client, egg_t *egg)
     ((c_data_t *)client->data)->pos.y = egg->pos.y;
     ((c_data_t *)client->data)->team = egg->team;
     ((c_data_t *)client->data)->inventory.food -= egg->status;
+    get_team_by_name(z->data.teams, z->data.nb_teams, egg->team)->nb_eggs--;
     SLIST_REMOVE(&z->data.eggs, egg, egg_s, next);
     ebo(z, egg);
     free(egg);
@@ -94,11 +96,11 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name)
         rm_client(z->server, client);
         return (ERROR);
     }
-    if (team->nb == 0) {
+    if (team->nb < z->data.nb_mates) {
         ((c_data_t *)client->data)->pos.x = rand() % z->data.map_sz.x;
         ((c_data_t *)client->data)->pos.y = rand() % z->data.map_sz.y;
         ((c_data_t *)client->data)->team = strdup(name);
-    } else if (team->nb < z->data.nb_mates && egg) {
+    } else if (egg) {
         assign_egg_to_client(z, client, egg);
     } else {
         rm_client(z->server, client);
@@ -131,6 +133,7 @@ void update_egg_status(zappy_data_t *z)
         }
         if (tmp->status < -1260.0 / z->data.f) {
             edi(z, tmp);
+            get_team_by_name(z->data.teams, z->data.nb_teams, tmp->team)->nb_eggs--;
             SLIST_REMOVE(&z->data.eggs, tmp, egg_s, next);
             tmp = NULL;
         }

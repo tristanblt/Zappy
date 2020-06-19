@@ -53,6 +53,7 @@ typedef struct team_s team_t;
 struct team_s {
     char *name;
     int nb;
+    int nb_eggs;
     int victory_count;
 };
 
