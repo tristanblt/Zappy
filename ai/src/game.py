@@ -23,16 +23,19 @@ def startGame(params, mainsock):
     resetGame()
     ai.src.requests.initGameRequest(params["name"])
     ai.src.glob.gameState["teamName"] = params["name"]
+    ai.src.glob.debug = params["debug"]
 
     while ai.src.glob.AIRunning:
         selectHandler(mainsock)
         while True:
             try:
                 response = ai.src.glob.readQueue.get_nowait()
+                print(response)
                 if not eventHandler(response):
                     command = ai.src.glob.currentCommand
                     if command == None:
                         break
+                    print(response)
                     ai.src.glob.currentCommand = None
                     if not command(response):
                         mainsock.close()
@@ -40,5 +43,6 @@ def startGame(params, mainsock):
             except queue.Empty:
                 break
         if ai.src.glob.currentCommand is None:
-            print("(" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] ", end="")
+            if ai.src.glob.debug:
+                print("(" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] {" + str(len(ai.src.glob.gameMap)) + "}", end="")
             requestSelection(mainsock)

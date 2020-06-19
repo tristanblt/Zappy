@@ -19,5 +19,6 @@ def initSocket(params):
         mainsock.recv(1024)
         return mainsock
     except:
-        print("Can't connect to server")
+        if params["debug"]:
+            print("Can't connect to server")
         return None

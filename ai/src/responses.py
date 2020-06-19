@@ -59,20 +59,14 @@ def forwardResponse(response):
     return True
 
 def rightResponse(response):
-    tmp = None
     for item in ai.src.glob.gameMap:
-        tmp = item["pos"]["x"]
-        item["pos"]["x"] = -item["pos"]["y"]
-        item["pos"]["y"] = tmp
+        item["pos"]["x"], item["pos"]["y"] = -item["pos"]["y"], item["pos"]["x"]
     computePlayerDistances()
     return True
 
 def leftResponse(response):
-    tmp = None
     for item in ai.src.glob.gameMap:
-        tmp = -item["pos"]["x"]
-        item["pos"]["x"] = item["pos"]["y"]
-        item["pos"]["y"] = tmp
+        item["pos"]["x"], item["pos"]["y"] = item["pos"]["y"], -item["pos"]["x"]
     computePlayerDistances()
     return True
 
@@ -83,6 +77,8 @@ def lookResponse(response):
         i = 0
         pal = 1
         offset = 1
+        print("a")
+        print(response)
         response = response.replace('[', '').replace(']', '').replace('\n', '')
         tiles = response.split(",")
         for tile in tiles:
@@ -115,13 +111,13 @@ def inventoryResponse(response):
         for it in response.split(', '):
             it = it.split()
             inventory[it[0]] = int(it[1])
-        ai.src.glob.gameState["nbFood"] = inventory["food"]
-        ai.src.glob.gameState["nbLinemate"] = inventory["linemate"]
-        ai.src.glob.gameState["nbDeraumere"] = inventory["deraumere"]
-        ai.src.glob.gameState["nbSibur"] = inventory["sibur"]
-        ai.src.glob.gameState["nbMendiane"] = inventory["mendiane"]
-        ai.src.glob.gameState["nbPhiras"] = inventory["phiras"]
-        ai.src.glob.gameState["nbThystame"] = inventory["thystame"]
+        ai.src.glob.gameState["inventory"]["food"] = inventory["food"]
+        ai.src.glob.gameState["inventory"]["linemate"] = inventory["linemate"]
+        ai.src.glob.gameState["inventory"]["deraumere"] = inventory["deraumere"]
+        ai.src.glob.gameState["inventory"]["sibur"] = inventory["sibur"]
+        ai.src.glob.gameState["inventory"]["mendiane"] = inventory["mendiane"]
+        ai.src.glob.gameState["inventory"]["phiras"] = inventory["phiras"]
+        ai.src.glob.gameState["inventory"]["thystame"] = inventory["thystame"]
     except:
         pass
     return True
@@ -145,7 +141,7 @@ def ejectResponse(response):
 
 def takeFoodResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbFood"] += 1
+        ai.src.glob.gameState["inventory"]["food"] += 1
         removeFromTile("food")
     else:
         ai.src.glob.gameState["needLook"] = True
@@ -153,7 +149,7 @@ def takeFoodResponse(response):
 
 def takeLinemateResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbLinemate"] += 1
+        ai.src.glob.gameState["inventory"]["linemate"] += 1
         removeFromTile("linemate")
     else:
         ai.src.glob.gameState["needLook"] = True
@@ -161,7 +157,7 @@ def takeLinemateResponse(response):
 
 def takeDeraumereResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbDeraumere"] += 1
+        ai.src.glob.gameState["inventory"]["deraumere"] += 1
         removeFromTile("deraumere")
     else:
         ai.src.glob.gameState["needLook"] = True
@@ -169,7 +165,7 @@ def takeDeraumereResponse(response):
 
 def takeSiburResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbSibur"] += 1
+        ai.src.glob.gameState["inventory"]["sibur"] += 1
         removeFromTile("sibur")
     else:
         ai.src.glob.gameState["needLook"] = True
@@ -177,7 +173,7 @@ def takeSiburResponse(response):
 
 def takeMendianeResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbMendiane"] += 1
+        ai.src.glob.gameState["inventory"]["mendiane"] += 1
         removeFromTile("mendiane")
     else:
         ai.src.glob.gameState["needLook"] = True
@@ -185,7 +181,7 @@ def takeMendianeResponse(response):
 
 def takePhirasResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbPhiras"] += 1
+        ai.src.glob.gameState["inventory"]["phiras"] += 1
         removeFromTile("phiras")
     else:
         ai.src.glob.gameState["needLook"] = True
@@ -193,7 +189,7 @@ def takePhirasResponse(response):
 
 def takeThystameResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbThystame"] += 1
+        ai.src.glob.gameState["inventory"]["thystame"] += 1
         removeFromTile("thystame")
     else:
         ai.src.glob.gameState["needLook"] = True
@@ -201,7 +197,7 @@ def takeThystameResponse(response):
 
 def setFoodResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbFood"] -= 1
+        ai.src.glob.gameState["inventory"]["food"] -= 1
         ai.src.glob.gameMap.append({
             "type": "food",
             "pos": {
@@ -215,7 +211,7 @@ def setFoodResponse(response):
 
 def setLinemateResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbLinemate"] -= 1
+        ai.src.glob.gameState["inventory"]["linemate"] -= 1
         ai.src.glob.gameMap.append({
             "type": "linemate",
             "pos": {
@@ -229,7 +225,7 @@ def setLinemateResponse(response):
 
 def setDeraumereResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbDeraumere"] -= 1
+        ai.src.glob.gameState["inventory"]["deraumere"] -= 1
         ai.src.glob.gameMap.append({
             "type": "deraumere",
             "pos": {
@@ -243,7 +239,7 @@ def setDeraumereResponse(response):
 
 def setSiburResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbSibur"] -= 1
+        ai.src.glob.gameState["inventory"]["sibur"] -= 1
         ai.src.glob.gameMap.append({
             "type": "sibur",
             "pos": {
@@ -257,7 +253,7 @@ def setSiburResponse(response):
 
 def setMendianeResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbMendiane"] -= 1
+        ai.src.glob.gameState["inventory"]["mendiane"] -= 1
         ai.src.glob.gameMap.append({
             "type": "mendiane",
             "pos": {
@@ -271,7 +267,7 @@ def setMendianeResponse(response):
 
 def setPhirasResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbPhiras"] -= 1
+        ai.src.glob.gameState["inventory"]["phiras"] -= 1
         ai.src.glob.gameMap.append({
             "type": "phiras",
             "pos": {
@@ -285,7 +281,7 @@ def setPhirasResponse(response):
 
 def setThystameResponse(response):
     if response == "ok":
-        ai.src.glob.gameState["nbThystame"] -= 1
+        ai.src.glob.gameState["inventory"]["thystame"] -= 1
         ai.src.glob.gameMap.append({
             "type": "thystame",
             "pos": {
@@ -298,13 +294,13 @@ def setThystameResponse(response):
     return True
 
 def incantationResponse(response):
-    #ai.src.glob.gameState["elevationReady"] = False
     ai.src.glob.currentCommand = incantationResponseKo
     return True
 
 def incantationResponseKo(response):
     if response.startswith("ko"):
-        print("Incantation to level " + str(ai.src.glob.gameState["level"] + 1) + " failed")
+        if ai.src.glob.debug:
+            print("Incantation to level " + str(ai.src.glob.gameState["level"] + 1) + " failed")
         ai.src.glob.gameState["needExplore"] = 10
         ai.src.glob.gameState["elevationReady"] = False
     ai.src.glob.gameState["incantationBroadcast"] = -1

@@ -9,16 +9,6 @@ import ai.src.glob
 
 from ai.src.requests import *
 from ai.src.incant import *
-'''
-elevationFunctions = [
-    elevationLevel2,
-    elevationLevel3,
-    elevationLevel4,
-    elevationLevel5,
-    elevationLevel6,
-    elevationLevel7,
-    elevationLevel8,
-]'''
 
 elevationRequired = [
     {
@@ -116,7 +106,8 @@ def requestSelection(mainsock):
     if updateFood():
         return
     if ai.src.glob.gameState["starving"] or ai.src.glob.gameState["level"] == 8:
-        print("Searching food because starving")
+        if ai.src.glob.debug:
+            print("Searching food because starving")
         ai.src.glob.gameState["incantationBroadcast"] = -1
         ai.src.glob.gameState["joinPlayer"] = False
         if ai.src.glob.gameState["clientNum"] == 0 and not ai.src.glob.gameState["alreadyFork"] and ai.src.glob.gameState["level"] > 2:
@@ -135,13 +126,12 @@ def requestSelection(mainsock):
             explore()
             return
         if ai.src.glob.gameState['joinPlayer']:
-            print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation --", end="")
+            if ai.src.glob.debug:
+                print("Joining member of your team for level " + str(ai.src.glob.gameState["level"] + 1) + " incantation --", end="")
             if ai.src.glob.gameState['incantationBroadcast'] == 0:
-                print("\tOn the tile, ready for incantation")
+                if ai.src.glob.debug:
+                    print("\tOn the tile, ready for incantation")
                 inventoryRequest()
-                # if ai.src.glob.gameState['broadcastIncantationCheckTime'] > 450:
-                #     ai.src.glob.gameState['incantationBroadcast'] = -1
-                #     ai.src.glob.gameState['joinPlayer'] = False
                 return
             elif ai.src.glob.gameState['broadcastIncantationCheckTime'] > 30:
                 ai.src.glob.gameState['joinPlayer'] = False
@@ -161,7 +151,6 @@ def requestSelection(mainsock):
                 
         else:
             elevation(ai.src.glob.gameState["level"] + 1, elevationRequired[ai.src.glob.gameState["level"] - 1])
-            # elevationFunctions[ai.src.glob.gameState["level"] - 1]()
 
 def updateFood():
     if ai.src.glob.gameState["starveCheckTime"] >= 100:
@@ -169,10 +158,10 @@ def updateFood():
         ai.src.glob.gameState["starveCheckTime"] = 0
         return True
     if ai.src.glob.gameState["starving"]:
-        if ai.src.glob.gameState["nbFood"] > ((ai.src.glob.gameState["mapSize"]["x"] + ai.src.glob.gameState["mapSize"]["y"]) / 2 * 4):
+        if ai.src.glob.gameState["inventory"]["food"] > ((ai.src.glob.gameState["mapSize"]["x"] + ai.src.glob.gameState["mapSize"]["y"]) / 2 * 4):
             ai.src.glob.gameState["starving"] = False
     else:
-        if ai.src.glob.gameState["nbFood"] < 4:
+        if ai.src.glob.gameState["inventory"]["food"] < 4:
             ai.src.glob.gameState["elevationReady"] = False
             ai.src.glob.gameState["starving"] = True
 

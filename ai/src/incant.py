@@ -21,12 +21,11 @@ def explore():
         leftRequest()
 
 def lookForItem(item):
-    item = item.capitalize()
-    if ai.src.glob.gameState["direction"+item] in [1, 2, 8]:
+    if ai.src.glob.gameState["direction"][item] in [1, 2, 8]:
         forwardRequest()
-    elif ai.src.glob.gameState["direction"+item] in [3, 4, 5]:
+    elif ai.src.glob.gameState["direction"][item] in [3, 4, 5]:
         rightRequest()
-    elif ai.src.glob.gameState["direction"+item] in [6, 7]:
+    elif ai.src.glob.gameState["direction"][item] in [6, 7]:
         leftRequest()
     else:
         explore()
@@ -44,8 +43,7 @@ def prepareTile(items):
     for item in items:
         nbItemOnTile = getNbItemOnPlayerTile(item)
         if nbItemOnTile < items[item]:
-            if ai.src.glob.gameState["nb"+item.capitalize()] < 1:
-                # ai.src.glob.gameState['elevationReady'] = False
+            if ai.src.glob.gameState["inventory"][item] < 1:
                 explore()
             else:
                 setObjectRequest(item)
@@ -64,7 +62,7 @@ def elevation(lvlToAttain, required):
     nbPlayersOnTile = getNbItemOnPlayerTile("player")
     for item in elevationItems:
         if (not ai.src.glob.gameState["elevationReady"] and
-            ai.src.glob.gameState["nb" + item.capitalize()] < elevationItems[item]):
+            ai.src.glob.gameState["inventory"][item] < elevationItems[item]):
             if getNbItemOnPlayerTile(item) > 0:
                 takeObjectRequest(item)
             else:
@@ -75,14 +73,17 @@ def elevation(lvlToAttain, required):
         if nbPlayersOnTile == requiredPlayers:
             if ai.src.glob.gameState["validIncant"] == True:
                 broadcastRequest(ai.src.glob.gameState["teamName"] + " gfi " + str(ai.src.glob.gameState["level"]))
-                print("Warning teammates that they can do other stuff")
+                if ai.src.glob.debug:
+                    print("Warning teammates that they can do other stuff")
                 ai.src.glob.gameState["validIncant"] = False
             else:
-                print("Incantation for level %d !" % lvlToAttain)
+                if ai.src.glob.debug:
+                    print("Incantation for level %d !" % lvlToAttain)
                 incantationRequest()
                 ai.src.glob.gameState["validIncant"] = True
         elif nbPlayersOnTile > requiredPlayers:
-            print("too much player on tile")
+            if ai.src.glob.debug:
+                print("Too much player on tile")
             if random.randrange(0, 5) == 1:
                 ejectRequest()
             else:

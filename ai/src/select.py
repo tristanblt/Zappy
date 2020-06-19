@@ -18,8 +18,8 @@ def selectHandler(mainsock):
         else:
             mainsock.close()
             exit(84)
-        nbCmds = ai.src.glob.readBuffer.count("\r\n")
-        cmds = ai.src.glob.readBuffer.split("\r\n")
+        nbCmds = ai.src.glob.readBuffer.count(ai.src.glob.socketSeparator)
+        cmds = ai.src.glob.readBuffer.split(ai.src.glob.socketSeparator)
         for i in range(nbCmds):
             ai.src.glob.readQueue.put(cmds[i])
             ai.src.glob.readBuffer = ai.src.glob.readBuffer[(len(cmds[i]) + 1):]
