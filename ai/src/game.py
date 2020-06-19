@@ -30,12 +30,10 @@ def startGame(params, mainsock):
         while True:
             try:
                 response = ai.src.glob.readQueue.get_nowait()
-                print(response)
                 if not eventHandler(response):
                     command = ai.src.glob.currentCommand
                     if command == None:
                         break
-                    print(response)
                     ai.src.glob.currentCommand = None
                     if not command(response):
                         mainsock.close()

@@ -77,8 +77,6 @@ def lookResponse(response):
         i = 0
         pal = 1
         offset = 1
-        print("a")
-        print(response)
         response = response.replace('[', '').replace(']', '').replace('\n', '')
         tiles = response.split(",")
         for tile in tiles:
