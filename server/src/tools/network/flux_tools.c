@@ -27,7 +27,7 @@ bool read_flux(server_t *server, client_t *client)
         return (ERROR);
     if (rd == 0) {
         rm_client(server, client);
-        return (SUCCESS);
+        return (ERROR);
     }
     add_raw_data(&client->in, tmp);
     return (SUCCESS);
@@ -46,6 +46,8 @@ bool write_flux(client_t *client)
 {
     int wr = write(client->sck.fd, client->out.buff, client->out.nb);
 
+    if (wr == -1)
+        return (ERROR);
     remove_data(&client->out, wr);
     return (SUCCESS);
 }

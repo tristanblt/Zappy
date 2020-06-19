@@ -102,14 +102,17 @@ bool handle_fds(server_t *server)
 
     for (client_t *tmp = server->clients.slh_first; tmp != NULL;
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {
+        printf("a\n");
         tmp2 = tmp->next.sle_next;
         if (is_ok == ERROR)
             break;
+        printf("b\n");
         if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)
-            is_ok = read_flux(server, tmp);
-        if (FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
+            if (!read_flux(server, tmp))
+                tmp = NULL;
+        if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
             is_ok = write_flux(tmp);
-        if (FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok) {
+        if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok) {
             is_ok = rm_client(server, tmp);
             tmp = NULL;
         }
