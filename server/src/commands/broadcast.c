@@ -25,8 +25,8 @@ bool end_broadcast_cmd(zappy_data_t *z, client_t *client, char *command)
     {
         if (tmp != client && tmp->type == AI) {
             add_raw_data(&tmp->out, "message ");
-            add_raw_data(&tmp->out, int_to_char(compute_direction(((c_data_t *)tmp->data)->pos,
-            ((c_data_t *)client->data)->pos, z->data.map_sz,
+            add_raw_data(&tmp->out, int_to_char(compute_direction(((c_data_t *)client->data)->pos,
+            ((c_data_t *)tmp->data)->pos, z->data.map_sz,
             ((c_data_t *)tmp->data)->dir)));
             add_raw_data(&tmp->out, ", ");
             add_raw_data(&tmp->out, command);
