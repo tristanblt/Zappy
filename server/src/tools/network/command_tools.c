@@ -89,6 +89,7 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
     }
     if (client->type == GRAPHICAL && is_command_graphic(command) == false)
         suc(client);
+    printf("ret = %i\n", ret);
     if (ret == SUCCESS && ((c_data_t *)client->data)->cool_down == 0)
         rm_from_request(client);
     return (ret);
