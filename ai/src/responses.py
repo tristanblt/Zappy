@@ -80,7 +80,7 @@ def lookResponse(response):
         response = response.replace('[', '').replace(']', '').replace('\n', '')
         tiles = response.split(",")
         for tile in tiles:
-            ai.src.glob.gameMap = [ elem for elem in ai.src.glob.gameMap if not (elem["pos"]["x"] == x and elem["pos"]["y"] == y)]
+            ai.src.glob.gameMap = [ elem for elem in ai.src.glob.gameMap if not ((elem["pos"]["x"] == x and elem["pos"]["y"] == y) or (elem["pos"]["x"] > 10 or elem["pos"]["x"] < -10 or elem["pos"]["y"] > 10 or elem["pos"]["y"] < -10))]
             items = tile.split(" ")
             for item in items:
                 if (len(item) <= 0):
@@ -107,7 +107,7 @@ def inventoryResponse(response):
         inventory = {}
         response = response.replace('[ ', '').replace(' ]', '').replace('\n', '')
         for it in response.split(', '):
-            it = it.split()
+            it = it.split(" ")
             inventory[it[0]] = int(it[1])
         ai.src.glob.gameState["inventory"]["food"] = inventory["food"]
         ai.src.glob.gameState["inventory"]["linemate"] = inventory["linemate"]
