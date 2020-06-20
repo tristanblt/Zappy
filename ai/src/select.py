@@ -10,7 +10,10 @@ import select
 import ai.src.glob
 
 def selectHandler(mainsock):
-    readable, writable, exceptional = select.select([mainsock], [mainsock], [mainsock])
+    writeFd = []
+    if len(ai.src.glob.writeBuffer):
+        writeFd = [mainsock]
+    readable, writable, exceptional = select.select([mainsock], writeFd, [mainsock])
     for s in readable:
         data = s.recv(4096)
         if data:
