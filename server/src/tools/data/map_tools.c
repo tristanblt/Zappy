@@ -101,7 +101,7 @@ void move_in_dir(client_t *client, int dir, position_t map_sz)
         break;
     case E:
         ((c_data_t *)client->data)->pos.x =
-        graph_value(map_sz.x, ((c_data_t *)client->data)->pos.x - 1);
+        graph_value(map_sz.x, ((c_data_t *)client->data)->pos.x + 1);
         break;
     case S:
         ((c_data_t *)client->data)->pos.y =
@@ -109,7 +109,7 @@ void move_in_dir(client_t *client, int dir, position_t map_sz)
         break;
     case W:
         ((c_data_t *)client->data)->pos.x =
-        graph_value(map_sz.x, ((c_data_t *)client->data)->pos.x + 1);
+        graph_value(map_sz.x, ((c_data_t *)client->data)->pos.x - 1);
         break;
     default:
         break;

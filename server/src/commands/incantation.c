@@ -63,8 +63,6 @@ int nb_player)
         return false;
     if (tile->ressources.deraumere != incantation.needed.deraumere)
         return false;
-    if (tile->ressources.food != incantation.needed.food)
-        return false;
     if (tile->ressources.linemate != incantation.needed.linemate)
         return false;
     if (tile->ressources.mendiane != incantation.needed.mendiane)
@@ -144,7 +142,6 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     get_team_by_name(z->data.teams, z->data.nb_teams,
     ((c_data_t *)client->data)->team)->victory_count++;
     sprintf(buff, "%d", data->level);
-    add_data(&client->out, 2, "Current level:", buff);
     pie(z->server, client, true);
     return (SUCCESS);
 }

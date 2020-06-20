@@ -62,15 +62,13 @@ int nb_graphical(server_t *server)
 void level_up(server_t *server, position_t pos)
 {
     client_t *tmp;
-    int nb = 0;
 
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == AI && ((c_data_t *)tmp->data)->pos.x == pos.x &&
             ((c_data_t *)tmp->data)->pos.y == pos.y) {
             ((c_data_t *)tmp->data)->level++;
-        nb++;
+        add_data(&tmp->out, 2, "Current level:", int_to_char(((c_data_t *)tmp->data)->level));
         }
     }
-    printf("NB = %i-----------------------czecercezc\n", nb);
 }

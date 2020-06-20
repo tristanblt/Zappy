@@ -96,7 +96,6 @@ bool init_client_context(zappy_data_t *z, client_t *client, char *name)
         rm_client(z->server, client);
         return (ERROR);
     }
-    printf("TEAM NB: %i < %i", team->nb, z->data.nb_mates);
     if (team->nb < z->data.nb_mates) {
         ((c_data_t *)client->data)->pos.x = rand() % z->data.map_sz.x;
         ((c_data_t *)client->data)->pos.y = rand() % z->data.map_sz.y;
