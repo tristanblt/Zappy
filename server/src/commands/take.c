@@ -84,7 +84,7 @@ bool take_obj(server_t *server, client_t *c, char *arg,
 extracted_content_t content)
 {
     if (strcmp("food", arg) == 0 && content.ressources->food > 0) {
-        ((c_data_t *)c->data)->inventory.food += 126 / server->t.ratio;
+        ((c_data_t *)c->data)->inventory.food += 126.0 / server->t.ratio;
         content.ressources->food -= 1;
         pgt(server, c, "food");
         return (true);
