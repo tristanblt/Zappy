@@ -19,7 +19,7 @@ void eject_tools(zappy_data_t *z, client_t *cli, client_t *tmp, bool *ejected)
     if (((c_data_t *)cli->data)->pos.x == ((c_data_t *)tmp->data)->pos.x &&
     ((c_data_t *)cli->data)->pos.y == ((c_data_t *)tmp->data)->pos.y) {
         move_in_dir(tmp, ((c_data_t *)cli->data)->dir, z->data.map_sz);
-        add_data(&tmp->out, 2, "eject: ",
+        add_data(&tmp->out, 2, "eject:",
         int_to_char(compute_direction(((c_data_t *)cli->data)->pos,
         ((c_data_t *)tmp->data)->pos, z->data.map_sz,
         ((c_data_t *)tmp->data)->dir)));

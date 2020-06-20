@@ -103,6 +103,7 @@ bool handle_fds(server_t *server)
 
     for (client_t *tmp = server->clients.slh_first; tmp != NULL;
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {
+        printf("-----CLIENT %i-----\n", ((c_data_t *)tmp->data)->idx);
         tmp2 = tmp->next.sle_next;
         if (is_ok == ERROR)
             break;
