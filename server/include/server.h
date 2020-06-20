@@ -67,6 +67,7 @@ extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y);
 void delete_line_tile(map_node_t *line);
 void delete_map_tile(map_node_t *map);
 void update_map(zappy_data_t *z);
+map_node_t *get_tile(map_node_t *map, int x, int y, s_data_t server);
 
 /* VECTOR TOOLS */
 int compute_direction(position_t sender, position_t reciever, position_t map,

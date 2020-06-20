@@ -20,6 +20,7 @@
 map_node_t *on_tile(map_node_t *start, int x, int y)
 {
     map_node_t *pos = start;
+
     while (pos->coordinates.x != x) {
         pos = pos->right;
     }
@@ -41,7 +42,7 @@ int graph_value(int size, int value)
 {
     if (value >= 0)
         return (value % size);
-    return (size + (value % size));
+    return (size + (value % size) - 1);
 }
 
 /**
@@ -82,6 +83,7 @@ int count_players(server_t *server, int x, int y)
 extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y)
 {
     extracted_content_t content;
+    printf("x = %i, y = %i", x, y);
     int true_x = graph_value(data->map_sz.x, x);
     int true_y = graph_value(data->map_sz.y, y);
 

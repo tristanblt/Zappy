@@ -69,3 +69,18 @@ void update_map(zappy_data_t *z)
         tmp2 = tmp;
     }
 }
+
+map_node_t *get_tile(map_node_t *map, int x, int y, s_data_t server)
+{
+    map_node_t *tmp = map;
+
+    for (int i = 0; i < server.map_sz.y; i++) {
+        for (int j = 0; j < server.map_sz.x ; j++) {
+            if (tmp->coordinates.x == x && tmp->coordinates.y == y)
+                return (tmp);
+            tmp = tmp->right;
+        }
+        tmp = tmp->bottom;
+    }
+    return (NULL);
+}

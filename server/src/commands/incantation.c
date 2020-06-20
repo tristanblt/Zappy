@@ -56,24 +56,24 @@ int level)
  * \param nb_player le nombre de player actuel du même niveau
  * \return true si l'incatation est possible, false si elle n'est pas possible
  */
-bool is_incantation_possible(ressources_t inventory, recipe_t incantation,
+bool is_incantation_possible(map_node_t *tile, recipe_t incantation,
 int nb_player)
 {
-    if (nb_player < incantation.nb_player)
+    if (nb_player != incantation.nb_player)
         return false;
-    if (inventory.deraumere < incantation.needed.deraumere)
+    if (tile->ressources.deraumere != incantation.needed.deraumere)
         return false;
-    if (inventory.food < incantation.needed.food)
+    if (tile->ressources.food != incantation.needed.food)
         return false;
-    if (inventory.linemate < incantation.needed.linemate)
+    if (tile->ressources.linemate != incantation.needed.linemate)
         return false;
-    if (inventory.mendiane < incantation.needed.mendiane)
+    if (tile->ressources.mendiane != incantation.needed.mendiane)
         return false;
-    if (inventory.phiras < incantation.needed.phiras)
+    if (tile->ressources.phiras != incantation.needed.phiras)
         return false;
-    if (inventory.sibur < incantation.needed.sibur)
+    if (tile->ressources.sibur != incantation.needed.sibur)
         return false;
-    if (inventory.thystame < incantation.needed.thystame)
+    if (tile->ressources.thystame != incantation.needed.thystame)
         return false;
     return true;
 }
@@ -87,15 +87,15 @@ int nb_player)
  * \param incantation les ressources nécessaires à l'incantation
  * \return rien
  */
-void destruction_ressources(ressources_t inventory, ressources_t incantation)
+void destruction_ressources(map_node_t *tile, ressources_t incantation)
 {
-    inventory.deraumere -= incantation.deraumere;
-    inventory.food -= incantation.food;
-    inventory.linemate -= incantation.linemate;
-    inventory.mendiane -= incantation.mendiane;
-    inventory.phiras -= incantation.phiras;
-    inventory.sibur -= incantation.sibur;
-    inventory.thystame -= incantation.thystame;
+    tile->ressources.deraumere -= incantation.deraumere;
+    tile->ressources.food -= incantation.food;
+    tile->ressources.linemate -= incantation.linemate;
+    tile->ressources.mendiane -= incantation.mendiane;
+    tile->ressources.phiras -= incantation.phiras;
+    tile->ressources.sibur -= incantation.sibur;
+    tile->ressources.thystame -= incantation.thystame;
 }
 
 /**
@@ -131,15 +131,15 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     int nb_player = player_same_level(z->server, data->pos.x, data->pos.y,
     data->level);
     char buff[2] = {0};
-
+    map_node_t *tile = get_tile(z->data.map, data->pos.x, data->pos.y, z->data);
     (void)arg;
-    if (is_incantation_possible(data->inventory, recipes[data->level - 1],
+    if (is_incantation_possible(tile, recipes[data->level - 1],
     nb_player) == false) {
         pie(z->server, client, false);
         add_data(&client->out, 1, "ko");
         return (SUCCESS);
     }
-    destruction_ressources(data->inventory, recipes[data->level - 1].needed);
+    destruction_ressources(tile, recipes[data->level - 1].needed);
     data->level += 1;
     get_team_by_name(z->data.teams, z->data.nb_teams,
     ((c_data_t *)client->data)->team)->victory_count++;
