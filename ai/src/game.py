@@ -42,5 +42,5 @@ def startGame(params, mainsock):
                 break
         if ai.src.glob.currentCommand is None:
             if ai.src.glob.debug:
-                print("(" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] {" + str(len(ai.src.glob.gameMap)) + "}", end="")
+                print("(" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] {" + str(ai.src.glob.gameState["inventory"]["food"]) + "}", end="")
             requestSelection(mainsock)
