@@ -43,6 +43,17 @@ void delete_map_tile(map_node_t *map)
     }
 }
 
+void free_line(map_node_t *tmp, map_node_t *next_right, position_t size)
+{
+    for (int y = 0; y < size.y; y++) {
+        next_right = tmp->right;
+        if (tmp) {
+            free(tmp);
+        }
+        tmp = next_right;
+    }
+}
+
 /**
  * \fn void free_map(map_node_t *map, position_t size)
  * \brief Permet de free une map circulaire
@@ -58,13 +69,7 @@ void free_map(map_node_t *map, position_t size)
 
     for (int x = 0; x < size.x; x++) {
         next_bottom = tmp->bottom;
-        for (int y = 0; y < size.y; y++) {
-            next_right = tmp->right;
-            if (tmp) {
-                free(tmp);
-            }
-            tmp = next_right;
-        }
+        free_line(tmp, next_right, size);
         tmp = next_bottom;
     }
 }

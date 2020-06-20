@@ -133,7 +133,8 @@ void update_egg_status(zappy_data_t *z)
         }
         if (tmp->status < -1260.0 / z->data.f) {
             edi(z, tmp);
-            get_team_by_name(z->data.teams, z->data.nb_teams, tmp->team)->nb_eggs--;
+            get_team_by_name(z->data.teams, z->data.nb_teams,
+            tmp->team)->nb_eggs--;
             SLIST_REMOVE(&z->data.eggs, tmp, egg_s, next);
             tmp = NULL;
         }
