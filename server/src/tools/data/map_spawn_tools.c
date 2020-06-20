@@ -35,10 +35,10 @@ int nb_res_on_tile(map_node_t *tile)
 
 void spawn_ressources_on_tile(map_node_t *tile)
 {
-    int nb_to_spawn = 1 + rand() % 4;
+    int nb_to_spawn = 1 + rand() % 3;
     int res;
 
-    if (rand() % 101 > 35 && nb_res_on_tile(tile) < 40)
+    if (rand() % 101 > 40 && nb_res_on_tile(tile) < 40)
         return;
     for (int i = 0; i < nb_to_spawn; i++) {
         res = rand() % 9;
@@ -59,7 +59,7 @@ void update_map(zappy_data_t *z)
         z->data.spawn_cd -= z->server->t.delta_time;
         return;
     }
-    z->data.spawn_cd = 400 / z->data.f;
+    z->data.spawn_cd = 600 / z->data.f;
     for (int y = 0; y < z->data.map_sz.y; y++) {
         for (int x = 0; x < z->data.map_sz.x; x++) {
             spawn_ressources_on_tile(tmp);

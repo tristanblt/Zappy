@@ -65,7 +65,7 @@ void free_map(map_node_t *map, position_t size)
 {
     map_node_t *tmp = map;
     map_node_t *next_bottom;
-    map_node_t *next_right;
+    map_node_t *next_right = NULL;
 
     for (int x = 0; x < size.x; x++) {
         next_bottom = tmp->bottom;
