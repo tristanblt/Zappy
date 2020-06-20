@@ -14,7 +14,7 @@ bool start_rotate_cmd(zappy_data_t *z, client_t *client, char *command)
     return (SUCCESS);
 }
 
-bool rotate_right_cmd(zappy_data_t *z, client_t *client, char *command)
+bool rotate_left_cmd(zappy_data_t *z, client_t *client, char *command)
 {
     (void)command;
     (void)z;
@@ -26,7 +26,7 @@ bool rotate_right_cmd(zappy_data_t *z, client_t *client, char *command)
     return (SUCCESS);
 }
 
-bool rotate_left_cmd(zappy_data_t *z, client_t *client, char *command)
+bool rotate_right_cmd(zappy_data_t *z, client_t *client, char *command)
 {
     (void)command;
     (void)z;
