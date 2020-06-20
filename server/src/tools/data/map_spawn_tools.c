@@ -27,10 +27,6 @@ void add_ressource(ressources_t *res, int type)
 
 int nb_res_on_tile(map_node_t *tile)
 {
-    printf("NB ON TILE: %i\n", tile->ressources.deraumere +
-    (int)(tile->ressources.food) + tile->ressources.linemate +
-    tile->ressources.sibur + tile->ressources.mendiane +
-    tile->ressources.phiras + tile->ressources.thystame);
     return (tile->ressources.deraumere +
     (int)(tile->ressources.food) + tile->ressources.linemate +
     tile->ressources.sibur + tile->ressources.mendiane +

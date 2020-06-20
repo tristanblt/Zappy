@@ -85,6 +85,7 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
             printf("END cmd\n");
             ((c_data_t *)client->data)->req_cntx = END;
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
+            printf("END cmd ended\n");
         }
     }
     if (client->type == GRAPHICAL && is_command_graphic(command) == false)

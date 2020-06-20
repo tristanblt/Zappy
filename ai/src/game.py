@@ -19,7 +19,7 @@ from ai.src.select import selectHandler
 from ai.src.resetGame import resetGame
 from ai.src.requestSelection import requestSelection
 
-def startGame(params, mainsock):
+def startGame(params, mainsock, id):
     resetGame()
     ai.src.requests.initGameRequest(params["name"])
     ai.src.glob.gameState["teamName"] = params["name"]
@@ -39,8 +39,9 @@ def startGame(params, mainsock):
                         mainsock.close()
                         exit(84)
             except queue.Empty:
+                #print("Queue empty")
                 break
         if ai.src.glob.currentCommand is None:
             if ai.src.glob.debug:
-                print("(" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] {" + str(len(ai.src.glob.gameMap)) + "}", end="")
+                print(str(id) + ") (" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] {" + str(ai.src.glob.gameState["inventory"]["food"]) + "}", end="")
             requestSelection(mainsock)

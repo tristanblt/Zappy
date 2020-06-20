@@ -109,8 +109,8 @@ extracted_content_t content)
 {
     if (strcmp("food", arg) == 0 &&
     ((c_data_t *)c->data)->inventory.food > 0) {
-        content.ressources->food += 126;
-        ((c_data_t *)c->data)->inventory.food -= 126;
+        content.ressources->food += 1;
+        ((c_data_t *)c->data)->inventory.food -= 126 / server->t.ratio;
         pdr(server, c, "food");
         return (1);
     }
