@@ -32,7 +32,7 @@ global lookAt
 lookAt = 0
 
 global socketSeparator
-socketSeparator = "\n"
+socketSeparator = "\r\n"
 
 global debug
 debug = False

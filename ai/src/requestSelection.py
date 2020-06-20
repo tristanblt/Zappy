@@ -138,11 +138,12 @@ def requestSelection(mainsock):
                 ai.src.glob.gameState['incantationBroadcast'] = -1
                 return
             if ai.src.glob.gameState['incantationBroadcast'] != -1:
-                if ai.src.glob.gameState['incantationBroadcast'] in [1, 2, 8]:
+                if (ai.src.glob.gameState['incantationBroadcast'] % 2 == 0
+                or  ai.src.glob.gameState['incantationBroadcast'] == 1):
                     forwardRequest()
-                elif ai.src.glob.gameState['incantationBroadcast'] in [3, 4, 5]:
+                elif ai.src.glob.gameState['incantationBroadcast'] in [3, 5]:
                     rightRequest()
-                elif ai.src.glob.gameState['incantationBroadcast'] in [6, 7]:
+                else:
                     leftRequest()
                 ai.src.glob.gameState['incantationBroadcast'] = -1
             else:
