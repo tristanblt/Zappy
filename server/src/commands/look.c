@@ -35,6 +35,7 @@ bool start_look(zappy_data_t *z, client_t *client, char *command)
 bool end_look(zappy_data_t *z, client_t *client, char *arg)
 {
     (void)arg;
+    printf("look level: %i\n", ((c_data_t *)client->data)->level);
     switch (((c_data_t *)client->data)->dir) {
     case 1:
         look_bottom_top(client, z, -1);

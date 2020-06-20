@@ -22,7 +22,6 @@ void end_proceed_death(zappy_data_t *z, client_t *client)
     team_t *team = get_team_by_name(z->data.teams, z->data.nb_teams,
     ((c_data_t *)client->data)->team);
 
-    team->nb--;
     pdi(z->server, client);
     rm_client(z->server, client);
 }

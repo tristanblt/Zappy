@@ -140,7 +140,7 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
         return (SUCCESS);
     }
     destruction_ressources(tile, recipes[data->level - 1].needed);
-    data->level += 1;
+    level_up(z->server, data->pos);
     get_team_by_name(z->data.teams, z->data.nb_teams,
     ((c_data_t *)client->data)->team)->victory_count++;
     sprintf(buff, "%d", data->level);
