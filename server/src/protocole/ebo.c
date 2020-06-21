@@ -11,7 +11,6 @@ bool ebo(zappy_data_t *z, egg_t *egg)
 {
     client_t *tmp;
 
-    printf("egg id = %i\n", egg->idx);
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp->type == GRAPHICAL) {
