@@ -41,7 +41,7 @@ void spawn_ressources_on_tile(map_node_t *tile)
     if (rand() % 101 > 40 && nb_res_on_tile(tile) < 15)
         return;
     for (int i = 0; i < nb_to_spawn; i++) {
-        res = rand() % 9;
+        res = rand() % 28;
         if (res < 6)
             res++;
         else
