@@ -28,14 +28,14 @@ void add_ressource(ressources_t *res, int type)
 int nb_res_on_tile(map_node_t *tile)
 {
     return (tile->ressources.deraumere +
-    (int)(tile->ressources.food) + tile->ressources.linemate +
+    tile->ressources.food + tile->ressources.linemate +
     tile->ressources.sibur + tile->ressources.mendiane +
     tile->ressources.phiras + tile->ressources.thystame);
 }
 
 void spawn_ressources_on_tile(map_node_t *tile)
 {
-    int nb_to_spawn = 1 + rand() % 3;
+    int nb_to_spawn = 1 + rand() % 2;
     int res;
 
     if (rand() % 101 > 40 && nb_res_on_tile(tile) < 10)
