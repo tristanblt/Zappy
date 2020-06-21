@@ -22,7 +22,7 @@ bool read_flux(server_t *server, client_t *client)
     char tmp[BUFF_SIZE] = {0};
     int rd = read(client->sck.fd, tmp,
     BUFF_SIZE - client->in.nb);
-    printf("------ read flux-> %s\n", tmp);
+    // printf("------ read flux-> %s\n", tmp);
     if (rd == -1)
         return (ERROR);
     if (rd == 0) {
@@ -45,7 +45,7 @@ bool read_flux(server_t *server, client_t *client)
 bool write_flux(client_t *client)
 {
     int wr = write(client->sck.fd, client->out.buff, client->out.nb);
-    printf("------ write flux-> %s\n", client->out.buff);
+    // printf("------ write flux-> %s\n", client->out.buff);
     if (wr == -1)
         return (ERROR);
     remove_data(&client->out, wr);

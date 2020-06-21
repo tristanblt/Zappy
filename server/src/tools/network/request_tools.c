@@ -34,7 +34,6 @@ void init_requests(request_manager_t *r)
  */
 void add_to_requests(char *buff, client_t *client, int size)
 {
-    printf("adding request, current nb = %i\n", client->requests.nb);
     if (client->requests.nb == 10)
         return;
     for (int i = client->requests.pos; i < 10; i++) {
@@ -63,7 +62,6 @@ void add_to_requests(char *buff, client_t *client, int size)
  */
 void rm_from_request(client_t *client)
 {
-    printf("removing \"%s\" request, current nb = %i\n", client->requests.bodies[client->requests.pos], client->requests.nb);
     memset(client->requests.bodies[client->requests.pos], '\0', BUFF_SIZE);
     client->requests.nb--;
     if (client->requests.pos != 9 &&
