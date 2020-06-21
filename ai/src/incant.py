@@ -28,7 +28,6 @@ def lookForItem(item):
     elif ai.src.glob.gameState["direction"][item] in [6, 7]:
         leftRequest()
     else:
-        print("EXPLORE")
         explore()
 
 def getNbItemOnPlayerTile(itemName):
@@ -78,6 +77,7 @@ def elevation(lvlToAttain, required):
                     print("Warning teammates that they can do other stuff")
                 ai.src.glob.gameState["validIncant"] = False
             else:
+                print("Incantation for level %d !" % lvlToAttain)
                 if ai.src.glob.debug:
                     print("Incantation for level %d !" % lvlToAttain)
                 incantationRequest()
@@ -91,7 +91,7 @@ def elevation(lvlToAttain, required):
                 lookRequest()
         elif lvlToAttain != 2:
             if ai.src.glob.gameState["callBroadcast"] == True:
-                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi %d %d" % (ai.src.glob.gameState["level"], ai.src.glob.gameState["id"]))
                 ai.src.glob.gameState["callBroadcast"] = False
             else:
                 lookRequest()

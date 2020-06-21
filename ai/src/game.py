@@ -24,6 +24,7 @@ def startGame(params, mainsock, id):
     ai.src.requests.initGameRequest(params["name"])
     ai.src.glob.gameState["teamName"] = params["name"]
     ai.src.glob.debug = params["debug"]
+    ai.src.glob.gameState["id"] = id
 
     while ai.src.glob.AIRunning:
         selectHandler(mainsock)
@@ -39,7 +40,6 @@ def startGame(params, mainsock, id):
                         mainsock.close()
                         exit(84)
             except queue.Empty:
-                #print("Queue empty")
                 break
         if ai.src.glob.currentCommand is None:
             if ai.src.glob.debug:
@@ -47,5 +47,5 @@ def startGame(params, mainsock, id):
                 for i in ai.src.glob.gameMap:
                     if i["type"] == "food":
                         nb += 1
-                print(str(id) + ") (" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] {" + str(nb) + "}", end="")
+                print(str(id) + ") (" + str(ai.src.glob.gameState["level"]) + ") [%d"%ai.src.glob.gameState["incantationBroadcast"]+"] {" + str(ai.src.glob.gameState["playerIdLock"]) + "}", end="")
             requestSelection(mainsock)
