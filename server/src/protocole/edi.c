@@ -13,7 +13,7 @@ bool edi(zappy_data_t *z, egg_t *egg)
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp->type == GRAPHICAL) {
-            add_data(&tmp->out, 1, "edi", int_to_char(egg->idx));
+            add_data(&tmp->out, 2, "edi", int_to_char(egg->idx));
         }
     }
     return (SUCCESS);

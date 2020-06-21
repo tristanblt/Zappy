@@ -28,6 +28,7 @@ def lookForItem(item):
     elif ai.src.glob.gameState["direction"][item] in [6, 7]:
         leftRequest()
     else:
+        print("EXPLORE")
         explore()
 
 def getNbItemOnPlayerTile(itemName):

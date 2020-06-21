@@ -28,20 +28,21 @@ void add_ressource(ressources_t *res, int type)
 int nb_res_on_tile(map_node_t *tile)
 {
     return (tile->ressources.deraumere +
-    (int)(tile->ressources.food) + tile->ressources.linemate +
+    tile->ressources.food + tile->ressources.linemate +
     tile->ressources.sibur + tile->ressources.mendiane +
     tile->ressources.phiras + tile->ressources.thystame);
 }
 
-void spawn_ressources_on_tile(map_node_t *tile)
+void spawn_ressources_on_tile(map_node_t *tile, server_t *server)
 {
-    int nb_to_spawn = 1 + rand() % 3;
+    int nb_to_spawn = 1 + rand() % 2;
     int res;
 
-    if (rand() % 101 > 40 && nb_res_on_tile(tile) < 15)
+    if (rand() % 101 > 40 && nb_res_on_tile(tile) < 10 &&
+        is_player_free(tile->coordinates, server))
         return;
     for (int i = 0; i < nb_to_spawn; i++) {
-        res = rand() % 9;
+        res = rand() % 28;
         if (res < 6)
             res++;
         else
@@ -62,7 +63,7 @@ void update_map(zappy_data_t *z)
     z->data.spawn_cd = 600 / z->data.f;
     for (int y = 0; y < z->data.map_sz.y; y++) {
         for (int x = 0; x < z->data.map_sz.x; x++) {
-            spawn_ressources_on_tile(tmp);
+            spawn_ressources_on_tile(tmp, z->server);
             tmp = tmp->right;
         }
         tmp = tmp2->top;
@@ -75,12 +76,16 @@ map_node_t *get_tile(map_node_t *map, int x, int y, s_data_t server)
     map_node_t *tmp = map;
 
     for (int i = 0; i < server.map_sz.y; i++) {
-        for (int j = 0; j < server.map_sz.x ; j++) {
-            if (tmp->coordinates.x == x && tmp->coordinates.y == y)
-                return (tmp);
-            tmp = tmp->right;
-        }
+        if (tmp->coordinates.y == y)
+            break;
         tmp = tmp->bottom;
+    }
+    if (tmp->coordinates.y != y)
+        return (NULL);
+    for (int j = 0; j < server.map_sz.x; j++) {
+        if (tmp->coordinates.x == x)
+            return (tmp);
+        tmp = tmp->right;
     }
     return (NULL);
 }

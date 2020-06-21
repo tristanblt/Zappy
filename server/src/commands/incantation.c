@@ -128,20 +128,19 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     c_data_t *data = ((c_data_t *)client->data);
     int nb_player = player_same_level(z->server, data->pos.x, data->pos.y,
     data->level);
-    char buff[2] = {0};
     map_node_t *tile = get_tile(z->data.map, data->pos.x, data->pos.y, z->data);
+
     (void)arg;
+    if (tile == NULL)
+        return (ERROR);
     if (is_incantation_possible(tile, recipes[data->level - 1],
     nb_player) == false) {
-        pie(z->server, client, false);
+        level_up(z, data->pos, false);
         add_data(&client->out, 1, "ko");
         return (SUCCESS);
     }
     destruction_ressources(tile, recipes[data->level - 1].needed);
-    level_up(z->server, data->pos);
-    get_team_by_name(z->data.teams, z->data.nb_teams,
-    ((c_data_t *)client->data)->team)->victory_count++;
-    sprintf(buff, "%d", data->level);
-    pie(z->server, client, true);
+    level_up(z, data->pos, true);
+    printf("exiting\n");
     return (SUCCESS);
 }

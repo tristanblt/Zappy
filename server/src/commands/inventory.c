@@ -33,7 +33,8 @@ void inventory_cmd_next(client_t *client)
 
 bool end_inventory_cmd(zappy_data_t *z, client_t *client, char *command)
 {
-    int food = ((int)((c_data_t *)client->data)->inventory.food + 1) * z->data.f / 126;
+    int food = ((int)((c_data_t *)client->data)->inventory.food + 1) *
+    z->data.f / 126;
     (void)command;
     (void)z;
     add_raw_data(&client->out, "[ food ");

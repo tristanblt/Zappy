@@ -103,27 +103,21 @@ bool handle_fds(server_t *server)
 
     for (client_t *tmp = server->clients.slh_first; tmp != NULL;
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {
-        printf("-----CLIENT %i x:%i y:%i dir:%i level: %i-----\n", ((c_data_t *)tmp->data)->idx, ((c_data_t *)tmp->data)->pos.x, ((c_data_t *)tmp->data)->pos.y, ((c_data_t *)tmp->data)->dir,  ((c_data_t *)tmp->data)->level);
+        // printf("-----CLIENT %i x:%i y:%i dir:%i level: %i food: %f-----\n", ((c_data_t *)tmp->data)->idx, ((c_data_t *)tmp->data)->pos.x, ((c_data_t *)tmp->data)->pos.y, ((c_data_t *)tmp->data)->dir,  ((c_data_t *)tmp->data)->level, ((c_data_t *)tmp->data)->inventory.food);
         tmp2 = tmp->next.sle_next;
         if (is_ok == ERROR)
             break;
-        if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)
-            if (!read_flux(server, tmp))
-                tmp = NULL;
+        if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok
+            && !read_flux(server, tmp))
+            tmp = NULL;
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
-            is_ok = write_flux(tmp);
+            write_flux(tmp);
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok) {
             is_ok = rm_client(server, tmp);
             tmp = NULL;
         }
     }
-    if (is_ok == ERROR || !server)
-        return (ERROR);
-    if (FD_ISSET(server->sck.fd, &server->fds.read) > 0)
-        is_ok = new_client_welcome(server, init_client_data(server->t.ratio));
-    if (!server || !is_ok || FD_ISSET(server->sck.fd, &server->fds.error) > 0)
-        return (ERROR);
-    return (is_ok);
+    return (end_handle_fds(server, is_ok));
 }
 
 /**

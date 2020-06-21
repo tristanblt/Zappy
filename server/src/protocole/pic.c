@@ -44,7 +44,6 @@ void pic(server_t *server, client_t *client)
             sprintf(nb, "%i", ((c_data_t *)client->data)->level + 1);
             add_raw_data(&tmp->out, " ");
             add_raw_data(&tmp->out, nb);
-            add_raw_data(&tmp->out, " ");
             add_concenred_ai_idx(&tmp->out, server, client);
         }
     }

@@ -19,7 +19,7 @@ bool start_msz(zappy_data_t *z, client_t *client, char *arg)
     add_raw_data(&client->out, " ");
     sprintf(buffer, "%d", z->data.map_sz.y);
     add_raw_data(&client->out, buffer);
-    add_raw_data(&client->out, "\n");
+    add_raw_data(&client->out, "\r\n");
     return (SUCCESS);
 }
 

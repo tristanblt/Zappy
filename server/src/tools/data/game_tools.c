@@ -10,7 +10,7 @@
 void handle_end_game(zappy_data_t *z)
 {
     for (int i = 0; i < z->data.nb_teams; i++) {
-        if (z->data.teams[i].victory_count == 7 * 6) {
+        if (has_won(z->data.teams[i].name, z->server)) {
             seg(z, z->data.teams[i].name);
             z->data.end = FINAL;
             break;
@@ -59,16 +59,23 @@ int nb_graphical(server_t *server)
     return (nb);
 }
 
-void level_up(server_t *server, position_t pos)
+void level_up(zappy_data_t *z, position_t pos, bool result)
 {
     client_t *tmp;
 
-    SLIST_FOREACH(tmp, &server->clients, next)
+    SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp->type == AI && ((c_data_t *)tmp->data)->pos.x == pos.x &&
-            ((c_data_t *)tmp->data)->pos.y == pos.y) {
+            ((c_data_t *)tmp->data)->pos.y == pos.y && result == true) {
             ((c_data_t *)tmp->data)->level++;
-        add_data(&tmp->out, 2, "Current level:", int_to_char(((c_data_t *)tmp->data)->level));
+            add_data(&tmp->out, 2, "Current level:", int_to_char(((c_data_t *)tmp->data)->level));
+            get_team_by_name(z->data.teams, z->data.nb_teams,
+            ((c_data_t *)tmp->data)->team)->victory_count++;
+            pie(z->server, tmp, true);
+        }
+        if (tmp->type == AI && ((c_data_t *)tmp->data)->pos.x == pos.x &&
+            ((c_data_t *)tmp->data)->pos.y == pos.y && result == false) {
+            pie(z->server, tmp, false);
         }
     }
 }

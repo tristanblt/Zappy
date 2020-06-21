@@ -83,7 +83,6 @@ int count_players(server_t *server, int x, int y)
 extracted_content_t get_tile_content(s_data_t *data, server_t *s, int x, int y)
 {
     extracted_content_t content;
-    printf("x = %i, y = %i", x, y);
     int true_x = graph_value(data->map_sz.x, x);
     int true_y = graph_value(data->map_sz.y, y);
 

@@ -15,14 +15,15 @@ void pie(server_t *server, client_t *client, bool result)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == GRAPHICAL) {
-            add_raw_data(&tmp->out, "pie");
+            add_raw_data(&tmp->out, "pie ");
             sprintf(nb, "%i", ((c_data_t *)client->data)->pos.x);
-            add_raw_data(&tmp->out, " ");
             add_raw_data(&tmp->out, nb);
+            add_raw_data(&tmp->out, " ");
             sprintf(nb, "%i", ((c_data_t *)client->data)->pos.y);
-            add_raw_data(&tmp->out, " ");
             add_raw_data(&tmp->out, nb);
+            add_raw_data(&tmp->out, " ");
             sprintf(nb, "%i", (int)result);
+            add_raw_data(&tmp->out, nb);
             add_raw_data(&tmp->out, "\r\n");
         }
     }

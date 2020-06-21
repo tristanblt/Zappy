@@ -119,10 +119,9 @@ def requestSelection(mainsock):
             ai.src.glob.gameState["alreadyFork"] = True
         elif foodAtPlayerPosition():
             takeObjectRequest("food")
-            
         elif itemInMap("food"):
             lookForItem("food")
-        else: 
+        else:
             explore()
     else:
         if ai.src.glob.gameState["needExplore"] > 0:

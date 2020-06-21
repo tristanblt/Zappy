@@ -17,17 +17,19 @@ char *int_to_char(int nb);
 c_data_t *init_client_data(int f);
 bool init_server_data(s_data_t *data, param_t params);
 void free_server_data(s_data_t *data);
-void level_up(server_t *server, position_t pos);
+void level_up(zappy_data_t *z, position_t pos, bool result);
 
 /* RESSOURCES TOOLS */
 void init_ressources(ressources_t *res);
 void init_map_ressources(ressources_t *res);
 int get_ressource_number(char *ressource);
 void add_ressource(ressources_t *res, int type);
+bool is_player_free(position_t pos, server_t *server);
 
 /* TEAM TOOLS */
 team_t *get_team_by_name(team_t *teams, int nb, char *name);
 void init_team(team_t *team, char *name);
+bool has_won(char *name, server_t *server);
 
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
@@ -90,6 +92,7 @@ bool server_iteration(server_t *server, float timeout_init);
 bool every_end_messages_sent(zappy_data_t *z);
 char *determine_winner(zappy_data_t *z);
 int nb_graphical(server_t *server);
+bool end_handle_fds(server_t *server, bool is_ok);
 
 /* ZAPPY TOOLS */
 zappy_data_t *init_zappy(param_t param);
@@ -146,6 +149,7 @@ void init_param(param_t *param);
 void reinit_param(int c, param_t *param);
 int init_param_n(int ac, char **av, param_t *param, int i);
 void free_param(param_t param);
+bool check_team_compare(param_t *param, int i);
 
 /* USAGES FCT */
 void display_usage_s(void);
