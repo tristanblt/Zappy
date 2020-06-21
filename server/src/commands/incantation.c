@@ -133,14 +133,12 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
 
     if (is_incantation_possible(tile, recipes[data->level - 1],
     nb_player) == false) {
-        level_up(z->server, data->pos, false);
+        level_up(z, data->pos, false);
         add_data(&client->out, 1, "ko");
         return (SUCCESS);
     }
     destruction_ressources(tile, recipes[data->level - 1].needed);
-    level_up(z->server, data->pos, true);
-    get_team_by_name(z->data.teams, z->data.nb_teams,
-    ((c_data_t *)client->data)->team)->victory_count++;
+    level_up(z, data->pos, true);
     printf("exiting\n");
     return (SUCCESS);
 }

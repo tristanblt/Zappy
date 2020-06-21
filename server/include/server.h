@@ -17,7 +17,7 @@ char *int_to_char(int nb);
 c_data_t *init_client_data(int f);
 bool init_server_data(s_data_t *data, param_t params);
 void free_server_data(s_data_t *data);
-void level_up(server_t *server, position_t pos, bool result);
+void level_up(zappy_data_t *z, position_t pos, bool result);
 
 /* RESSOURCES TOOLS */
 void init_ressources(ressources_t *res);
