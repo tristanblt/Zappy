@@ -38,5 +38,7 @@ bool has_won(char *name, server_t *server)
         && ((c_data_t *)tmp->data)->level == 8)
             nb++;
     }
-    return (nb == 6 ? true : false);
+    if (nb >= 6)
+        dprintf(2, "VICTORY OF TEAM %S\n", name);
+    return (nb >= 6 ? true : false);
 }
