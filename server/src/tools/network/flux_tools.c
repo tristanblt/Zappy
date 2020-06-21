@@ -116,13 +116,19 @@ void add_raw_data(flux_t *flux, char *str)
 void remove_data(flux_t *flux, int size)
 {
     if (size < BUFF_SIZE) {
+        printf("size < BUFF_SIZE\n");
         memmove(flux->buff, flux->buff + size, size);
+        printf("a\n");
         flux->nb -= size;
         flux->buff[flux->nb] = 0;
+        printf("b\n");
         memset(flux->buff + flux->nb, 0, BUFF_SIZE - flux->nb);
+        printf("c\n");
     } else {
+        printf("size > BUFF_SIZE\n");
         flux->nb = 0;
         flux->buff[flux->nb] = 0;
         memset(flux->buff, 0, BUFF_SIZE);
+        printf("a\n");
     }
 }
