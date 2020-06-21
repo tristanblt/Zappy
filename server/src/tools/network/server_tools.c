@@ -104,23 +104,18 @@ bool handle_fds(server_t *server)
     for (client_t *tmp = server->clients.slh_first; tmp != NULL;
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {
         // printf("-----CLIENT %i x:%i y:%i dir:%i level: %i food: %f-----\n", ((c_data_t *)tmp->data)->idx, ((c_data_t *)tmp->data)->pos.x, ((c_data_t *)tmp->data)->pos.y, ((c_data_t *)tmp->data)->dir,  ((c_data_t *)tmp->data)->level, ((c_data_t *)tmp->data)->inventory.food);
-    printf("a\n");
         tmp2 = tmp->next.sle_next;
         if (is_ok == ERROR)
             break;
-    printf("b\n");
         if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok
             && !read_flux(server, tmp))
             tmp = NULL;
-    printf("c\n");
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
             is_ok = write_flux(tmp);
-    printf("d\n");
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok) {
             is_ok = rm_client(server, tmp);
             tmp = NULL;
         }
-    printf("e\n");
     }
     return (end_handle_fds(server, is_ok));
 }
