@@ -73,7 +73,7 @@ void level_up(server_t *server, position_t pos, bool result)
         }
         if (tmp->type == AI && ((c_data_t *)tmp->data)->pos.x == pos.x &&
             ((c_data_t *)tmp->data)->pos.y == pos.y && result == false) {
-            pie(server, tmp, true);
+            pie(server, tmp, false);
         }
     }
 }
