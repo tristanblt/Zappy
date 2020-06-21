@@ -108,7 +108,7 @@ void look_bottom_top(client_t *cli, zappy_data_t *z, int signe_y)
     int y = ((c_data_t *)cli->data)->pos.y;
     int x = ((c_data_t *)cli->data)->pos.x;
 
-    add_raw_data(&cli->out, "[");
+    add_raw_data(&cli->out, "[ ");
     for (int cpt_y = 0; cpt_y <= ((c_data_t *)cli->data)->level; cpt_y++) {
         for (int cpt_x = 0; cpt_x < 1 + cpt_y * 2; cpt_x++) {
             content = get_tile_content(&z->data, z->server, x, y);

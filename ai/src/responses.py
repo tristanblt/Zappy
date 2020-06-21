@@ -79,11 +79,12 @@ def lookResponse(response):
         offset = 1
         response = response.replace('[', '').replace(']', '').replace('\n', '')
         tiles = response.split(",")
+
         for tile in tiles:
             ai.src.glob.gameMap = [ elem for elem in ai.src.glob.gameMap if not ((elem["pos"]["x"] == x and elem["pos"]["y"] == y) or (elem["pos"]["x"] > 10 or elem["pos"]["x"] < -10 or elem["pos"]["y"] > 10 or elem["pos"]["y"] < -10))]
             items = tile.split(" ")
             for item in items:
-                if (len(item) <= 0):
+                if len(item) <= 0:
                     continue
                 ai.src.glob.gameMap.append({"pos": {"x": x, "y": y}, "type": item})
             i += 1

@@ -26,6 +26,7 @@ def swapDirection(direction):
     return int(direction)
 
 def eventHandler(response):
+    #print("Received: " + response)
     if response.startswith("Current level: "):
         ai.src.glob.gameState["level"] = int(response.split(" ")[2])
         if ai.src.glob.debug:
@@ -34,6 +35,7 @@ def eventHandler(response):
         ai.src.glob.gameState["joinPlayer"] = False
         return False
     if response.startswith("dead"):
+        print("DDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDD")
         ai.src.glob.AIRunning = False
         return True
     if response.startswith("message"):
