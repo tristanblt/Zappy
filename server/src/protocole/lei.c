@@ -22,7 +22,12 @@ void add_egg_info(flux_t *flux, egg_t *tmp)
     add_raw_data(flux, nb);
     add_raw_data(flux, " ");
     add_raw_data(flux, tmp->team);
-    add_raw_data(flux, ",");
+    add_raw_data(flux, " ");
+    if (tmp->status == HATCHED)
+        add_raw_data(flux, "1");
+    else
+        add_raw_data(flux, "0");
+    add_raw_data(flux, "\r\n");
 }
 
 void add_eggs_info(flux_t *flux, zappy_data_t *z)
@@ -31,6 +36,7 @@ void add_eggs_info(flux_t *flux, zappy_data_t *z)
 
     SLIST_FOREACH(tmp, &z->data.eggs, next)
     {
+        add_raw_data(flux, "lei");
         add_egg_info(flux, tmp);
     }
 }
@@ -46,8 +52,6 @@ bool end_lei(zappy_data_t *z, client_t *client, char *command)
 bool start_lei(zappy_data_t *z, client_t *client, char *arg)
 {
     (void)arg;
-    add_raw_data(&client->out, "lei");
     add_eggs_info(&client->out, z);
-    add_raw_data(&client->out, "\r\n");
     return (SUCCESS);
 }
