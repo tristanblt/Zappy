@@ -107,9 +107,9 @@ bool handle_fds(server_t *server)
         tmp2 = tmp->next.sle_next;
         if (is_ok == ERROR)
             break;
-        if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok)
-            if (!read_flux(server, tmp))
-                tmp = NULL;
+        if (FD_ISSET(tmp->sck.fd, &server->fds.read) && is_ok
+            && !read_flux(server, tmp))
+            tmp = NULL;
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
             is_ok = write_flux(tmp);
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok) {
@@ -117,13 +117,7 @@ bool handle_fds(server_t *server)
             tmp = NULL;
         }
     }
-    if (is_ok == ERROR || !server)
-        return (ERROR);
-    if (FD_ISSET(server->sck.fd, &server->fds.read) > 0)
-        is_ok = new_client_welcome(server, init_client_data(server->t.ratio));
-    if (!server || !is_ok || FD_ISSET(server->sck.fd, &server->fds.error) > 0)
-        return (ERROR);
-    return (is_ok);
+    return (end_handle_fds(server, is_ok));
 }
 
 /**

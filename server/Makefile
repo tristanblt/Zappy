@@ -54,6 +54,7 @@ SRCS_FILES		=	main.c \
 					protocole/suc.c \
 					protocole/tna.c \
 					tools/split.c \
+					tools/tools.c \
 					tools/data/data_tools.c \
 					tools/data/egg_tools.c \
 					tools/data/egg_cd_tools.c \

@@ -90,6 +90,7 @@ bool server_iteration(server_t *server, float timeout_init);
 bool every_end_messages_sent(zappy_data_t *z);
 char *determine_winner(zappy_data_t *z);
 int nb_graphical(server_t *server);
+bool end_handle_fds(server_t *server, bool is_ok);
 
 /* ZAPPY TOOLS */
 zappy_data_t *init_zappy(param_t param);
@@ -146,6 +147,7 @@ void init_param(param_t *param);
 void reinit_param(int c, param_t *param);
 int init_param_n(int ac, char **av, param_t *param, int i);
 void free_param(param_t param);
+bool check_team_compare(param_t *param, int i);
 
 /* USAGES FCT */
 void display_usage_s(void);

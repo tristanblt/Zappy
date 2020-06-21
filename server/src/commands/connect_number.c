@@ -15,7 +15,8 @@ bool start_co_nbr_cmd(zappy_data_t *z, client_t *client, char *command)
     (void)command;
     if (!team)
         return (ERROR);
-    add_data(&client->out, 1, int_to_char(z->data.nb_mates - team->nb + team->nb_eggs));
+    add_data(&client->out, 1,
+    int_to_char(z->data.nb_mates - team->nb + team->nb_eggs));
     ((c_data_t *)client->data)->cool_down = 0 / z->data.f;
     return (SUCCESS);
 }

@@ -49,10 +49,8 @@ int game_param(int ac, char **av, param_t *param)
 int check_team_name(param_t *param)
 {
     for (int i = 0; param->name[i + 1] != NULL; i++) {
-        for (int y = i + 1; param->name[y] != NULL; y++) {
-            if (strcmp(param->name[i], param->name[y]) == 0)
-                return (-1);
-        }
+        if (check_team_compare(param, i))
+            return (-1);
     }
     return (0);
 }
