@@ -60,13 +60,16 @@ int zappy_server(int ac, char **av)
             z->server->state = FINAL;
         } else
             is_ok = server_iteration(z->server, get_lowest_egg_cd(z));
+        printf("a\n");
         if (is_ok && z->server->state == RUNNING)
             is_ok = handle_commands(z);
         else if (is_ok && z->server->state == FINAL)
             proceed_final(z);
+        printf("b\n");
         if (!is_ok)
             break;
         update_map(z);
+        printf("c\n");
     }
     end_zappy(z, param);
     return (!is_ok ? EPI_EXIT_ERROR : EPI_EXIT_SUCCESS);
