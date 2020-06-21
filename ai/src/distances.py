@@ -34,6 +34,13 @@ def computePlayerDistanceResource(resource):
             distance = tmpDistance
             x = item["pos"]["x"]
             y = item["pos"]["y"]
+    
+    #print(resource, end=" ")
+    #print(x, end=" ")
+    #print(y, end=", ")
+    if x < -10 or x > 10 or y < -10 or y > 10:
+        #print("HEHE SALOPE JTE BAISE LOL XDDDDD", end="\t")
+        exist = False
 
     #compute direction of the object
     if exist == False:
@@ -56,7 +63,7 @@ def computePlayerDistanceResource(resource):
         ai.src.glob.gameState["direction"][resource] = 7
     elif x < 0 and y > 0:
         ai.src.glob.gameState["direction"][resource] = 8
-
+    #print(ai.src.glob.gameState["direction"][resource])
     #change direction with local rotation
     if ai.src.glob.gameState["direction"][resource] > 0:
         lookAt = ai.src.glob.lookAt * 2 + 1

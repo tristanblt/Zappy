@@ -16,14 +16,19 @@ def main():
     params = parseArgs()
     count = 0
 
-    while True:
-        count += 1
-        pid = os.fork()
-        if pid == 0:
-            mainsock = initSocket(params)
-            if mainsock is None:
-                break
-            startGame(params, mainsock, count)
-            mainsock.close()
-        else:
-            time.sleep(5)
+    # while True:
+    #     count += 1
+    #     pid = os.fork()
+    #     if pid == 0:
+    #         mainsock = initSocket(params)
+    #         if mainsock is None:
+    #             break
+    #         startGame(params, mainsock, count)
+    #         mainsock.close()
+    #     else:
+    #         time.sleep(5)
+    mainsock = initSocket(params)
+    if mainsock is None:
+        return
+    startGame(params, mainsock, count)
+    mainsock.close()
