@@ -13,7 +13,7 @@ bool start_tna(zappy_data_t *z, client_t *client, char *arg)
 
     (void)arg;
     for (int i = 0; i < z->data.nb_teams; i++) {
-        add_data(&client->out, 2, "tna ", z->data.teams[i].name);
+        add_data(&client->out, 2, "tna", z->data.teams[i].name);
     }
     return (SUCCESS);
 }
