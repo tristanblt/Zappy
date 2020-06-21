@@ -79,7 +79,7 @@ int check_param(int ac, char **av, param_t *param)
         reinit_param(c, param);
     }
     if (param->clientNB == 0 || param->height == 0 || param->width == 0 ||
-    param->port == 0) {
+    param->port == 0 || param->freq == -1) {
         return (-1);
     }
     return (0);

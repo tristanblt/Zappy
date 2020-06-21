@@ -47,6 +47,7 @@ void reinit_param(int c, param_t *param)
         break;
     case 'f':
         param->freq = atoi(optarg);
+        param->freq = (param->freq < 1) ? -1 : param->freq;
         break;
     }
 }
