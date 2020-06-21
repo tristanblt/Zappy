@@ -114,7 +114,7 @@ def requestSelection(mainsock):
         ai.src.glob.gameState["incantationBroadcast"] = -1
         ai.src.glob.gameState["joinPlayer"] = False
         ai.src.glob.gameState["playerIdLock"] = -1
-        if ai.src.glob.gameState["clientNum"] == 0 and not ai.src.glob.gameState["alreadyFork"] and ai.src.glob.gameState["level"] > 2:
+        if ai.src.glob.gameState["clientNum"] == 0 and not ai.src.glob.gameState["alreadyFork"] and ai.src.glob.gameState["level"] > 1:
             forkRequest()
             ai.src.glob.gameState["alreadyFork"] = True
         elif foodAtPlayerPosition():

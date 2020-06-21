@@ -26,10 +26,8 @@ def swapDirection(direction):
     return int(direction)
 
 def eventHandler(response):
-    #print("Received: " + response)
     if response.startswith("Current level: "):
         ai.src.glob.gameState["level"] = int(response.split(" ")[2])
-        print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         if ai.src.glob.debug:
             print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         ai.src.glob.gameState["incantationBroadcast"] = -1
@@ -38,7 +36,6 @@ def eventHandler(response):
         ai.src.glob.gameState["needUnlock"] = True
         return False
     if response.startswith("dead"):
-        print("DDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDDDDDDDDDDEEEEEEEEEEEEEEEAAAAAAAAAAAADDDDDD")
         ai.src.glob.AIRunning = False
         return True
     if response.startswith("message"):
@@ -48,7 +45,6 @@ def eventHandler(response):
             if (message[0] == ai.src.glob.gameState["teamName"]):
                 if (message[1] == "unlock"):
                     if int(message[2]) == ai.src.glob.gameState["playerIdLock"]:
-                        print("---------------> UNLOCKED %d"%ai.src.glob.gameState["id"])
                         ai.src.glob.gameState["playerIdLock"] = -1
                 if (message[1] == "nhi"):
                     callId = int(message[3])

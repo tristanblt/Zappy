@@ -298,7 +298,6 @@ def incantationResponse(response):
 
 def incantationResponseKo(response):
     if response.startswith("ko"):
-        print("Incantation to level " + str(ai.src.glob.gameState["level"] + 1) + " failed")
         if ai.src.glob.debug:
             print("Incantation to level " + str(ai.src.glob.gameState["level"] + 1) + " failed")
         ai.src.glob.gameState["needExplore"] = 10

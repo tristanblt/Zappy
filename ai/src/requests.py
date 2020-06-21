@@ -30,7 +30,6 @@ setResponses = {
 }
 
 def sendRequest(request):
-    #print("Send: " + request)
     if ai.src.glob.debug:
         print("\t\t\t\t\t\t\tAction: " + request)
     ai.src.glob.writeBuffer += request + ai.src.glob.socketSeparator

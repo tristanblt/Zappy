@@ -77,7 +77,6 @@ def elevation(lvlToAttain, required):
                     print("Warning teammates that they can do other stuff")
                 ai.src.glob.gameState["validIncant"] = False
             else:
-                print("Incantation for level %d !" % lvlToAttain)
                 if ai.src.glob.debug:
                     print("Incantation for level %d !" % lvlToAttain)
                 incantationRequest()
