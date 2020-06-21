@@ -141,6 +141,8 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     }
     destruction_ressources(tile, recipes[data->level - 1].needed);
     level_up(z, data->pos, true);
+    if (((c_data_t *)client->data)->level == 8)
+        z->server->state = FINAL;
     printf("exiting\n");
     return (SUCCESS);
 }
