@@ -111,7 +111,7 @@ bool handle_fds(server_t *server)
             && !read_flux(server, tmp))
             tmp = NULL;
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.write) && is_ok)
-            is_ok = write_flux(tmp);
+            write_flux(tmp);
         if (tmp && FD_ISSET(tmp->sck.fd, &server->fds.error) && is_ok) {
             is_ok = rm_client(server, tmp);
             tmp = NULL;
