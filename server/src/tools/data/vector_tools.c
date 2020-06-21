@@ -62,8 +62,7 @@ int dir)
         return (0);
     for (int i = 0; i < 8; i++) {
         if ((i == 0 && (angles[i][0] >= angle || angles[i][1] <= angle)) ||
-            (angles[i][0] >= angle && angles[i][1] <= angle)) {
-            printf("angle: %f° direction: %i\n",angle, cases[i][dir - 1]);
+        (angles[i][0] >= angle && angles[i][1] <= angle)) {
             return (cases[i][dir - 1]);
         }
     }

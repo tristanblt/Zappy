@@ -35,11 +35,8 @@ bool has_won(char *name, server_t *server)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == AI && !strcmp(name, ((c_data_t *)tmp->data)->team)
-        && ((c_data_t *)tmp->data)->level == 8)
+            && ((c_data_t *)tmp->data)->level == 8)
             nb++;
-    }
-    if (nb >= 6) {
-        dprintf(2, "VICTORY OF TEAM %s\n", name);
     }
     return (nb >= 6 ? true : false);
 }

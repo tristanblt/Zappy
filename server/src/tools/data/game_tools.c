@@ -66,15 +66,16 @@ void level_up(zappy_data_t *z, position_t pos, bool result)
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp->type == AI && ((c_data_t *)tmp->data)->pos.x == pos.x &&
-            ((c_data_t *)tmp->data)->pos.y == pos.y && result == true) {
+        ((c_data_t *)tmp->data)->pos.y == pos.y && result == true) {
             ((c_data_t *)tmp->data)->level++;
-            add_data(&tmp->out, 2, "Current level:", int_to_char(((c_data_t *)tmp->data)->level));
+            add_data(&tmp->out, 2, "Current level:",
+            int_to_char(((c_data_t *)tmp->data)->level));
             get_team_by_name(z->data.teams, z->data.nb_teams,
             ((c_data_t *)tmp->data)->team)->victory_count++;
             pie(z->server, tmp, true);
         }
         if (tmp->type == AI && ((c_data_t *)tmp->data)->pos.x == pos.x &&
-            ((c_data_t *)tmp->data)->pos.y == pos.y && result == false) {
+        ((c_data_t *)tmp->data)->pos.y == pos.y && result == false) {
             pie(z->server, tmp, false);
         }
     }

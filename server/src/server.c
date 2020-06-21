@@ -55,7 +55,6 @@ int zappy_server(int ac, char **av)
     if ((z = init_zappy_server(ac, av, param)) == NULL)
         return (EPI_EXIT_ERROR);
     while (z->server->state != ENDED) {
-        printf("--------------------------------\n");
         if (sigint_catch == true && z->server->state == RUNNING) {
             z->server->state = FINAL;
         } else
