@@ -39,7 +39,6 @@ def startGame(params, mainsock, id):
                         mainsock.close()
                         exit(84)
             except queue.Empty:
-                #print("Queue empty")
                 break
         if ai.src.glob.currentCommand is None:
             if ai.src.glob.debug:

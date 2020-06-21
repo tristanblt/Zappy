@@ -29,6 +29,7 @@ def eventHandler(response):
     #print("Received: " + response)
     if response.startswith("Current level: "):
         ai.src.glob.gameState["level"] = int(response.split(" ")[2])
+        print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         if ai.src.glob.debug:
             print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         ai.src.glob.gameState["incantationBroadcast"] = -1
