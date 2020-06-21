@@ -129,8 +129,10 @@ bool end_incantation(zappy_data_t *z, client_t *client, char *arg)
     int nb_player = player_same_level(z->server, data->pos.x, data->pos.y,
     data->level);
     map_node_t *tile = get_tile(z->data.map, data->pos.x, data->pos.y, z->data);
-    (void)arg;
 
+    (void)arg;
+    if (tile == NULL)
+        return (ERROR);
     if (is_incantation_possible(tile, recipes[data->level - 1],
     nb_player) == false) {
         level_up(z, data->pos, false);
