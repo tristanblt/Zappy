@@ -10,7 +10,7 @@
 void handle_end_game(zappy_data_t *z)
 {
     for (int i = 0; i < z->data.nb_teams; i++) {
-        if (z->data.teams[i].victory_count == 7 * 6) {
+        if (has_won(z->data.teams[i].name, z->server)) {
             seg(z, z->data.teams[i].name);
             z->data.end = FINAL;
             break;

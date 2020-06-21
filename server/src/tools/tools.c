@@ -26,3 +26,17 @@ bool check_team_compare(param_t *param, int i)
     }
     return (false);
 }
+
+bool has_won(char *name, server_t *server)
+{
+    int nb = 0;
+    client_t *tmp;
+
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
+        if (tmp->type == AI && !strcmp(name, ((c_data_t *)tmp->data)->team)
+        && ((c_data_t *)tmp->data)->level == 8)
+            nb++;
+    }
+    return (nb == 6 ? true : false);
+}

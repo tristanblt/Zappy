@@ -28,6 +28,7 @@ void add_ressource(ressources_t *res, int type);
 /* TEAM TOOLS */
 team_t *get_team_by_name(team_t *teams, int nb, char *name);
 void init_team(team_t *team, char *name);
+bool has_won(char *name, server_t *server);
 
 /* REQUEST TOOLS */
 void add_to_requests(char *buff, client_t *client, int size);
