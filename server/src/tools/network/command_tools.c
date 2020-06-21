@@ -82,9 +82,7 @@ int switch_command(zappy_data_t *z, client_t *client, char *command)
         } else if (!strncmp(cmds[i].token, command, cmds[i].token_len) &&
         !((c_data_t *)client->data)->cool_down) {
             ((c_data_t *)client->data)->req_cntx = END;
-            printf("commande en cours: %s\n", command);
             ret = cmds[i].end(z, client, command + cmds[i].token_len);
-            printf("fin\n");
         }
     }
     if (client->type == GRAPHICAL && is_command_graphic(command) == false)
