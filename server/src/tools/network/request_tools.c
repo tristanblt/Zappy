@@ -63,7 +63,7 @@ void add_to_requests(char *buff, client_t *client, int size)
  */
 void rm_from_request(client_t *client)
 {
-    printf("rmoving \"%s\" request, current nb = %i\n", client->requests.bodies[client->requests.pos], client->requests.nb);
+    printf("removing \"%s\" request, current nb = %i\n", client->requests.bodies[client->requests.pos], client->requests.nb);
     memset(client->requests.bodies[client->requests.pos], '\0', BUFF_SIZE);
     client->requests.nb--;
     if (client->requests.pos != 9 &&

@@ -103,7 +103,7 @@ bool handle_fds(server_t *server)
 
     for (client_t *tmp = server->clients.slh_first; tmp != NULL;
     tmp = (tmp) ? tmp->next.sle_next : tmp2) {
-        printf("-----CLIENT %i x:%i y:%i dir:%i-----\n", ((c_data_t *)tmp->data)->idx, ((c_data_t *)tmp->data)->pos.x, ((c_data_t *)tmp->data)->pos.y, ((c_data_t *)tmp->data)->dir);
+        printf("-----CLIENT %i x:%i y:%i dir:%i level: %i-----\n", ((c_data_t *)tmp->data)->idx, ((c_data_t *)tmp->data)->pos.x, ((c_data_t *)tmp->data)->pos.y, ((c_data_t *)tmp->data)->dir,  ((c_data_t *)tmp->data)->level);
         tmp2 = tmp->next.sle_next;
         if (is_ok == ERROR)
             break;

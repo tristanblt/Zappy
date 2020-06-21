@@ -15,13 +15,11 @@ void start_proceed_death(zappy_data_t *z, client_t *client)
     ((c_data_t *)client->data)->team)->victory_count -=
     (((c_data_t *)client->data)->level - 1);
     add_data(&client->out, 1, "dead");
+    printf("DEATH-----------DEATH-------------DEATH-------------DEATH\n");
 }
 
 void end_proceed_death(zappy_data_t *z, client_t *client)
 {
-    team_t *team = get_team_by_name(z->data.teams, z->data.nb_teams,
-    ((c_data_t *)client->data)->team);
-
     pdi(z->server, client);
     rm_client(z->server, client);
 }

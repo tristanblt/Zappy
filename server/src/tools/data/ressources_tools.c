@@ -25,6 +25,21 @@ void init_ressources(ressources_t *res)
     res->thystame = 0;
 }
 
+void init_map_ressources(ressources_t *res)
+{
+    int nb_to_spawn = 5 + rand() % 11;
+    int type;
+
+    for (int i = 0; i < nb_to_spawn; i++) {
+        type = rand() % 18;
+        if (type < 6)
+            type++;
+        else
+            type = 0;
+        add_ressource(res, type);
+    }
+}
+
 int get_ressource_number(char *ressource)
 {
     if (!strcmp(ressource, "food"))

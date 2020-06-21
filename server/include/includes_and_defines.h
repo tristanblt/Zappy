@@ -26,7 +26,7 @@
 #include <stdarg.h>
 #include <math.h>
 
-#define BUFF_SIZE 16384
+#define BUFF_SIZE 65536
 
 #define ERROR false
 #define SUCCESS true

@@ -21,7 +21,9 @@ void level_up(server_t *server, position_t pos);
 
 /* RESSOURCES TOOLS */
 void init_ressources(ressources_t *res);
+void init_map_ressources(ressources_t *res);
 int get_ressource_number(char *ressource);
+void add_ressource(ressources_t *res, int type);
 
 /* TEAM TOOLS */
 team_t *get_team_by_name(team_t *teams, int nb, char *name);
