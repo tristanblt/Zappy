@@ -131,17 +131,22 @@ bool handle_fds(server_t *server)
 bool server_iteration(server_t *server, float timeout_init)
 {
     update_fds(server);
+    printf("a\n");
     update_timeout(server, timeout_init);
+    printf("b\n");
     if (((nb_graphical(server) && server->state == FINAL) || server->state
     == RUNNING) && select(FD_SETSIZE, &server->fds.read, &server->fds.write,
     &server->fds.error, server->t.is_needed? &server->t.timeout : NULL)
     == -1) {
         return (sigint_catch? SUCCESS : ERROR);
     }
+    printf("c\n");
     if (((nb_graphical(server) && server->state == FINAL) ||
     server->state== RUNNING) && !handle_fds(server)) {
         return (ERROR);
     }
+    printf("d\n");
     handle_time(server);
+    printf("e\n");
     return (SUCCESS);
 }
