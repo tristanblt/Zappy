@@ -11,6 +11,7 @@ bool seg(zappy_data_t *z, char *team_name)
 {
     client_t *tmp;
 
+    printf("The team %s won the game.\n", team_name);
     SLIST_FOREACH(tmp, &z->server->clients, next)
     {
         if (tmp->type == GRAPHICAL) {
