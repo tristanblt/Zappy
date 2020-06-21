@@ -32,6 +32,8 @@ def eventHandler(response):
             print("Level " + str(ai.src.glob.gameState["level"]) + " reached !")
         ai.src.glob.gameState["incantationBroadcast"] = -1
         ai.src.glob.gameState["joinPlayer"] = False
+        ai.src.glob.gameState["playerIdLock"] = -1
+        ai.src.glob.gameState["needUnlock"] = True
         return False
     if response.startswith("dead"):
         ai.src.glob.AIRunning = False
@@ -41,17 +43,22 @@ def eventHandler(response):
         message = response.split(" ")[2:]
         try:
             if (message[0] == ai.src.glob.gameState["teamName"]):
+                if (message[1] == "unlock"):
+                    if int(message[2]) == ai.src.glob.gameState["playerIdLock"]:
+                        print("---------------> UNLOCKED %d"%ai.src.glob.gameState["id"])
+                        ai.src.glob.gameState["playerIdLock"] = -1
                 if (message[1] == "nhi"):
-                    if int(message[2]) == ai.src.glob.gameState["level"] and ai.src.glob.gameState["incantationBroadcast"] != 0:
+                    callId = int(message[3])
+                    if int(message[2]) == ai.src.glob.gameState["level"] and (ai.src.glob.gameState["playerIdLock"] == -1 or callId == ai.src.glob.gameState["playerIdLock"]):
                         ai.src.glob.gameState["incantationBroadcast"] = swapDirection(direction)
                         ai.src.glob.gameState["joinPlayer"] = True
                         ai.src.glob.gameState["broadcastIncantationCheckTime"] = 0
+                        ai.src.glob.gameState["playerIdLock"] = callId
         except:
             pass
         return True
     if response.startswith("eject"):
-        if ai.src.glob.debug:
-            print("Ejected from tile")
+        if ai.src.glob.debug: print("Ejected from tile")
         direction = int(response.split(" ")[1])
         firstPlayer = True
         x = 0
