@@ -23,9 +23,12 @@ void add_client_info(flux_t *flux, client_t *tmp)
     sprintf(nb, "%i", ((c_data_t *)tmp->data)->dir);
     add_raw_data(flux, " ");
     add_raw_data(flux, nb);
+    sprintf(nb, "%i", ((c_data_t *)tmp->data)->level);
+    add_raw_data(flux, " ");
+    add_raw_data(flux, nb);
     add_raw_data(flux, " ");
     add_raw_data(flux, ((c_data_t *)tmp->data)->team);
-    add_raw_data(flux, ",");
+    add_raw_data(flux, "\r\n");
 }
 
 void add_clients_info(flux_t *flux, server_t *server)
@@ -35,6 +38,7 @@ void add_clients_info(flux_t *flux, server_t *server)
     SLIST_FOREACH(tmp, &server->clients, next)
     {
         if (tmp->type == AI) {
+            add_raw_data(flux, "lpi");
             add_client_info(flux, tmp);
         }
     }
@@ -51,8 +55,6 @@ bool end_lpi(zappy_data_t *z, client_t *client, char *command)
 bool start_lpi(zappy_data_t *z, client_t *client, char *arg)
 {
     (void)arg;
-    add_raw_data(&client->out, "lpi");
     add_clients_info(&client->out, z->server);
-    add_raw_data(&client->out, "\r\n");
     return (SUCCESS);
 }
