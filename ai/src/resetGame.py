@@ -19,6 +19,7 @@ def resetGame():
 
     # game informations
     ai.src.glob.gameState = {}
+    ai.src.glob.gameState["id"] = -1
     ai.src.glob.gameState["clientNum"] = 0
     ai.src.glob.gameState["teamName"] = ""
     ai.src.glob.gameState["mapSize"] = {}
@@ -37,13 +38,14 @@ def resetGame():
     ai.src.glob.gameState["needLook"] = False
     ai.src.glob.gameState["needInventory"] = False
     ai.src.glob.gameState["needExplore"] = 0
+    ai.src.glob.gameState["needUnlock"] = False
 
     # broadcast handling
     ai.src.glob.gameState["joinPlayer"] = False
     ai.src.glob.gameState["incantationBroadcast"] = -1
     ai.src.glob.gameState["callBroadcast"] = 0
     ai.src.glob.gameState["bufferBroadcast"] = True
-    ai.src.glob.gameState["canMoveBroadcast"] = True
+    ai.src.glob.gameState["playerIdLock"] = -1
 
     # counter for time handling (in frequency server unit)
     ai.src.glob.gameState["starveCheckTime"] = 0

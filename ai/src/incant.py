@@ -91,7 +91,7 @@ def elevation(lvlToAttain, required):
                 lookRequest()
         elif lvlToAttain != 2:
             if ai.src.glob.gameState["callBroadcast"] == True:
-                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi " + str(ai.src.glob.gameState["level"]))
+                broadcastRequest(ai.src.glob.gameState["teamName"] + " nhi %d %d" % (ai.src.glob.gameState["level"], ai.src.glob.gameState["id"]))
                 ai.src.glob.gameState["callBroadcast"] = False
             else:
                 lookRequest()

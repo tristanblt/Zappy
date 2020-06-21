@@ -103,6 +103,9 @@ def requestSelection(mainsock):
         ai.src.glob.gameState["connectNbrCheckTime"] = 0
         connectNbrRequest()
         return
+    if ai.src.glob.gameState["needUnlock"]:
+        broadcastRequest(ai.src.glob.gameState["teamName"] + " unlock %d"%ai.src.glob.gameState["id"])
+        ai.src.glob.gameState["needUnlock"] = False
     if updateFood():
         return
     if ai.src.glob.gameState["starving"] or ai.src.glob.gameState["level"] == 8:
@@ -110,6 +113,7 @@ def requestSelection(mainsock):
             print("Searching food because starving")
         ai.src.glob.gameState["incantationBroadcast"] = -1
         ai.src.glob.gameState["joinPlayer"] = False
+        ai.src.glob.gameState["playerIdLock"] = -1
         if ai.src.glob.gameState["clientNum"] == 0 and not ai.src.glob.gameState["alreadyFork"] and ai.src.glob.gameState["level"] > 2:
             forkRequest()
             ai.src.glob.gameState["alreadyFork"] = True
@@ -163,7 +167,7 @@ def updateFood():
         if ai.src.glob.gameState["inventory"]["food"] < 4:
             ai.src.glob.gameState["elevationReady"] = False
             ai.src.glob.gameState["starving"] = True
-
+            ai.src.glob.gameState["needUnlock"] = True
 def foodAtPlayerPosition():
     if getNbItemOnPlayerTile("food") > 0:
         return True
