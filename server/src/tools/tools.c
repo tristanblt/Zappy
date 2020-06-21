@@ -39,6 +39,19 @@ bool has_won(char *name, server_t *server)
             nb++;
     }
     if (nb >= 6)
-        dprintf(2, "VICTORY OF TEAM %S\n", name);
+        dprintf(2, "VICTORY OF TEAM %s\n", name);
     return (nb >= 6 ? true : false);
+}
+
+bool is_player_free(position_t pos, server_t *server)
+{
+    client_t *tmp;
+
+    SLIST_FOREACH(tmp, &server->clients, next)
+    {
+        if (pos.x == ((c_data_t *)tmp->data)->pos.x &&
+            pos.y == ((c_data_t *)tmp->data)->pos.y)
+            return (false);
+    }
+    return (true);
 }

@@ -24,6 +24,7 @@ void init_ressources(ressources_t *res);
 void init_map_ressources(ressources_t *res);
 int get_ressource_number(char *ressource);
 void add_ressource(ressources_t *res, int type);
+bool is_player_free(position_t pos, server_t *server);
 
 /* TEAM TOOLS */
 team_t *get_team_by_name(team_t *teams, int nb, char *name);
