@@ -56,6 +56,8 @@ int dir)
 {
     position_t dist = get_smallest_distance(sender, reciever, map.x, map.y);
     float angle = atan2f((float)dist.x, (float)dist.y) * (180 / 3.14159265);
+    if (angle < 0)
+        angle += 360;
     if (dist.x == 0 && dist.y == 0)
         return (0);
     for (int i = 0; i < 8; i++) {
