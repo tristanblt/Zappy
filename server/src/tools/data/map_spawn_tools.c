@@ -75,16 +75,16 @@ map_node_t *get_tile(map_node_t *map, int x, int y, s_data_t server)
     map_node_t *tmp = map;
 
     for (int i = 0; i < server.map_sz.y; i++) {
-        tmp = tmp->bottom;
         if (tmp->coordinates.y == y)
             break;
+        tmp = tmp->bottom;
     }
     if (tmp->coordinates.y != y)
         return (NULL);
     for (int j = 0; j < server.map_sz.x; j++) {
-        tmp = tmp->right;
         if (tmp->coordinates.x == x)
             return (tmp);
+        tmp = tmp->right;
     }
     return (NULL);
 }
